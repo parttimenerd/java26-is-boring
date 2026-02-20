@@ -1292,14 +1292,62 @@ String result = switch (value) {
 
 </div>
 
-<!-- maybe ask Cay -->
-
 <!--
 J: "Primitive patterns let you use pattern matching with int, long, double — the primitive types."
 L: "Before this, pattern matching only worked with reference types."
 J: "Now you can switch on an Object and match it against primitives directly. No more manual unboxing and casting."
 L: "Clean. Expressive."
 J: "Fourth preview, so it's getting close to final."
+-->
+
+---
+
+# Java puzzler <Caption>by Cay Horstmann</Caption>
+
+<div class="text-lg mt-8">
+
+What is `value(new Amount(null))`?
+
+</div>
+
+<CodeRunner enable-preview>
+
+```java
+record Amount(Number n) {}
+
+Integer value(Amount p) {
+    return switch (p) {
+        case Amount(int value) -> value;
+        case Amount(Number _) -> -1;
+        case Amount(Object _) -> -2;
+    };
+}
+
+void main() {
+    System.out.println(value(new Amount(null)));
+}
+```
+
+</CodeRunner>
+
+<div class="text-base mt-6 flex gap-6 justify-center flex-wrap font-medium">
+
+<div>A) null</div>
+<div>B) 0</div>
+<div>C) -1</div>
+<div>D) -2</div>
+<div>E) NullPointerException</div>
+<div>F) MatchException</div>
+<div>G) Doesn't compile</div>
+
+</div>
+
+<!--
+L: "Here's a mind-bender from Cay Horstmann. What happens when we call value with a null component?"
+J: "The record pattern deconstructs Amount, but the component is null."
+L: "Primitive int pattern? Doesn't match null. Number underscore? Doesn't match null. Object underscore? Also doesn't match null."
+J: "No case matches, so the switch throws a MatchException. Pattern matching is strict about nulls."
+L: "This is why you need to understand these features deeply before using them in production."
 -->
 
 ---
