@@ -6,7 +6,6 @@
           <div class="modal-header">
             <h3>Terminal</h3>
             <div class="modal-actions">
-              <span class="slide-indicator">Slide {{ currentSlideId }}</span>
               <button @click="close" class="close-btn" title="Close (Ctrl+Esc)">×</button>
             </div>
           </div>
