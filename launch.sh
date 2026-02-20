@@ -8,42 +8,7 @@ SLIDEV_PORT=3032
 START_TERMINAL=false
 TERMINAL_PID=""
 
-# Ensure Java 26 is available
-find_java_26() {
-  # Check common Java installation paths
-  if [ -d "$JAVA_HOME/bin" ] && java -version 2>&1 | grep -q "26"; then
-    return 0
-  fi
-  
-  # macOS paths
-  for path in /Library/Java/JavaVirtualMachines/*/Contents/Home \
-              /usr/local/opt/openjdk@26/libexec/openjdk.jdk/Contents/Home; do
-    if [ -f "$path/bin/java" ] && "$path/bin/java" -version 2>&1 | grep -q "26"; then
-      export JAVA_HOME="$path"
-      return 0
-    fi
-  done
-  
-  # Linux paths
-  for path in /usr/lib/jvm/java-26* /opt/java/jdk-26* ~/.jdks/openjdk-26*; do
-    if [ -f "$path/bin/java" ] && "$path/bin/java" -version 2>&1 | grep -q "26"; then
-      export JAVA_HOME="$path"
-      return 0
-    fi
-  done
-  
-  return 1
-}
-
-if ! find_java_26; then
-  echo "Warning: Java 26 not found in standard locations. Using system java."
-else
-  export PATH="$JAVA_HOME/bin:$PATH"
-  echo "Using Java from: $JAVA_HOME"
-  java -version
-fi
-
-# Parse arguments
+# Parse arguments first to determine if terminal is needed
 while [[ $# -gt 0 ]]; do
   case $1 in
     --terminal)
@@ -59,6 +24,20 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+# Check Java version - expect Java 26 when using --terminal
+if [ "$START_TERMINAL" = true ]; then
+  if ! java -version 2>&1 | grep -q "26"; then
+    echo "ERROR: Java 26 is required when using --terminal flag"
+    echo "Current Java version:"
+    java -version 2>&1 | head -3
+    echo ""
+    echo "Please switch to Java 26 (e.g., using 'sdk use java 26.ea.29-open')"
+    exit 1
+  fi
+  echo "Using Java 26:"
+  java -version 2>&1 | head -1
+fi
 
 # Cleanup function
 cleanup() {

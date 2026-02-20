@@ -160,6 +160,8 @@ function setupWebSocket(server) {
         sessionTimeout = null;
       }
 
+      // Note: Main.java is never deleted, only overwritten on next run
+
       if (session) {
         try {
           session.kill();
@@ -230,16 +232,8 @@ function setupWebSocket(server) {
             // Highlight error messages with ANSI color codes
             let outputData = String(data);
             
-            // Filter out cd command echoes (they appear as: cd "/tmp/...")
-            const lines = outputData.split('\n');
-            const filteredLines = lines.filter((line) => {
-              // Remove lines that are just cd commands
-              if (line.match(/^cd\s+["']\/[^"']*["']\s*$/)) {
-                return false;
-              }
-              return true;
-            });
-            outputData = filteredLines.join('\n');
+            // Don't filter cd commands - users should see directory changes
+            // (Removed filtering to show terminal state clearly)
             
             // Highlight Java error messages (including error lines and the code lines)
             if (outputData.includes('error:') || outputData.includes('errors')) {
@@ -256,6 +250,33 @@ function setupWebSocket(server) {
                 // Highlight "errors" in summary lines
                 if (line.includes('errors') && line.match(/^\d+ errors?$/)) {
                   return `\x1b[1;31m${line}\x1b[0m`; // Bold red
+                }
+                return line;
+              });
+              outputData = highlightedLines.join('\n');
+            }
+            
+            // Highlight WARNING messages with bold yellow for better readability
+            if (outputData.includes('WARNING:')) {
+              const lines = outputData.split('\n');
+              const highlightedLines = lines.map((line) => {
+                if (line.includes('WARNING:')) {
+                  return line.replace(/WARNING:/g, '\x1b[1;33mWARNING:\x1b[0m'); // Bold yellow for "WARNING:" only
+                }
+                return line;
+              });
+              outputData = highlightedLines.join('\n');
+            }
+            
+            // Highlight Java exception lines (Exception in thread, at lines, Caused by)
+            if (outputData.includes('Exception') || outputData.includes('\tat ') || outputData.includes('Caused by:')) {
+              const lines = outputData.split('\n');
+              const highlightedLines = lines.map((line) => {
+                if (line.includes('Exception in thread') || line.includes('Exception:')) {
+                  return `\x1b[1;31m${line}\x1b[0m`; // Bold red for exception headers
+                }
+                if (line.trim().startsWith('at ') || line.includes('Caused by:')) {
+                  return `\x1b[90m${line}\x1b[0m`; // Gray for stack traces
                 }
                 return line;
               });
@@ -369,31 +390,27 @@ function setupWebSocket(server) {
           }
 
           // Generate slide-specific temp directory in /tmp/slides
-          const timestamp = Date.now();
-          const random = Math.random().toString(36).substring(7);
           const slidesTmpDir = '/tmp/slides';
-          const tempDir = path.join(slidesTmpDir, `${slideId}_${timestamp}_${random}`);
-          const tempFile = path.join(tempDir, 'Main.java');
+          const tempFile = path.join(slidesTmpDir, 'Main.java');
 
-          log('info', 'Creating slide-specific temp directory', {
+          log('info', 'Preparing Java execution in /tmp/slides', {
             connectionId,
-            tempDir,
+            tempFile,
             slideId,
             codeSize: javaContent.length,
             additionalFiles: Object.keys(additionalFiles)
           });
 
-          // Create temp directory
-          fs.mkdir(tempDir, { recursive: true }, (mkdirErr) => {
+          // Ensure /tmp/slides directory exists
+          fs.mkdir(slidesTmpDir, { recursive: true }, (mkdirErr) => {
             if (mkdirErr) {
-              log('error', 'Failed to create temp directory', {
+              log('error', 'Failed to create /tmp/slides directory', {
                 connectionId,
-                tempDir,
                 message: mkdirErr.message
               });
               ws.send(JSON.stringify({
                 type: 'error',
-                message: `Failed to create temp directory: ${mkdirErr.message}`
+                message: `Failed to create /tmp/slides directory: ${mkdirErr.message}`
               }));
               return;
             }
@@ -413,10 +430,10 @@ function setupWebSocket(server) {
                 return;
               }
 
-              // Write additional files
+              // Write additional files to /tmp/slides
               const additionalFilePaths = Object.entries(additionalFiles).map(([name, content]) => {
                 return new Promise((resolve) => {
-                  const filePath = path.join(tempDir, name);
+                  const filePath = path.join(slidesTmpDir, name);
                   fs.writeFile(filePath, content, (err) => {
                     if (err) {
                       log('warn', 'Failed to write additional file', {
@@ -434,39 +451,27 @@ function setupWebSocket(server) {
 
               Promise.all(additionalFilePaths).then(() => {
                 if (session) {
-                  // Change to temp directory and execute java file directly (Java 11+)
+                  // Execute java file from /tmp/slides working directory
                   let javaCmd = `java`;
                   if (enablePreview) {
                     javaCmd += ' --enable-preview';
                   }
-                  javaCmd += ` "${tempFile}"`;
+                  javaCmd += ` Main.java`;
 
-                  const command = `cd "${tempDir}" && ${javaCmd}\n`;
-                  log('info', 'Executing Java file in session', {
+                  // Use subshell to cd without showing the cd command
+                  // stty -echo suppresses the command line echo, stty echo re-enables it
+                  const command = `(stty -echo; cd "${slidesTmpDir}" && ${javaCmd}; stty echo)\n`;
+                  log('info', 'Executing Java file in session from /tmp/slides', {
                     connectionId,
-                    tempFile,
                     enablePreview,
                     slideId,
                     command: command.trim()
                   });
 
-                  activeScript = { scriptPath: tempFile, startedAt: Date.now(), tempDir };
+                  activeScript = { scriptPath: tempFile, startedAt: Date.now(), tempDir: slidesTmpDir };
                   session.write(command);
 
-                  // Clean up temp directory after execution
-                  setTimeout(() => {
-                    fs.rm(tempDir, { recursive: true, force: true }, (err) => {
-                      if (err) {
-                        log('warn', 'Failed to delete temp directory', {
-                          connectionId,
-                          tempDir,
-                          message: err.message
-                        });
-                      } else {
-                        log('debug', 'Cleaned up temp directory', { tempDir, slideId });
-                      }
-                    });
-                  }, 5000); // Delay cleanup by 5 seconds
+                  // Main.java will be cleaned up when terminal closes (see cleanupPty function)
                 }
               });
             });
@@ -487,38 +492,32 @@ function setupWebSocket(server) {
             return;
           }
 
-          // If there are additional files, create temp dir and write them
+          // If there are additional files, write them to /tmp/slides
           if (Object.keys(additionalFiles).length > 0) {
-            const timestamp = Date.now();
-            const random = Math.random().toString(36).substring(7);
             const slidesTmpDir = '/tmp/slides';
-            const tempDir = path.join(slidesTmpDir, `${slideId}_${timestamp}_${random}`);
 
-            log('info', 'Creating slide-specific temp directory for direct execution', {
+            log('info', 'Creating /tmp/slides for direct execution', {
               connectionId,
-              tempDir,
-              slideId,
               additionalFiles: Object.keys(additionalFiles)
             });
 
-            fs.mkdir(tempDir, { recursive: true }, (mkdirErr) => {
+            fs.mkdir(slidesTmpDir, { recursive: true }, (mkdirErr) => {
               if (mkdirErr) {
-                log('error', 'Failed to create temp directory', {
+                log('error', 'Failed to create /tmp/slides directory', {
                   connectionId,
-                  tempDir,
                   message: mkdirErr.message
                 });
                 ws.send(JSON.stringify({
                   type: 'error',
-                  message: `Failed to create temp directory: ${mkdirErr.message}`
+                  message: `Failed to create /tmp/slides directory: ${mkdirErr.message}`
                 }));
                 return;
               }
 
-              // Write additional files
+              // Write additional files to /tmp/slides
               const filePromises = Object.entries(additionalFiles).map(([name, content]) => {
                 return new Promise((resolve) => {
-                  const filePath = path.join(tempDir, name);
+                  const filePath = path.join(slidesTmpDir, name);
                   fs.writeFile(filePath, content, (err) => {
                     if (err) {
                       log('warn', 'Failed to write additional file', {
@@ -536,30 +535,16 @@ function setupWebSocket(server) {
 
               Promise.all(filePromises).then(() => {
                 if (session) {
-                  const fullCommand = `cd "${tempDir}" && ${command}\n`;
-                  log('info', 'Executing direct shell command in temp directory', {
+                  const fullCommand = `(stty -echo; cd "${slidesTmpDir}" && ${command}; stty echo)\n`;
+                  log('info', 'Executing direct shell command in /tmp/slides', {
                     connectionId,
                     language,
-                    slideId,
-                    tempDir
+                    slideId
                   });
-                  activeScript = { scriptPath: tempDir, startedAt: Date.now(), tempDir };
+                  activeScript = { scriptPath: slidesTmpDir, startedAt: Date.now(), tempDir: slidesTmpDir };
                   session.write(fullCommand);
 
-                  // Clean up temp directory after execution
-                  setTimeout(() => {
-                    fs.rm(tempDir, { recursive: true, force: true }, (err) => {
-                      if (err) {
-                        log('warn', 'Failed to delete temp directory', {
-                          connectionId,
-                          tempDir,
-                          message: err.message
-                        });
-                      } else {
-                        log('debug', 'Cleaned up temp directory', { tempDir, slideId });
-                      }
-                    });
-                  }, 5000);
+                  // Additional files will be cleaned up when terminal closes (see cleanupPty function)
                 }
               });
             });
@@ -573,7 +558,7 @@ function setupWebSocket(server) {
                 cwd,
                 preview: command.replace(/\n/g, ' ').slice(0, 100)
               });
-              const fullCommand = cwd ? `cd "${cwd}" && ${command}\n` : `${command}\n`;
+              const fullCommand = cwd ? `(stty -echo; cd "${cwd}" && ${command}; stty echo)\n` : `(stty -echo; ${command}; stty echo)\n`;
               session.write(fullCommand);
             }
           }
@@ -628,6 +613,7 @@ function resolveShell() {
 }
 
 function spawnShell(shell, message, cwd) {
+  // Use whatever Java is configured in the current environment
   const baseEnv = {
     ...process.env,
     PATH: process.env.PATH || '/usr/bin:/bin:/usr/sbin:/sbin'

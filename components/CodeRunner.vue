@@ -73,6 +73,16 @@ import { getShikiTheme, getCurrentTheme, ACTIVE_THEME, ALL_THEMES } from '../set
  *       }
  *     }
  *     ```
+ *     <template #before>
+ *       ```java
+ *       import java.util.*;
+ *       ```
+ *     </template>
+ *     <template #after>
+ *       ```java
+ *       // Post-execution code
+ *       ```
+ *     </template>
  *     <template #finished>
  *       ```java
  *       class Hello {
@@ -96,16 +106,12 @@ import { getShikiTheme, getCurrentTheme, ACTIVE_THEME, ALL_THEMES } from '../set
 
 interface Props {
   enablePreview?: boolean
-  before?: string
-  after?: string
   slideId?: string | number
   cwd?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   enablePreview: false,
-  before: '',
-  after: '',
   slideId: '',
   cwd: ''
 })
@@ -372,13 +378,15 @@ const { code: initialCode, language } = (() => {
 const mainCode = computed(() => editableCode.value || initialCode)
 
 const { code: finishedCode } = computed(() => extractCodeFromSlot(slots.finished?.())).value
+const { code: beforeCode } = computed(() => extractCodeFromSlot(slots.before?.())).value
+const { code: afterCode } = computed(() => extractCodeFromSlot(slots.after?.())).value
 const additionalFiles = computed(() => extractFilesFromSlot(slots.files?.()))
 
 const fullCode = computed(() => {
   const parts = []
-  if (props.before) parts.push(props.before)
+  if (beforeCode) parts.push(beforeCode)
   parts.push(mainCode.value)
-  if (props.after) parts.push(props.after)
+  if (afterCode) parts.push(afterCode)
   return parts.join('\n')
 })
 
@@ -386,9 +394,9 @@ const additionalFilesMap = computed(() => {
   const map: Record<string, string> = {}
   for (const file of additionalFiles.value) {
     const parts = []
-    if (props.before) parts.push(props.before)
+    if (beforeCode) parts.push(beforeCode)
     parts.push(file.content)
-    if (props.after) parts.push(props.after)
+    if (afterCode) parts.push(afterCode)
     map[file.name] = parts.join('\n')
   }
   return map
@@ -538,7 +546,7 @@ function handleRun() {
   if (language === 'java') {
     const timestamp = Date.now()
     const random = Math.random().toString(36).substring(7)
-    console.log('[CodeRunner] Dispatching java-run event...')
+    console.log('[CodeRunner] Dispatching java-run event... with fullCode ' + fullCode.value)
     const eventData = {
       type: 'java-run',
       code: fullCode.value,

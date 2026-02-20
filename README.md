@@ -34,9 +34,6 @@ TODO
 ----
 
 Johannes
-- get a Java runner working
-  - editor + flick to show all code (with a nice transition)
-- put on GitHub
 - look into OpenJDK slides (release cycle, LTS)
 
 Lutske

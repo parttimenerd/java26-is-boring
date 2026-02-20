@@ -735,7 +735,11 @@ J: "In Java 26, the JVM starts warning you. In a future release, it'll be blocke
 
 # What reflection hacks look like today
 
-<CodeRunner slide-id="reflection-hack" before="void main() throws java.lang.Exception {" after="}" enable-preview>
+<CodeRunner slide-id="reflection-hack" enable-preview>
+
+  <template #before>
+  void main() throws java.lang.Exception {
+  </template>
   <template #default>
 
 ```java
@@ -750,6 +754,10 @@ field.setAccessible(true);
 field.set(config, "hacked");  // ← final? What final?
 ```
 
+  </template>
+
+  <template #after>
+  }
   </template>
 </CodeRunner>
 

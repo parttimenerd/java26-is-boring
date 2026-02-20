@@ -17,6 +17,16 @@ This is a localhost-only terminal server that enables running demo scripts direc
 npm install
 ```
 
+### Java 26 Requirement
+
+When using the terminal server with `--terminal` flag (for Java code execution), Java 26 must be set as the default version:
+
+```bash
+sdk default java 26.ea.29-open
+```
+
+Or if using a different Java version manager, ensure `java -version` shows version 26.
+
 ## Running
 
 ```bash
