@@ -1,0 +1,14 @@
+# Ignore everything in /files/ except the two canonical sources
+# Keep only: files/abstract.md and files/java_pro_article.md
+
+# Ignore all files under /files/
+/files/*
+
+# Un-ignore the directory itself and the two allowed files
+!/files/
+!/files/abstract.md
+!/files/java_pro_article.md
+
+# End of rules
+
+node_modules/

@@ -1,0 +1,24 @@
+{
+  "name": "java26-is-boring-slides",
+  "version": "1.0.0",
+  "description": "Java 26 is boring - Slidev Presentation",
+  "type": "module",
+  "scripts": {
+    "dev": "slidev slides_gpt.md --open --port 3032",
+    "build": "slidev build slides_gpt.md",
+    "build:gh-pages": "slidev build slides_gpt.md --base /java26-is-boring/",
+    "export": "slidev export slides_gpt.md"
+  },
+  "dependencies": {
+    "@slidev/cli": "^52.12.0",
+    "@slidev/theme-default": "latest",
+    "@xterm/xterm": "^6.0.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-web-links": "^0.12.0",
+    "@xterm/addon-search": "^0.16.0",
+    "@xterm/addon-clipboard": "^0.2.0"
+  },
+  "devDependencies": {
+    "@slidev/cli": "^52.12.0"
+  }
+}
