@@ -4,10 +4,10 @@
   "description": "Java 26 is boring - Slidev Presentation",
   "type": "module",
   "scripts": {
-    "dev": "slidev slides_gpt.md --open --port 3032",
-    "build": "slidev build slides_gpt.md",
-    "build:gh-pages": "slidev build slides_gpt.md --base /java26-is-boring/",
-    "export": "slidev export slides_gpt.md"
+    "dev": "slidev slides.md --open --port 3032",
+    "build": "slidev build slides.md",
+    "build:gh-pages": "slidev build slides.md --base /java26-is-boring/",
+    "export": "slidev export slides.md"
   },
   "dependencies": {
     "@slidev/cli": "^52.12.0",
