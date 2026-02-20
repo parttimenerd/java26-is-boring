@@ -1345,9 +1345,10 @@ void main() {
 <!--
 L: "Here's a mind-bender from Cay Horstmann. What happens when we call value with a null component?"
 J: "The record pattern deconstructs Amount, but the component is null."
-L: "Primitive int pattern? Doesn't match null. Number underscore? Doesn't match null. Object underscore? Also doesn't match null."
-J: "No case matches, so the switch throws a MatchException. Pattern matching is strict about nulls."
-L: "This is why you need to understand these features deeply before using them in production."
+L: "Primitive int pattern? Doesn't match null — primitives can't be null."
+J: "But the second case, Amount(Number _), does match! null is a valid value for the reference type Number."
+L: "So it returns -1. The underscore means we're not binding the value, just checking the type."
+J: "Pattern matching with null reference types can be tricky. Always test your assumptions."
 -->
 
 ---
