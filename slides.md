@@ -555,25 +555,6 @@ From chaos to clockwork
 <!--
 L: "Let's talk about how Java ships."
 J: "Because the release model is a big part of why boring works."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-Java's release train
-
-</div>
-
-<div class="text-xl text-gray-400 mt-6">
-
-From chaos to clockwork
-
-</div>
-
-<!--
 L: "The release model is actually one of the most important things to understand about modern Java."
 J: "Because it explains why Java can innovate without breaking things."
 L: "Quick fun fact before we dive in: Java was originally designed for interactive television in 1991. It was too advanced for cable TV at the time."
@@ -794,25 +775,6 @@ G1 GC and free performance
 L: "Let's start with my favourite kind of improvement."
 J: "The invisible one."
 L: "The one where I do literally nothing and my app gets faster."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-The upgrade that works<br/>while you sleep
-
-</div>
-
-<div class="text-xl text-gray-400 mt-6">
-
-G1 GC: Improve Throughput by Reducing Synchronization (JEP 522)
-
-</div>
-
-<!--
 J: "The Garbage-First collector — G1 — has been the default garbage collector since Java 9 in 2017. Before that, it was the Parallel collector. Java also has ZGC since Java 11 and Shenandoah since Java 12 — but G1 is what most people use. So its performance is critical."
 L: "Ivan Walulya and Thomas Schatzl improved G1 by reducing synchronization between your app and the GC."
 J: "The result?"
@@ -991,25 +953,6 @@ No extra dependencies required
 <!--
 L: "Next up: HTTP/3."
 J: "The latest version of the protocol that powers the web."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-HTTP/3 in the standard library
-
-</div>
-
-<div class="text-xl text-gray-400 mt-6">
-
-JEP 517
-
-</div>
-
-<!--
 L: "HTTP/3 is the successor to HTTP/2 and is built on QUIC — a modern transport protocol that runs over UDP with TLS 1.3 built in."
 J: "Faster connection setup. No head-of-line blocking. Better on unreliable networks."
 L: "But first — a quick analogy to make this concrete."
@@ -1631,34 +1574,9 @@ Library developers — and why that matters to you
 <!--
 L: "Let me be blunt about something."
 J: "These features are not for most of you. And that's okay."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-Most of this isn't for you.
-
-</div>
-
-<v-click>
-
-<div class="text-xl text-gray-300 mt-8">
-
-And that's the point.
-
-</div>
-
-</v-click>
-
-<!--
-L: "Let me be blunt about something."
 [pause]
 L: "Vector API. Structured concurrency. The foreign function interface. Panama. Loom."
 J: "These are not features most of you will use directly."
-[click]
 L: "So why should we care?"
 J: "Because the real audience for these features is library developers."
 -->
@@ -1762,25 +1680,6 @@ Why boring is a competitive advantage
 <!--
 L: "Let's zoom out. How does Java's approach compare to other platforms?"
 J: "Because 'boring' only means something in contrast to the alternative."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-Java vs. the world
-
-</div>
-
-<div class="text-xl text-gray-400 mt-6">
-
-How do other platforms handle change?
-
-</div>
-
-<!--
 L: "Now for some context. How does Java compare to the alternatives?"
 J: "Because 'boring' sounds like a criticism until you see what 'exciting' looks like."
 -->
@@ -1872,6 +1771,9 @@ L: "Try getting that level of vendor independence with any other platform."
 ---
 
 <CroppedImage src="./img/java_25_contributions.avif" alt="Java contributors" />
+<ImageAttribution>
+  Oracle
+</ImageAttribution>
 
 ---
 ---
