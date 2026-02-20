@@ -1,6 +1,8 @@
 Java 26 is boring (talk)
 ========================
 
+[![Slidev Build](https://github.com/parttimenerd/java26-is-boring/actions/workflows/slidev-build.yml/badge.svg)](https://github.com/parttimenerd/java26-is-boring/actions/workflows/slidev-build.yml)
+
 Build the slides:
 
 ```bash
