@@ -12,3 +12,4 @@
 # End of rules
 
 node_modules/
+.DS_Store

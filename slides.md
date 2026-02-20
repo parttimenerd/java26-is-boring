@@ -18,8 +18,8 @@ mdc: true
 <style>
 :root {
   --code-font-size: 1.1rem;
+  --code-font-size-px: 14px; /* Main code font size - override in script above */
   --code-line-height: 1.6;
-  --code-bg: rgba(30, 41, 59, 0.95);
   --code-border: rgba(226, 232, 240, 0.15);
 }
 
@@ -27,7 +27,6 @@ mdc: true
 .slidev-slide .shiki {
   font-size: var(--code-font-size);
   line-height: var(--code-line-height);
-  background: var(--code-bg) !important;
   border: 1px solid var(--code-border);
   border-radius: 12px;
   padding: 20px 24px;
@@ -59,7 +58,21 @@ mdc: true
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 2rem 4rem;
+  padding: 7rem 4rem;
+  position: relative;
+}
+.quote-slide::before {
+  content: '"';
+  position: absolute;
+  left: 40px;
+  top: 40%;
+  transform: translateY(-50%);
+  font-size: 15rem;
+  font-weight: 900;
+  color: rgba(148, 113, 217, 0.15);
+  line-height: 1;
+  z-index: 0;
+  font-family: cursive;
 }
 .quote-text {
   font-size: 1.85rem;
@@ -68,7 +81,10 @@ mdc: true
   color: #f8fafc;
   max-width: 820px;
   font-weight: 500;
+  position: relative;
+  z-index: 1;
 }
+
 .quote-attr {
   font-size: 1.05rem;
   color: #e2e8f0;
@@ -77,13 +93,29 @@ mdc: true
 }
 
 /* Big statement */
-.big-statement {
-  font-size: 2.4rem;
+.big-statement p {
+  font-size: 3rem;
   font-weight: 700;
-  line-height: 2;
+  line-height: 1.3;
   text-align: center;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
 }
 </style>
+
+<script setup>
+import { onMounted } from 'vue'
+
+onMounted(() => {
+  // Set code editor font sizes globally
+  // Change these values to customize code display across all slides
+  const rootElement = document.documentElement
+  rootElement.style.setProperty('--code-font-size-px', '14px')
+})
+</script>
 
 <div class="absolute inset-0 bg-black/55 z-0" />
 
@@ -108,7 +140,7 @@ J: "Let's have some fun."
 ---
 ---
 
-<div class="quote-slide h-full">
+<div class="quote-slide">
   <div class="quote-text">
     "You can call Java old. You can call it boring. But while others are chasing hype, reinventing their tech stack every six months… Java developers are out here building systems that actually run the world."
   </div>
@@ -636,11 +668,19 @@ L: "No more 5-year gaps. No more 18-month delays. Just steady, boring, predictab
 -->
 
 ---
----
 
 # Java 26: what's inside
 
-<div class="mt-6 text-base leading-relaxed">
+<div class="mt-0 text-base leading-relaxed">
+
+<style>
+td {
+  padding: 3px;
+}
+th {
+  font-weight: bold;
+}
+</style>
 
 | JEP | Feature | |
 |-----|---------|---|
@@ -695,7 +735,8 @@ J: "In Java 26, the JVM starts warning you. In a future release, it'll be blocke
 
 # What reflection hacks look like today
 
-<div class="mt-6">
+<CodeRunner slide-id="reflection-hack" before="void main() throws java.lang.Exception {" after="}" enable-preview>
+  <template #default>
 
 ```java
 // This works today — but it shouldn't
@@ -709,7 +750,8 @@ field.setAccessible(true);
 field.set(config, "hacked");  // ← final? What final?
 ```
 
-</div>
+  </template>
+</CodeRunner>
 
 <v-click>
 
@@ -1055,7 +1097,8 @@ layout: center
 <div class="text-xl text-gray-400 mt-8">
 
 But it's in the standard library — no Netty, no OkHttp.<br/>
-There when you need it. Invisible when you don't.
+There when you need it. Invisible when you don't.<br/>
+But it's mainly for these libraries and even they might not need it.
 
 </div>
 
@@ -1097,8 +1140,11 @@ J: "No CVEs to track in a third-party HTTP library. And it ships with your JDK. 
 L: "Fewer dependencies. Fewer things to break. Boring and brilliant."
 -->
 
+
+
 ---
-layout: center
+layout: image-left
+image: ./img/java-applet.png
 ---
 
 <div class="big-statement">
@@ -1118,9 +1164,10 @@ Viewer removed in Java 11. API removed in Java 26.
 
 <div class="text-gray-500 mt-4">31 years. It only took 9 to remove.</div>
 
-<Badge variant="red">Removed</Badge>
-
 <!--
+Side note: it's how I created my first web applications in school.
+
+
 L: "A moment of silence for the Applet API."
 J: "..."
 L: "Okay that's enough silence."
@@ -1665,7 +1712,7 @@ L: "That's... actually brilliant."
 ---
 ---
 
-<div class="quote-slide h-full">
+<div class="quote-slide">
   <div class="quote-text">
     "Allowing library developers to write faster, better code means that anyone gets better foundations for their applications. So Java can be proud to be boring."
   </div>
@@ -1683,10 +1730,10 @@ layout: center
 ---
 
 <Callout variant="green">
-  You write the same code.<br/>
-  Your libraries get better.<br/>
-  You focus on your application — not on chasing language news.<br/>
-  That's boring working exactly as intended.
+  <div class="text-2xl font-semibold">You write the same code.</div>
+  <div class="text-xl mt-2">Your libraries get better.</div>
+  <div class="text-xl">You focus on your application — not language news.</div>
+  <div class="text-xl mt-2">That's boring working exactly as intended.</div>
 </Callout>
 
 <!--
@@ -1814,6 +1861,9 @@ L: "The bus factor for Java isn't one company. It's the entire industry."
 J: "Sun open-sourced the JVM in 2006, the full class library in 2007. Richard Stallman himself said this ended the 'Java trap.' And since then, the ecosystem has only grown."
 L: "Try getting that level of vendor independence with any other platform."
 -->
+---
+
+<CroppedImage src="./img/java_25_contributions.avif" alt="Java contributors" />
 
 ---
 ---
@@ -1882,7 +1932,7 @@ L: "That's the real dividend of boring."
 ---
 ---
 
-<div class="quote-slide h-full">
+<div class="quote-slide">
   <div class="quote-text">
     "Trendiness fades. Reliability compounds."
   </div>
@@ -1931,7 +1981,7 @@ mention OpenRewrite
 
 ---
 
-<div class="quote-slide h-full">
+<div class="quote-slide">
   <div class="quote-text">
     "There is a small but immediate cost of upgrading. There is a huge, potentially catastrophic but not immediate cost of staying on old versions. Until the disasters become visible, people don't want to invest.<br/><br/>Sounds a bit like climate change."
   </div>
@@ -1985,27 +2035,29 @@ J: "But we are here to say: the process of improving Java is sound. These gaps w
 -->
 
 ---
-layout: center
+layout: statement
 ---
 
-<div class="big-statement">
+# <OrangeText>Can Java be improved?</OrangeText> Yes.
 
-Can Java be improved? Yes.<br/>
-Are some existing features not the best? Yes.<br/>
-Does it miss features other languages have? Yes.
+---
+layout: statement
+---
 
-</div>
+# <RedText>Are some existing features not the best?</RedText> Yes.
 
-<v-click>
+---
+layout: statement
+---
 
-<div class="text-2xl mt-8 text-emerald-400 font-semibold">
+# <BlueText>Does it miss features other languages have?</BlueText> Yes.
 
-But has it been around longer than its competitors?<br/>
-Does it run almost everywhere? Also yes.
+---
+layout: statement
+---
 
-</div>
-
-</v-click>
+# <OrangeText>But has it been around longer than its competitors?</OrangeText><br/>
+# <RedText>Does it run almost everywhere? </RedText>Also yes.
 
 <!--
 J: "This is straight from our article. Can Java be improved? Absolutely."
