@@ -2,4 +2,4 @@
 
 cd "$(dirname "$0")"
 
-npx slidev slides_gpt.md --port 3032
+npx slidev slides.md --port 3032
