@@ -226,8 +226,7 @@ Organizer of Devoxx4kids
 <div class="text-gray-400 mt-4 text-lg">
 
 OpenJDK Developer @ SAP<br/>
-Owner of JEP 509<br/>
-Creator of the Java version quiz game<br/>
+Avid blogger<br/>
 <br/>
 
 </div>
