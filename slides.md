@@ -523,7 +523,7 @@ layout: section
     <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">Part 2: The Release Train</h1>
   </div>
   <div class="absolute bottom-4 right-4 text-sm text-white drop-shadow-lg">
-    <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black underline">Based on https://www.youtube.com/watch?v=K40XrR67fas
+    <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black">Based on https://www.youtube.com/watch?v=K40XrR67fas
 </a>
   </div>
 </div>
