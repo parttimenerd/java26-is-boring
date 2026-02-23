@@ -535,11 +535,12 @@ J: "That's not a complaint. That's an achievement."
 layout: section
 ---
 
-# Part 2: The Release Train
-From chaos to clockwork
-
-<img src="./img/Duke_releasetrain.png" alt="Duke (Java mascotte) on an old school train" class="absolute inset-0 w-full h-30 object-contain mt-20">
-change position of this img
+<div class="absolute inset-0 flex flex-col items-center justify-between" style="background-image: url('./img/Duke_releasetrain.png'); background-size: cover; background-position: center;">
+  <div class="flex-1"></div>
+  <div class="text-center pb-12">
+    <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">Part 2: The Release Train</h1>
+  </div>
+</div>
 
 <!--
 L: "Let's talk about how Java ships."Because the release model is a big part of why boring works.
