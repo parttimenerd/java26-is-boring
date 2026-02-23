@@ -862,27 +862,153 @@ L: "But first — a quick analogy to make this concrete."
 layout: center
 ---
 
-<div class="text-xl leading-loose text-left max-w-xl mx-auto">
+<div class="relative w-full max-w-2xl mx-auto">
 
 <v-click>
 
-🛣️ **HTTP/1.1** → One lane road. One request at a time.
+<div class="mb-10">
+  <div class="flex items-center gap-3 mb-2">
+    <span class="text-2xl font-bold text-amber-400">HTTP/1.1</span>
+    <span class="text-gray-400 text-lg">— One lane road. One request at a time.</span>
+  </div>
+  <div class="relative h-12 bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+    <div class="absolute top-0 left-0 w-full h-full flex items-center">
+      <div class="h-[2px] w-full bg-gray-600 absolute top-1/2"></div>
+      <div class="absolute animate-car-slow">
+        <span class="text-2xl">🚗</span>
+      </div>
+    </div>
+  </div>
+</div>
 
 </v-click>
 
 <v-click>
 
-🛣️🛣️🛣️ **HTTP/2** → Multi-lane highway. Multiplexed streams.
+<div class="mb-10">
+  <div class="flex items-center gap-3 mb-2">
+    <span class="text-2xl font-bold text-blue-400">HTTP/2</span>
+    <span class="text-gray-400 text-lg">— Multi-lane highway. Multiplexed streams.</span>
+  </div>
+  <div class="relative h-20 bg-gray-800 rounded-lg overflow-hidden border border-gray-700">
+    <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-around py-2">
+      <div class="relative h-[2px] bg-gray-600"><div class="absolute animate-car-fast1"><span class="text-xl">🚙</span></div></div>
+      <div class="relative h-[2px] bg-gray-600"><div class="absolute animate-car-fast2"><span class="text-xl">🚕</span></div></div>
+      <div class="relative h-[2px] bg-gray-600"><div class="absolute animate-car-fast3"><span class="text-xl">🚗</span></div></div>
+    </div>
+  </div>
+</div>
 
 </v-click>
 
 <v-click>
 
-✈️ **HTTP/3** → No road at all. Just fly. _(QUIC over UDP)_
+<div class="mb-4">
+  <div class="flex items-center gap-3 mb-2">
+    <span class="text-2xl font-bold text-emerald-400">HTTP/3</span>
+    <span class="text-gray-400 text-lg">— No road at all. Just fly. <em class="text-emerald-600"> (QUIC over UDP)</em></span>
+  </div>
+  <div class="relative h-20 bg-gradient-to-r from-gray-800 via-sky-950 to-gray-800 rounded-lg overflow-hidden border border-sky-900">
+    <div class="absolute top-0 left-0 w-full h-full">
+      <div class="absolute animate-plane1"><span class="text-2xl">✈️</span></div>
+      <div class="absolute animate-plane2"><span class="text-xl">✈️</span></div>
+      <div class="absolute animate-plane3"><span class="text-2xl">✈️</span></div>
+      <div class="absolute animate-plane4"><span class="text-lg">✈️</span></div>
+      <div class="absolute animate-plane5"><span class="text-xl">✈️</span></div>
+      <div class="absolute animate-plane6"><span class="text-lg">✈️</span></div>
+      <div class="absolute animate-plane7"><span class="text-2xl">✈️</span></div>
+      <div class="absolute animate-plane8"><span class="text-xl">✈️</span></div>
+      <div class="absolute animate-plane9"><span class="text-lg">✈️</span></div>
+      <div class="absolute animate-plane10"><span class="text-xl">✈️</span></div>
+      <div class="absolute w-full h-full opacity-20">
+        <div class="absolute top-2 left-[15%] text-white text-xs">☁️</div>
+        <div class="absolute top-8 left-[40%] text-white text-xs">☁️</div>
+        <div class="absolute top-1 left-[65%] text-white text-xs">☁️</div>
+        <div class="absolute top-10 left-[85%] text-white text-xs">☁️</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </v-click>
 
 </div>
+
+<style>
+@keyframes car-slow {
+  0% { left: -30px; }
+  45% { left: 30%; }
+  50% { left: 30%; }
+  95% { left: calc(100% - 30px); }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes car-fast1 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes car-fast2 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes car-fast3 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes plane1 {
+  0% { left: -40px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes plane2 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 25px); }
+}
+@keyframes plane3 {
+  0% { left: -35px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes plane4 {
+  0% { left: -25px; }
+  100% { left: calc(100% - 20px); }
+}
+@keyframes plane5 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 25px); }
+}
+@keyframes plane6 {
+  0% { left: -25px; }
+  100% { left: calc(100% - 20px); }
+}
+@keyframes plane7 {
+  0% { left: -40px; }
+  100% { left: calc(100% - 30px); }
+}
+@keyframes plane8 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 25px); }
+}
+@keyframes plane9 {
+  0% { left: -35px; }
+  100% { left: calc(100% - 25px); }
+}
+@keyframes plane10 {
+  0% { left: -30px; }
+  100% { left: calc(100% - 20px); }
+}
+.animate-car-slow { position: absolute; animation: car-slow 4s ease-in-out infinite; top: -8px; transform: scaleX(-1); }
+.animate-car-fast1 { position: absolute; animation: car-fast1 2.2s linear infinite; top: -6px; transform: scaleX(-1); }
+.animate-car-fast2 { position: absolute; animation: car-fast2 2.6s linear infinite 0.4s; top: -6px; transform: scaleX(-1); }
+.animate-car-fast3 { position: absolute; animation: car-fast3 2s linear infinite 0.8s; top: -6px; transform: scaleX(-1); }
+.animate-plane1 { position: absolute; animation: plane1 1.8s linear infinite; top: 5%; transform: rotate(45deg); }
+.animate-plane2 { position: absolute; animation: plane2 2.1s linear infinite 0.3s; top: 20%; transform: rotate(45deg); }
+.animate-plane3 { position: absolute; animation: plane3 1.5s linear infinite 0.7s; top: 40%; transform: rotate(45deg); }
+.animate-plane4 { position: absolute; animation: plane4 2.4s linear infinite 0.1s; top: 55%; transform: rotate(45deg); }
+.animate-plane5 { position: absolute; animation: plane5 1.9s linear infinite 0.5s; top: 30%; transform: rotate(45deg); }
+.animate-plane6 { position: absolute; animation: plane6 1.7s linear infinite 0.2s; top: 12%; transform: rotate(45deg); }
+.animate-plane7 { position: absolute; animation: plane7 2.3s linear infinite 0.9s; top: 48%; transform: rotate(45deg); }
+.animate-plane8 { position: absolute; animation: plane8 1.6s linear infinite 1.1s; top: 65%; transform: rotate(45deg); }
+.animate-plane9 { position: absolute; animation: plane9 2.0s linear infinite 0.6s; top: 8%; transform: rotate(45deg); }
+.animate-plane10 { position: absolute; animation: plane10 1.4s linear infinite 1.3s; top: 38%; transform: rotate(45deg); }
+</style>
 
 <!--
 [click]
