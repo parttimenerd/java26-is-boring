@@ -101,6 +101,18 @@ mdc: true
   justify-content: center;
   min-height: 100px;
 }
+
+div.polaroid {
+  width: 80%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 25px;
+}
+
+div.container {
+  text-align: center;
+  padding: 10px 20px;
+}
 </style>
 
 <script setup>
@@ -125,7 +137,7 @@ onMounted(() => {
 Lutske de Leeuw &nbsp;&nbsp;·&nbsp;&nbsp; Johannes Bechberger
 </div>
 
-<div class="mt-4 text-lg text-gray-400">VoxxedDays Amsterdam 2026</div>
+<div class="mt-4 text-lg text-gray-400">Voxxed Days Amsterdam 2026</div>
 
 </div>
 
@@ -199,7 +211,10 @@ J: "That's a superpower."
 
 <div class="text-gray-400 mt-4 text-lg">
 
-Java Developer @ Craftmans
+Java Developer @ Craftsmen<br/>
+JUG lead of:<br/>
+JUG Noord & Apeldoorn JUG<br/>
+Organizer of Devoxx4kids
 
 </div>
 </div>
@@ -210,7 +225,10 @@ Java Developer @ Craftmans
 
 <div class="text-gray-400 mt-4 text-lg">
 
-OpenJDK Developer @ SAP
+OpenJDK Developer @ SAP<br/>
+Owner of JEP 509<br/>
+Creator of the Java version quiz game<br/>
+<br/>
 
 </div>
 </div>
@@ -223,7 +241,7 @@ OpenJDK Developer @ SAP
 </div>
 
 <!--
-L: "I'm Lutske. I write Java for a living. I love that it just works — I deploy it, it runs, I go home."
+L: "I'm Lutske. I build Java systems that have to survive real users, real deadlines, and real production traffic. I care a lot about clean code, maintainability, and yes — sleeping at night because nothing exploded."
 J: "I'm Johannes. I work on OpenJDK at SAP, specifically profiling and performance tools. I love the stuff that's invisible — the JVM internals that make your code fast without you knowing why."
 L: "Together we cover both sides: the person who writes the code and the person who makes the runtime better."
 J: "And fun fact: OpenJDK has been fully open source since 2007. Sun Microsystems released it under the GPL before Oracle even acquired them. So when I say I work on OpenJDK — I commit to a public GitHub repo that anyone can read."
@@ -243,7 +261,6 @@ What Java version are you on?
 
 <div class="text-xl text-gray-400 mt-8">
 
-🙋 26? &nbsp;&nbsp; 🙋 21+? &nbsp;&nbsp; 🙋 17+? &nbsp;&nbsp; 🙋 11+? &nbsp;&nbsp; 🙋 ...8?
 
 </div>
 
@@ -264,15 +281,15 @@ layout: center
 
 <div class="big-statement">
 
-Many platforms try to impress you<br/>with <BlueText>shiny rewrites</BlueText> and <RedText>breaking changes</RedText>.
+Many platforms try to impress you<br/>with <OrangeText>✨shiny rewrites✨</OrangeText> and <RedText> breaking changes🚨</RedText>
 
 </div>
 
 <v-click>
 
-<div class="text-3xl mt-8 text-emerald-400 font-semibold text-center">
+<div class="text-3xl mt-8 font-semibold text-center">
 
-Java took another path. Java optimizes for <OrangeText>trust</OrangeText>.
+Java took another path. Java optimizes for <OrangeText><u>trust</u></OrangeText>.
 
 </div>
 
@@ -293,7 +310,7 @@ layout: center
 
 <div class="big-statement">
 
-Boring by design — since 1995
+Boring by design, since 1995
 
 </div>
 
@@ -311,7 +328,7 @@ Boring by design — since 1995
 
 </div>
 
-<div class="text-sm text-gray-500 mt-6">— The five original design goals, Java Language Specification, 1995</div>
+<div class="text-sm text-gray-500 mt-6"> The five original design goals, Java Language Specification, 1995</div>
 
 <!--
 J: "Boring wasn't an accident. These are the five original design goals from 1995."
@@ -371,7 +388,7 @@ layout: center
 
 <div class="big-statement">
 
-You can write <OrangeText>Java 8</OrangeText> code<br/>and <BlueText>nobody</BlueText> will notice.
+You can write Java 8 code<br/>and nobody will notice.
 
 </div>
 
@@ -408,10 +425,11 @@ L: "And it would probably run on Java 26 just fine. That's backward compatibilit
 ---
 layout: section
 ---
-
 # Part 1: How Old Is Your Code?
 
-Guess the Java version — it's quiz time
+Insert Duke quizmaster img 
+
+Guess the Java version!
 
 <!--
 L: "Alright, enough setup. Let's have some fun."
@@ -442,7 +460,7 @@ mostlynerdless.de/java-game/
 
 <div class="text-lg text-gray-400 mt-6">
 
-Phones out. Highest score wins our eternal respect and a shoirt.
+Phones out. Highest score wins our eternal respect and a T-shirt.
 
 </div>
 
@@ -518,8 +536,10 @@ layout: section
 ---
 
 # Part 2: The Release Train
-
 From chaos to clockwork
+
+<img src="./img/Duke_releasetrain.png" alt="Duke (Java mascotte) on an old school train" class="absolute inset-0 w-full h-30 object-contain mt-20">
+change position of this img
 
 <!--
 L: "Let's talk about how Java ships."Because the release model is a big part of why boring works.
@@ -2013,12 +2033,13 @@ layout: center
 ### Lutske de Leeuw
 
 <!-- add socials here -->
+github.com/Lutske
 
 </div>
 
 <div class="text-center">
 
-### Johannes
+### Johannes Bechberger
 
 <!-- add socials here -->
 mostlynerdless.de
