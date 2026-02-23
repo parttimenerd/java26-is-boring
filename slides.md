@@ -992,21 +992,73 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
 
 # The rise and fall of Java applets
 
-<div class="mt-6 text-lg leading-loose">
+<svg viewBox="-30 0 1060 420" class="w-full" style="font-size: 1px;">
+  <!-- Timeline spans 1995–2026 (31 years). X positions proportional to time -->
+  <!-- 1995→60  1997→118  2002→263  2015→641  2017→699  2026→960 -->
 
-**1995** — Applets ship with Java 1.0. Interactive web is born. 🎉
+  <!-- Main horizontal timeline line -->
+  <line x1="30" y1="210" x2="990" y2="210" stroke="#555" stroke-width="2" />
 
-**1997** — Sun sues Microsoft for creating a modified JVM. Microsoft pays $20M. ⚖️
+  <!-- === 1995: Applets ship (BOTTOM) === -->
+  <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="60" cy="210" r="4" fill="#00bcd4" />
+  <line x1="60" y1="224" x2="60" y2="290" stroke="#00bcd4" stroke-width="1.2" />
+  <circle cx="60" cy="290" r="2.5" fill="#00bcd4" />
+  <text x="60" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#00bcd4">1995</text>
+  <text x="60" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Applets ship 🎉</text>
+  <line x1="-10" y1="335" x2="130" y2="335" stroke="#00bcd4" stroke-width="2" />
 
-**2002** — Sun files antitrust lawsuit. Microsoft pays $2 billion total. 💰
+  <!-- === 1997: Sun sues (TOP) === -->
+  <circle cx="118" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="118" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="118" cy="210" r="4" fill="#ff9800" />
+  <line x1="118" y1="196" x2="118" y2="130" stroke="#ff9800" stroke-width="1.2" />
+  <circle cx="118" cy="130" r="2.5" fill="#ff9800" />
+  <text x="118" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ff9800">1997</text>
+  <text x="118" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Sun sues ⚖️</text>
+  <line x1="48" y1="96" x2="188" y2="96" stroke="#ff9800" stroke-width="2" />
 
-**2013–2017** — Browsers phase out NPAPI plugin support. Applets stop working. 🔌
+  <!-- === 2002: Antitrust (BOTTOM) === -->
+  <circle cx="263" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="263" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="263" cy="210" r="4" fill="#e91e63" />
+  <line x1="263" y1="224" x2="263" y2="290" stroke="#e91e63" stroke-width="1.2" />
+  <circle cx="263" cy="290" r="2.5" fill="#e91e63" />
+  <text x="263" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#e91e63">2002</text>
+  <text x="263" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Antitrust 💰</text>
+  <line x1="193" y1="335" x2="333" y2="335" stroke="#e91e63" stroke-width="2" />
 
-**2017** — Deprecated in Java 9 (JEP 289). ⚠️
+  <!-- === 2013–17: Browsers drop (TOP) === -->
+  <circle cx="641" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="641" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="641" cy="210" r="4" fill="#2196f3" />
+  <line x1="641" y1="196" x2="641" y2="130" stroke="#2196f3" stroke-width="1.2" />
+  <circle cx="641" cy="130" r="2.5" fill="#2196f3" />
+  <text x="641" y="243" text-anchor="middle" style="font-size: 24px; font-weight: bold;" fill="#2196f3">2013–17</text>
+  <text x="641" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Browsers drop 🔌</text>
+  <line x1="551" y1="96" x2="731" y2="96" stroke="#2196f3" stroke-width="2" />
 
-**2026** — Removed in Java 26 (JEP 504). 🪦
+  <!-- === 2017: Deprecated (BOTTOM) === -->
+  <circle cx="699" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="699" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="699" cy="210" r="4" fill="#607d8b" />
+  <line x1="699" y1="224" x2="699" y2="290" stroke="#607d8b" stroke-width="1.2" />
+  <circle cx="699" cy="290" r="2.5" fill="#607d8b" />
+  <text x="699" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#607d8b">2017</text>
+  <text x="699" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Deprecated ⚠️</text>
+  <line x1="629" y1="335" x2="769" y2="335" stroke="#607d8b" stroke-width="2" />
 
-</div>
+  <!-- === 2026: Removed (TOP) === -->
+  <circle cx="960" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+  <circle cx="960" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="960" cy="210" r="4" fill="#9e9e9e" />
+  <line x1="960" y1="196" x2="960" y2="130" stroke="#9e9e9e" stroke-width="1.2" />
+  <circle cx="960" cy="130" r="2.5" fill="#9e9e9e" />
+  <text x="960" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#9e9e9e">2026</text>
+  <text x="960" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Removed 🪦</text>
+  <line x1="890" y1="96" x2="1010" y2="96" stroke="#9e9e9e" stroke-width="2" />
+</svg>
 
 <!--
 J: "The history of applets is wild. Let me speed-run through it."
