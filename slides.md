@@ -1126,6 +1126,7 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <line x1="30" y1="210" x2="990" y2="210" stroke="#555" stroke-width="2" />
 
   <!-- === 1995: Applets ship (BOTTOM) === -->
+  <g v-click>
   <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="60" cy="210" r="4" fill="#00bcd4" />
@@ -1134,8 +1135,10 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="60" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#00bcd4">1995</text>
   <text x="60" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Applets ship 🎉</text>
   <line x1="-10" y1="335" x2="130" y2="335" stroke="#00bcd4" stroke-width="2" />
+  </g>
 
   <!-- === 1997: Sun sues (TOP) === -->
+  <g v-click>
   <circle cx="118" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="118" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="118" cy="210" r="4" fill="#ff9800" />
@@ -1144,8 +1147,10 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="118" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ff9800">1997</text>
   <text x="118" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Sun sues ⚖️</text>
   <line x1="48" y1="96" x2="188" y2="96" stroke="#ff9800" stroke-width="2" />
+  </g>
 
   <!-- === 2002: Antitrust (BOTTOM) === -->
+  <g v-click>
   <circle cx="263" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="263" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="263" cy="210" r="4" fill="#e91e63" />
@@ -1154,8 +1159,10 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="263" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#e91e63">2002</text>
   <text x="263" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Antitrust 💰</text>
   <line x1="193" y1="335" x2="333" y2="335" stroke="#e91e63" stroke-width="2" />
+  </g>
 
   <!-- === 2013–17: Browsers drop (TOP) === -->
+  <g v-click>
   <circle cx="641" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="641" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="641" cy="210" r="4" fill="#2196f3" />
@@ -1164,8 +1171,10 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="641" y="243" text-anchor="middle" style="font-size: 24px; font-weight: bold;" fill="#2196f3">2013–17</text>
   <text x="641" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Browsers drop 🔌</text>
   <line x1="551" y1="96" x2="731" y2="96" stroke="#2196f3" stroke-width="2" />
+  </g>
 
   <!-- === 2017: Deprecated (BOTTOM) === -->
+  <g v-click>
   <circle cx="699" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="699" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="699" cy="210" r="4" fill="#607d8b" />
@@ -1174,8 +1183,10 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="699" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#607d8b">2017</text>
   <text x="699" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Deprecated ⚠️</text>
   <line x1="629" y1="335" x2="769" y2="335" stroke="#607d8b" stroke-width="2" />
+  </g>
 
   <!-- === 2026: Removed (TOP) === -->
+  <g v-click>
   <circle cx="960" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="960" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="960" cy="210" r="4" fill="#9e9e9e" />
@@ -1184,6 +1195,7 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <text x="960" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#9e9e9e">2026</text>
   <text x="960" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Removed 🪦</text>
   <line x1="890" y1="96" x2="1010" y2="96" stroke="#9e9e9e" stroke-width="2" />
+  </g>
 </svg>
 
 <!--
