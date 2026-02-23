@@ -423,34 +423,14 @@ L: "And it would probably run on Java 26 just fine. That's backward compatibilit
 -->
 
 ---
-layout: section
+layout: image-left
+image: ./img/Duke_quizmaster.png
 ---
+
 # Part 1: How Old Is Your Code?
 
-Insert Duke quizmaster img 
 
 Guess the Java version!
-
-<!--
-L: "Alright, enough setup. Let's have some fun."
-J: "Time to find out how well you really know your Java history."
--->
-
----
-layout: center
----
-
-<div class="big-statement">
-
-Competition time 🎮
-
-</div>
-
-<div class="text-2xl text-gray-300 mt-8">
-
-Guess the Java version!
-
-</div>
 
 <div class="text-xl text-orange-400 mt-6 font-mono">
 
@@ -461,10 +441,12 @@ mostlynerdless.de/java-game/
 <div class="text-lg text-gray-400 mt-6">
 
 Phones out. Highest score wins our eternal respect and a T-shirt.
-
 </div>
 
 <!--
+L: "Alright, enough setup. Let's have some fun."
+J: "Time to find out how well you really know your Java history."
+
 L: "Alright, time for the fun part. Phones out!"
 J: "I built a quiz game for exactly this. You'll see a code snippet and you have to guess which Java version introduced it."
 L: "It's competitive. Highest score wins bragging rights."
@@ -539,6 +521,10 @@ layout: section
   <div class="flex-1"></div>
   <div class="text-center pb-12">
     <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">Part 2: The Release Train</h1>
+  </div>
+  <div class="absolute bottom-4 right-4 text-sm text-white drop-shadow-lg">
+    <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black underline">Based on https://www.youtube.com/watch?v=K40XrR67fas
+</a>
   </div>
 </div>
 
