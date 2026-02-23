@@ -281,7 +281,7 @@ layout: center
 
 <div class="big-statement">
 
-Many platforms try to impress you<br/>with <OrangeText>✨shiny rewrites✨</OrangeText> and <RedText> breaking changes🚨</RedText>
+Many platforms try to impress you<br/>with <OrangeText>✨shiny rewrites✨</OrangeText> and <RedText> breaking changes 🚨</RedText>
 
 </div>
 
@@ -1741,11 +1741,12 @@ L: "That's the real dividend of boring."
 -->
 
 ---
----
 
 <div class="quote-slide">
-  <div class="quote-text">
-    "Trendiness fades. Reliability compounds."
+  <div class="quote-text" style="font-size: 3em">
+    "Trendiness fades.
+
+Reliability compounds."
   </div>
   <div class="quote-attr">— Andrii Piatakha</div>
 </div>
