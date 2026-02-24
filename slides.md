@@ -226,7 +226,7 @@ Organizer of Devoxx4kids
 <div class="text-gray-400 mt-4 text-lg">
 
 OpenJDK Developer @ SAP<br/>
-Avid blogger<br/>
+Blogger<br/>
 <br/>
 
 </div>
@@ -243,7 +243,6 @@ Avid blogger<br/>
 L: "I'm Lutske. I build Java systems that have to survive real users, real deadlines, and real production traffic. I care a lot about clean code, maintainability, and yes — sleeping at night because nothing exploded."
 J: "I'm Johannes. I work on OpenJDK at SAP, specifically profiling and performance tools. I love the stuff that's invisible — the JVM internals that make your code fast without you knowing why."
 L: "Together we cover both sides: the person who writes the code and the person who makes the runtime better."
-J: "And fun fact: OpenJDK has been fully open source since 2007. Sun Microsystems released it under the GPL before Oracle even acquired them. So when I say I work on OpenJDK — I commit to a public GitHub repo that anyone can read."
 L: "We'll be honest today — Java isn't perfect. We're not here to fanboy."
 J: "We're here to make a case for boring."
 -->
@@ -521,8 +520,8 @@ layout: section
   <div class="text-center pb-12">
     <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">Part 2: The Release Train</h1>
   </div>
-  <div class="absolute bottom-4 right-4 text-sm text-white drop-shadow-lg">
-    <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black">Based on https://www.youtube.com/watch?v=K40XrR67fas
+  <div class="absolute bottom-4 right-4 text-sm text-black">
+    Based on <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black">https://www.youtube.com/watch?v=K40XrR67fas
 </a>
   </div>
 </div>
@@ -540,26 +539,83 @@ L: "Designed for TV, named after coffee, ended up running 95% of the Fortune 500
 
 # Before 2017: Chaos
 
-<div class="mt-8 text-xl leading-relaxed">
+<svg viewBox="-30 0 1060 420" class="w-full" style="font-size: 1px;">
+  <!-- Timeline: Java 5 (2004) → Java 9 (2017). 13 years. -->
+  <!-- X positions proportional: J5→60  J6→190  J7→512  J8→706  J9→900 -->
 
-Java 5 → Java 6: **2 years**
+  <!-- Main horizontal timeline line -->
+  <line x1="30" y1="210" x2="930" y2="210" stroke="#555" stroke-width="2" />
 
-Java 6 → Java 7: **5 years**
+  <!-- === Java 5 (2004) — BOTTOM === -->
+  <g>
+    <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+    <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+    <circle cx="60" cy="210" r="4" fill="#00bcd4" />
+    <line x1="60" y1="224" x2="60" y2="290" stroke="#00bcd4" stroke-width="1.2" />
+    <circle cx="60" cy="290" r="2.5" fill="#00bcd4" />
+    <text x="60" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#00bcd4">Java 5</text>
+    <text x="60" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">2004 ☕</text>
+    <line x1="-10" y1="335" x2="130" y2="335" stroke="#00bcd4" stroke-width="2" />
+  </g>
 
-Java 7 → Java 8: **3 years**
+  <!-- === Java 6 (2006) — TOP — 2 year gap === -->
+  <g v-click>
+    <line x1="74" y1="210" x2="176" y2="210" stroke="#4caf50" stroke-width="5" opacity="0.5" />
+    <circle cx="190" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+    <circle cx="190" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+    <circle cx="190" cy="210" r="4" fill="#4caf50" />
+    <line x1="190" y1="196" x2="190" y2="130" stroke="#4caf50" stroke-width="1.2" />
+    <circle cx="190" cy="130" r="2.5" fill="#4caf50" />
+    <text x="190" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#4caf50">Java 6</text>
+    <text x="190" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">2006 — 2 years ⏱️</text>
+    <line x1="90" y1="96" x2="290" y2="96" stroke="#4caf50" stroke-width="2" />
+  </g>
 
-Java 8 → Java 9: **3.5 years**
+  <!-- === Java 7 (2011) — BOTTOM — 5 year gap === -->
+  <g v-click>
+    <line x1="204" y1="210" x2="498" y2="210" stroke="#e91e63" stroke-width="5" opacity="0.5" />
+    <circle cx="512" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+    <circle cx="512" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+    <circle cx="512" cy="210" r="4" fill="#e91e63" />
+    <line x1="512" y1="224" x2="512" y2="290" stroke="#e91e63" stroke-width="1.2" />
+    <circle cx="512" cy="290" r="2.5" fill="#e91e63" />
+    <text x="512" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#e91e63">Java 7</text>
+    <text x="512" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">2011 — 5 years 💀</text>
+    <line x1="412" y1="335" x2="612" y2="335" stroke="#e91e63" stroke-width="2" />
+  </g>
 
-</div>
+  <!-- === Java 8 (2014) — TOP — 3 year gap === -->
+  <g v-click>
+    <line x1="526" y1="210" x2="692" y2="210" stroke="#ff9800" stroke-width="5" opacity="0.5" />
+    <circle cx="706" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+    <circle cx="706" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+    <circle cx="706" cy="210" r="4" fill="#ff9800" />
+    <line x1="706" y1="196" x2="706" y2="130" stroke="#ff9800" stroke-width="1.2" />
+    <circle cx="706" cy="130" r="2.5" fill="#ff9800" />
+    <text x="706" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ff9800">Java 8</text>
+    <text x="706" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">2014 — 3 years ⏱️</text>
+    <line x1="606" y1="96" x2="806" y2="96" stroke="#ff9800" stroke-width="2" />
+  </g>
+
+  <!-- === Java 9 (2017) — BOTTOM — 3.5 year gap === -->
+  <g v-click>
+    <line x1="720" y1="210" x2="886" y2="210" stroke="#607d8b" stroke-width="5" opacity="0.5" />
+    <circle cx="900" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
+    <circle cx="900" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
+    <circle cx="900" cy="210" r="4" fill="#607d8b" />
+    <line x1="900" y1="224" x2="900" y2="290" stroke="#607d8b" stroke-width="1.2" />
+    <circle cx="900" cy="290" r="2.5" fill="#607d8b" />
+    <text x="900" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#607d8b">Java 9</text>
+    <text x="900" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">2017 — 3.5 years 😤</text>
+    <line x1="800" y1="335" x2="1000" y2="335" stroke="#607d8b" stroke-width="2" />
+  </g>
+</svg>
 
 <!--
 J: "The old release model was a mess."
 J: "Java 5 to 6: two years. Reasonable. 6 to 7: five years. Five! That's an eternity in tech."
 J: "7 to 8: three years. The lambdas release. And 8 to 9: three and a half years. Java 9 was 18 months late because they tried to finish Project Jigsaw — the module system."
 L: "And modules were... controversial."
-
-
-TODO: visualize
 -->
 
 ---
@@ -1125,7 +1181,7 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
   <line x1="30" y1="210" x2="990" y2="210" stroke="#555" stroke-width="2" />
 
   <!-- === 1995: Applets ship (BOTTOM) === -->
-  <g v-click>
+<g>
   <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
   <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
   <circle cx="60" cy="210" r="4" fill="#00bcd4" />
