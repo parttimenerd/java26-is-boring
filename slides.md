@@ -2281,15 +2281,9 @@ mostlynerdless.de
 
 </div>
 
-<div class="text-gray-400 mt-12 text-lg">
+<div class="text-gray-400 ml-50 mt-12 text-lg" style="text-align: center">
 
-📱 Scan for slides, feedback & our socials
-
-</div>
-
-<div class="text-gray-500 mt-4">
-
-[QR CODE PLACEHOLDER]
+![[https://github.com/parttimenerd/java26-is-boring](https://github.com/parttimenerd/java26-is-boring)](./img/repo_qr.png)
 
 </div>
 
