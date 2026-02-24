@@ -737,10 +737,14 @@ J: "In Java 26, the JVM starts warning you. In a future release, it'll be blocke
 
 # What reflection hacks look like today
 
-<CodeRunner slide-id="reflection-hack" enable-preview>
+<CodeRunner slide-id="reflection-hack" enable-preview :indent=4>
 
   <template #before>
-  void main() throws java.lang.Exception {
+  
+```java
+void main() throws java.lang.Exception {
+```
+
   </template>
   <template #default>
 
@@ -759,7 +763,11 @@ field.set(config, "hacked");  // ← final? What final?
   </template>
 
   <template #after>
-  }
+  
+```java
+}
+```
+
   </template>
 </CodeRunner>
 
@@ -1080,7 +1088,19 @@ J: "It literally flies."
 
 # Using HTTP/3 in Java 26
 
-<div class="mt-8">
+<CodeRunner slide-id="http3-example" enable-preview :indent=4>
+
+  <template #before>
+  
+```java
+import java.net.http.*;
+import java.net.*;
+
+void main() throws Exception {
+```
+
+  </template>
+  <template #default>
 
 ```java
 var client = HttpClient.newBuilder()
@@ -1093,9 +1113,22 @@ var request = HttpRequest.newBuilder()
 
 var response = client.send(request,
     HttpResponse.BodyHandlers.ofString());
+    
+System.out.println("Status: " + response.statusCode());
+System.out.println("Body: " + response.body().substring(0, Math.min(100, response.body().length())) + "...");
 ```
 
-</div>
+  </template>
+
+  <template #after>
+  
+```java
+
+}
+```
+
+  </template>
+</CodeRunner>
 
 <v-click>
 
@@ -1379,7 +1412,16 @@ L: "A long while."
 
 # Primitive types in patterns <Badge variant="blue">4th Preview</Badge>
 
-<div class="mt-8">
+<CodeRunner slide-id="primitive-patterns" enable-preview :indent=4>
+
+  <template #before>
+  
+```java
+void main() {
+```
+
+  </template>
+  <template #default>
 
 ```java
 // Pattern matching now works with primitive types
@@ -1393,9 +1435,20 @@ String result = switch (value) {
     case double d            -> "double: " + d;
     default                  -> "something else";
 };
+
+System.out.println(result);
 ```
 
-</div>
+  </template>
+
+  <template #after>
+  
+```java
+}
+```
+
+  </template>
+</CodeRunner>
 
 <!--
 J: "Primitive patterns let you use pattern matching with int, long, double — the primitive types."
@@ -1494,26 +1547,70 @@ L: "Less boilerplate, fewer security mistakes. This is the kind of quality-of-li
 -->
 
 ---
----
 
 # Lazy constants <Badge variant="blue">2nd Preview</Badge>
 
 <div class="mt-8">
 
-```java
-// Initialized only when first accessed — thread-safe, immutable
-private static final Supplier<ExpensiveService> SERVICE =
-    LazyConstant.of(() -> {
-        System.out.println("Initializing...");
-        return new ExpensiveService();
-    });
+<CodeRunner slide-id="lazy-constant" enable-preview :indent=4>
+  <template #before>
 
-// First call triggers initialization
-// All subsequent calls return the cached value
-var service = SERVICE.get();
+```java
+import java.util.function.Supplier;
+
+class ExpensiveService {
+    ExpensiveService() {
+        System.out.println("ExpensiveService created!");
+    }
+    void doWork() {
+        System.out.println("Doing work...");
+    }
+}
+
+void main() {
 ```
 
+  </template>
+  <template #default>
+
+```java
+    // Initialized only when first accessed — thread-safe, immutable
+    Supplier<ExpensiveService> SERVICE =
+        LazyConstant.of(() -> {
+            System.out.println("Initializing...");
+            return new ExpensiveService();
+        });
+
+    System.out.println("LazyConstant created (not yet initialized)");
+    
+    // First call triggers initialization
+    var service = SERVICE.get();
+
+    // All subsequent calls return the cached value
+    var service2 = SERVICE.get();
+```
+
+  </template>
+  <template #after>
+
+```java
+}
+```
+
+  </template>
+</CodeRunner>
+
 </div>
+
+<v-click>
+<div class="mt-4">
+Could you implement it yourself? Yes.
+
+<div class="text-3xl mt-4">
+Boring.
+</div>
+</div>
+</v-click>
 
 <!--
 L: "Lazy constants let you define values that are only computed when first accessed."
@@ -1533,6 +1630,24 @@ L: "Second preview. Should be final soon."
 
 **Java 8: manual**
 
+<CodeRunner slide-id="structured-concurrency-old" enable-preview :indent=4>
+
+  <template #before>
+  
+```java
+import java.util.concurrent.*;
+
+String fetch(String source) {
+    try { Thread.sleep(100); } catch (Exception e) {}
+    return "Data from " + source;
+}
+
+void main() throws Exception {
+```
+
+  </template>
+  <template #default>
+
 ```java
 ExecutorService es =
   Executors.newFixedThreadPool(2);
@@ -1544,17 +1659,46 @@ Future<String> f2 =
 
 String r = f1.get() + f2.get();
 es.shutdown();
+
+System.out.println(r);
 ```
+
+  </template>
+
+  <template #after>
+  
+```java
+}
+```
+
+  </template>
+</CodeRunner>
 
 </div>
 <div>
 
 **Java 26: structured**
 
+<CodeRunner slide-id="structured-concurrency-new" enable-preview :indent=4>
+
+  <template #before>
+  
 ```java
-try (var scope =
-  new StructuredTaskScope
-    .ShutdownOnFailure()) {
+import java.util.concurrent.*;
+
+String fetch(String source) {
+    try { Thread.sleep(100); } catch (Exception e) {}
+    return "Data from " + source;
+}
+
+void main() throws Exception {
+```
+
+  </template>
+  <template #default>
+
+```java
+try (var scope = StructuredTaskScope.open()) {
 
   var f1 = scope.fork(
     () -> fetch("left"));
@@ -1562,10 +1706,23 @@ try (var scope =
     () -> fetch("right"));
 
   scope.join();
-  scope.throwIfFailed();
-  String r = f1.get() + f2.get();
+  
+  String r = f1.get() + " | " + f2.get();
+  
+  System.out.println(r);
 }
 ```
+
+  </template>
+
+  <template #after>
+  
+```java
+}
+```
+
+  </template>
+</CodeRunner>
 
 </div>
 </div>
@@ -1585,19 +1742,45 @@ J: "Just a better library."
 
 <div class="mt-8">
 
-```java
-// SIMD: process multiple data points in a single CPU instruction
-static final VectorSpecies<Float> SPECIES =
-    FloatVector.SPECIES_PREFERRED;
+<CodeRunner slide-id="vector-api" enable-preview :indent=4 add-modules="jdk.incubator.vector">
+  <template #before>
 
-void vectorAdd(float[] a, float[] b, float[] result) {
+```java
+import jdk.incubator.vector.*;
+
+void main() {
+```
+
+  </template>
+  <template #default>
+
+```java
+    // SIMD: process multiple data points in a single CPU instruction
+    VectorSpecies<Float> SPECIES = FloatVector.SPECIES_PREFERRED;
+
+    float[] a = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f};
+    float[] b = {1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f};
+    float[] result = new float[a.length];
+
+    // Vector addition using SIMD
     for (int i = 0; i < a.length; i += SPECIES.length()) {
         var va = FloatVector.fromArray(SPECIES, a, i);
         var vb = FloatVector.fromArray(SPECIES, b, i);
         va.add(vb).intoArray(result, i);
     }
+
+    System.out.println("Result: " + java.util.Arrays.toString(result));
+```
+
+  </template>
+  <template #after>
+
+```java
 }
 ```
+
+  </template>
+</CodeRunner>
 
 </div>
 
@@ -1882,12 +2065,6 @@ OpenJDK: Not one company
 <v-click>
 
 The reference implementation is built by **Oracle, Red Hat, IBM, Microsoft,<br/>Amazon, Apple, SAP, Azul, BellSoft, JetBrains, Tencent** — and more.
-
-</v-click>
-
-<v-click>
-
-Pick your build: Adoptium · Corretto · Zulu · Liberica ·<br/>Temurin · Microsoft · Red Hat · SapMachine
 
 </v-click>
 

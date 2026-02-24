@@ -6,7 +6,7 @@
           <div class="modal-header">
             <h3>Terminal</h3>
             <div class="modal-actions">
-              <button @click="close" class="close-btn" title="Close (Ctrl+Esc)">×</button>
+              <button @click.stop="close" class="close-btn" title="Close (Ctrl+Esc)">×</button>
             </div>
           </div>
           <div class="modal-body">
@@ -373,11 +373,22 @@ function open(slideId = 'default') {
 }
 
 function close() {
+  // Broadcast close event to all terminal instances
+  if (typeof window !== 'undefined') {
+    window.dispatchEvent(new CustomEvent('terminal:close-all'))
+  }
+}
+
+function closeInternal() {
   isOpen.value = false
   if (typeof window !== 'undefined') {
     window.__terminalIsOpen = false
   }
   emit('close')
+}
+
+function handleCloseAll() {
+  closeInternal()
 }
 
 function handleKeydown(event) {
@@ -484,11 +495,13 @@ onMounted(() => {
   window.__terminalIsOpen = false
   window.addEventListener('keydown', handleKeydown)
   window.addEventListener('terminal:code-run', handleCodeRunEvent)
+  window.addEventListener('terminal:close-all', handleCloseAll)
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
   window.removeEventListener('terminal:code-run', handleCodeRunEvent)
+  window.removeEventListener('terminal:close-all', handleCloseAll)
   
   if (ws) {
     ws.close()

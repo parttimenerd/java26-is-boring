@@ -108,12 +108,16 @@ interface Props {
   enablePreview?: boolean
   slideId?: string | number
   cwd?: string
+  indent?: number | string
+  addModules?: string | string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
   enablePreview: false,
   slideId: '',
-  cwd: ''
+  cwd: '',
+  indent: 0,
+  addModules: ''
 })
 
 const emit = defineEmits<{
@@ -164,6 +168,28 @@ function initializeGlobalHealthCheck() {
     // Launch script not used or variable not set, do a health check
     checkTerminalAvailability()
   }
+}
+
+function applyIndentation(code: string, indent: number | string | undefined): string {
+  if (!indent || indent === 0) return code
+  
+  // Convert indent to number of spaces
+  let indentStr: string
+  if (typeof indent === 'number') {
+    indentStr = ' '.repeat(indent)
+  } else {
+    indentStr = indent
+  }
+  
+  // Split code into lines and add indentation to each non-empty line
+  const lines = code.split('\n')
+  return lines
+    .map(line => {
+      // Don't indent empty lines
+      if (line.trim() === '') return line
+      return indentStr + line
+    })
+    .join('\n')
 }
 
 function extractCodeFromSlot(slotContent: any): { code: string; language: string } {
@@ -385,7 +411,11 @@ const additionalFiles = computed(() => extractFilesFromSlot(slots.files?.()))
 const fullCode = computed(() => {
   const parts = []
   if (beforeCode) parts.push(beforeCode)
-  parts.push(mainCode.value)
+  
+  // Apply indentation to main code if specified
+  const indentedMainCode = applyIndentation(mainCode.value, props.indent)
+  parts.push(indentedMainCode)
+  
   if (afterCode) parts.push(afterCode)
   return parts.join('\n')
 })
@@ -395,7 +425,11 @@ const additionalFilesMap = computed(() => {
   for (const file of additionalFiles.value) {
     const parts = []
     if (beforeCode) parts.push(beforeCode)
-    parts.push(file.content)
+    
+    // Apply indentation to file content if specified
+    const indentedContent = applyIndentation(file.content, props.indent)
+    parts.push(indentedContent)
+    
     if (afterCode) parts.push(afterCode)
     map[file.name] = parts.join('\n')
   }
@@ -552,6 +586,7 @@ function handleRun() {
       code: fullCode.value,
       tempFile: `/tmp/CodeDemo_${slideId}_${timestamp}_${random}.java`,
       enablePreview: props.enablePreview,
+      addModules: props.addModules,
       language: 'java',
       additionalFiles: additionalFilesMap.value,
       slideId,

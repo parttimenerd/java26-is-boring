@@ -3,6 +3,7 @@
 Java’s predictable release cycle avoids big surprises. This predictability is one of Java’s strengths. While some other platforms introduce dramatic changes or even break existing code, JDK 26 delivers a set of small, practical improvements. These enhancements are easy to adopt and beneficial in everyday development.  
 This talk covers key updates in JDK 26, including faster G1 garbage collector throughput; ahead-of-time class data sharing enhancements that work with any GC; and built-in HTTP/3 support in the standard HTTP client. It also touches on ongoing previews for primitive patterns, lazy constants, structured concurrency, and the Vector API. None of these changes are headline material on their own, but together they make Java faster, cleaner, and more pleasant to use.  
 You will learn how this incremental approach keeps upgrades simple, allows new features to mature safely, and helps Java remain a reliable platform in production. By the end of the session, you will have a clear overview of what JDK 26 adds and why its quiet improvements matter.  
+
 Takeaways
 
 * A clear overview of what is new in JDK 26  

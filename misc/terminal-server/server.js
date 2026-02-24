@@ -377,6 +377,7 @@ function setupWebSocket(server) {
           // Execute Java code
           const javaContent = message.code;
           const enablePreview = message.enablePreview || false;
+          const addModules = message.addModules || '';
           const slideId = message.slideId || 'default';
           const additionalFiles = message.additionalFiles || {};
           const cwd = message.cwd || path.resolve(__dirname, '../..');
@@ -456,11 +457,23 @@ function setupWebSocket(server) {
                   if (enablePreview) {
                     javaCmd += ' --enable-preview';
                   }
+                  
+                  // Add modules if specified (can be string or array)
+                  if (addModules) {
+                    if (Array.isArray(addModules)) {
+                      addModules.forEach(module => {
+                        if (module) javaCmd += ` --add-modules=${module}`;
+                      });
+                    } else if (typeof addModules === 'string' && addModules.trim()) {
+                      javaCmd += ` --add-modules=${addModules.trim()}`;
+                    }
+                  }
+                  
                   javaCmd += ` Main.java`;
 
                   // Use subshell to cd without showing the cd command
                   // stty -echo suppresses the command line echo, stty echo re-enables it
-                  const command = `(stty -echo; cd "${slidesTmpDir}" && ${javaCmd}; stty echo)\n`;
+                  const command = `cd "${slidesTmpDir}"\n${javaCmd}\n`;
                   log('info', 'Executing Java file in session from /tmp/slides', {
                     connectionId,
                     enablePreview,
@@ -558,7 +571,7 @@ function setupWebSocket(server) {
                 cwd,
                 preview: command.replace(/\n/g, ' ').slice(0, 100)
               });
-              const fullCommand = cwd ? `(stty -echo; cd "${cwd}" && ${command}; stty echo)\n` : `(stty -echo; ${command}; stty echo)\n`;
+              const fullCommand = cwd ? `(cd "${cwd}" && ${command})\n` : `${command}\n`;
               session.write(fullCommand);
             }
           }
