@@ -9,15 +9,15 @@ Build the slides:
 slides/launch.sh
 ```
 
-License
--------
-MIT License, see [LICENSE](LICENSE)
+Or view them online: https://parttimenerd.github.io/java26-is-boring
 
-
-
-
+Speakers
+--------
+- [Lutske de Leeuw](httpsgithub.com/Lutske)
+- [Johannes Bechberger](https://mostlynerdless.de)
 
 Resources
+---------
 - **Abstract:** [files/abstract.md](files/abstract.md) — Talk abstract and runbook for “Java 26 is boring”: an overview of JDK 26 changes (G1 throughput, AOT object caching with Any GC, HTTP/3, previews) and the proposed slide timing.
 - **Why Java Is Still Worth Learning:** [https://foojay.io/today/why-java-is-still-worth-learning-in-2025-a-developers-25-year-journey/](https://foojay.io/today/why-java-is-still-worth-learning-in-2025-a-developers-25-year-journey/) — Personal long-form essay arguing Java’s continuing value: stability, ecosystem, tooling, and career benefits.
 - **Why Java Still Makes Sense:** [https://jugbd.org/7-reasons-why-after-26-years-java-still-makes-sense/](https://jugbd.org/7-reasons-why-after-26-years-java-still-makes-sense/) — 7 reasons Java endures: community, platform maturity, tooling, and employment opportunities.
@@ -33,8 +33,7 @@ Resources
 - **Outdated Java:** [https://foojay.io/today/how-organizations-became-stuck-on-outdated-java-versions/](https://foojay.io/today/how-organizations-became-stuck-on-outdated-java-versions/) — Foojay article on why organizations stay on old Java versions (cost, management, compatibility) and how to move forward.
 - **AI Bores:** [https://www.marginalia.nu/log/a_132_ai_bores/](https://www.marginalia.nu/log/a_132_ai_bores/) — Short essay critiquing how AI tooling can make projects and discourse more derivative and less original.
 
-Johannes
-- look into OpenJDK slides (release cycle, LTS)
 
-Lutske
-- work on demos (improve + state sourrounding)
+License
+-------
+MIT License, see [LICENSE](LICENSE)
