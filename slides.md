@@ -287,7 +287,7 @@ Many platforms try to impress you<br/>with <OrangeText>✨shiny rewrites✨</Ora
 
 <div class="text-3xl mt-8 font-semibold text-center">
 
-Java took another path. Java optimizes for <OrangeText><u>trust</u></OrangeText>.
+Java took another path. Java optimizes for <OrangeText>trust</OrangeText>.
 
 </div>
 
@@ -403,14 +403,6 @@ The only new syntax:
 
 </v-click>
 
-<v-click>
-
-<div class="text-4xl mt-6 text-emerald">
-The ecosystem is the real innovator.
-</div>
-
-</v-click>
-
 <!--
 J: "Here's something people don't realize: the Java language itself hasn't changed that dramatically since Java 8."
 [click]
@@ -419,6 +411,46 @@ L: "Var is syntax sugar. Records are syntax sugar. Even switch expressions and p
 J: "The real improvements come from libraries, the JVM, and the ecosystem. You can write perfectly valid Java 8 style code and nobody on your team would notice."
 L: "And it would probably run on Java 26 just fine. That's backward compatibility in action."
 -->
+
+---
+layout: center
+---
+
+<div class="big-statement">
+
+The ecosystem is the <OrangeText>real</OrangeText> innovator.
+
+</div>
+
+---
+layout: center
+---
+
+# Today's talk
+
+<div class="text-left mt-12 ml-20 text-xl leading-relaxed">
+
+**Part 0: Introduction**
+
+**Part 1: How Old Is Your Code?**
+
+**Part 2: Java 26 — What's Inside**
+
+**Part 3: The Invisible GC Upgrade**
+
+**Part 4: Ahead of Time**
+
+**Part 5: HTTP/3 in the Standard Library**
+
+**Part 6: The Rise and Fall of Applets**
+
+**Part 7: Preview & Incubating**
+
+**Part 8: Who Is This Really For?**
+
+**Part 9: Java's Stability**
+
+</div>
 
 ---
 layout: image-left
@@ -1165,28 +1197,13 @@ L: "So why talk about it?"
 J: "Because it's the new HTTP standard and Java keeps pace."
 -->
 
-
 ---
-layout: image-left
-image: ./img/java-applet.png
+layout: center
 ---
 
-<div class="big-statement">
-
-RIP Applets
-
+<div class="max-w-md mx-auto">
+  <CroppedImage src="./img/java-applet.png"/>
 </div>
-
-<div class="text-3xl mt-4">1995 – 2026</div>
-
-<div class="text-gray-400 mt-8 text-lg">
-
-Introduced in Java 1.0. Deprecated in Java 9.<br/>
-Viewer removed in Java 11. API removed in Java 26.
-
-</div>
-
-<div class="text-gray-500 mt-4">31 years. It only took 9 to remove.</div>
 
 <!--
 Side note: it's how I created my first web applications in school.
@@ -1206,91 +1223,65 @@ J: "Nine years from deprecation to removal. That's how careful Java is."
 
 # The rise and fall of Java applets
 
-<svg viewBox="-30 0 1060 420" class="w-full" style="font-size: 1px;">
+<svg viewBox="-25 0 535 300" class="w-full" style="font-size: 1px;">
   <!-- Timeline spans 1995–2026 (31 years). X positions proportional to time -->
-  <!-- 1995→60  1997→118  2002→263  2015→641  2017→699  2026→960 -->
+  <!-- Compressed: 1995→15  2013→280  2017→335  2026→470 -->
 
   <!-- Main horizontal timeline line -->
-  <line x1="30" y1="210" x2="990" y2="210" stroke="#555" stroke-width="2" />
+  <line x1="15" y1="145" x2="470" y2="145" stroke="#555" stroke-width="1.3" />
 
   <!-- === 1995: Applets ship (BOTTOM) === -->
 <g>
-  <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="60" cy="210" r="4" fill="#00bcd4" />
-  <line x1="60" y1="224" x2="60" y2="290" stroke="#00bcd4" stroke-width="1.2" />
-  <circle cx="60" cy="290" r="2.5" fill="#00bcd4" />
-  <text x="60" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#00bcd4">1995</text>
-  <text x="60" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Applets ship 🎉</text>
-  <line x1="-10" y1="335" x2="130" y2="335" stroke="#00bcd4" stroke-width="2" />
+  <circle cx="15" cy="145" r="8" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="15" cy="145" r="5.5" fill="none" stroke="#666" stroke-width="0.5" />
+  <circle cx="15" cy="145" r="2" fill="#00bcd4" />
+  <line x1="15" y1="153" x2="15" y2="195" stroke="#00bcd4" stroke-width="0.8" />
+  <circle cx="15" cy="195" r="1.2" fill="#00bcd4" />
+  <text x="15" y="132" text-anchor="middle" style="font-size: 14px; font-weight: bold;" fill="#00bcd4">1995</text>
+  <text x="15" y="208" text-anchor="middle" style="font-size: 10px;" fill="white">Ships 🎉</text>
+  <line x1="-12" y1="220" x2="42" y2="220" stroke="#00bcd4" stroke-width="2" />
   </g>
 
-  <!-- === 1997: Sun sues (TOP) === -->
+  <!-- === 2013: Browsers drop (TOP) === -->
   <g v-click>
-  <circle cx="118" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="118" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="118" cy="210" r="4" fill="#ff9800" />
-  <line x1="118" y1="196" x2="118" y2="130" stroke="#ff9800" stroke-width="1.2" />
-  <circle cx="118" cy="130" r="2.5" fill="#ff9800" />
-  <text x="118" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ff9800">1997</text>
-  <text x="118" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Sun sues ⚖️</text>
-  <line x1="48" y1="96" x2="188" y2="96" stroke="#ff9800" stroke-width="2" />
-  </g>
-
-  <!-- === 2002: Antitrust (BOTTOM) === -->
-  <g v-click>
-  <circle cx="263" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="263" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="263" cy="210" r="4" fill="#e91e63" />
-  <line x1="263" y1="224" x2="263" y2="290" stroke="#e91e63" stroke-width="1.2" />
-  <circle cx="263" cy="290" r="2.5" fill="#e91e63" />
-  <text x="263" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#e91e63">2002</text>
-  <text x="263" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Antitrust 💰</text>
-  <line x1="193" y1="335" x2="333" y2="335" stroke="#e91e63" stroke-width="2" />
-  </g>
-
-  <!-- === 2013–17: Browsers drop (TOP) === -->
-  <g v-click>
-  <circle cx="641" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="641" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="641" cy="210" r="4" fill="#2196f3" />
-  <line x1="641" y1="196" x2="641" y2="130" stroke="#2196f3" stroke-width="1.2" />
-  <circle cx="641" cy="130" r="2.5" fill="#2196f3" />
-  <text x="641" y="243" text-anchor="middle" style="font-size: 24px; font-weight: bold;" fill="#2196f3">2013–17</text>
-  <text x="641" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Browsers drop 🔌</text>
-  <line x1="551" y1="96" x2="731" y2="96" stroke="#2196f3" stroke-width="2" />
+  <circle cx="280" cy="145" r="8" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="280" cy="145" r="5.5" fill="none" stroke="#666" stroke-width="0.5" />
+  <circle cx="280" cy="145" r="2" fill="#2196f3" />
+  <line x1="280" y1="137" x2="280" y2="100" stroke="#2196f3" stroke-width="0.8" />
+  <circle cx="280" cy="100" r="1.2" fill="#2196f3" />
+  <text x="280" y="161" text-anchor="middle" style="font-size: 13px; font-weight: bold;" fill="#2196f3">2013</text>
+  <text x="280" y="92" text-anchor="middle" style="font-size: 10px;" fill="white">Browsers drop support</text>
+  <line x1="218" y1="77" x2="342" y2="77" stroke="#2196f3" stroke-width="2" />
   </g>
 
   <!-- === 2017: Deprecated (BOTTOM) === -->
   <g v-click>
-  <circle cx="699" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="699" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="699" cy="210" r="4" fill="#607d8b" />
-  <line x1="699" y1="224" x2="699" y2="290" stroke="#607d8b" stroke-width="1.2" />
-  <circle cx="699" cy="290" r="2.5" fill="#607d8b" />
-  <text x="699" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#607d8b">2017</text>
-  <text x="699" y="315" text-anchor="middle" style="font-size: 18px;" fill="white">Deprecated ⚠️</text>
-  <line x1="629" y1="335" x2="769" y2="335" stroke="#607d8b" stroke-width="2" />
+  <circle cx="335" cy="145" r="8" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="335" cy="145" r="5.5" fill="none" stroke="#666" stroke-width="0.5" />
+  <circle cx="335" cy="145" r="2" fill="#607d8b" />
+  <line x1="335" y1="153" x2="335" y2="195" stroke="#607d8b" stroke-width="0.8" />
+  <circle cx="335" cy="195" r="1.2" fill="#607d8b" />
+  <text x="335" y="132" text-anchor="middle" style="font-size: 14px; font-weight: bold;" fill="#607d8b">2017</text>
+  <text x="335" y="208" text-anchor="middle" style="font-size: 10px;" fill="white">Deprecated ⚠️</text>
+  <line x1="293" y1="220" x2="377" y2="220" stroke="#607d8b" stroke-width="2" />
   </g>
 
   <!-- === 2026: Removed (TOP) === -->
   <g v-click>
-  <circle cx="960" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-  <circle cx="960" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-  <circle cx="960" cy="210" r="4" fill="#9e9e9e" />
-  <line x1="960" y1="196" x2="960" y2="130" stroke="#9e9e9e" stroke-width="1.2" />
-  <circle cx="960" cy="130" r="2.5" fill="#9e9e9e" />
-  <text x="960" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#9e9e9e">2026</text>
-  <text x="960" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">Removed 🪦</text>
-  <line x1="890" y1="96" x2="1010" y2="96" stroke="#9e9e9e" stroke-width="2" />
+  <circle cx="470" cy="145" r="8" fill="none" stroke="#666" stroke-width="0.8" />
+  <circle cx="470" cy="145" r="5.5" fill="none" stroke="#666" stroke-width="0.5" />
+  <circle cx="470" cy="145" r="2" fill="#9e9e9e" />
+  <line x1="470" y1="137" x2="470" y2="100" stroke="#9e9e9e" stroke-width="0.8" />
+  <circle cx="470" cy="100" r="1.2" fill="#9e9e9e" />
+  <text x="470" y="161" text-anchor="middle" style="font-size: 14px; font-weight: bold;" fill="#9e9e9e">2026</text>
+  <text x="470" y="92" text-anchor="middle" style="font-size: 10px;" fill="white">Removed 🪦</text>
+  <line x1="435" y1="77" x2="505" y2="77" stroke="#9e9e9e" stroke-width="2" />
   </g>
 </svg>
 
 <!--
 J: "The history of applets is wild. Let me speed-run through it."
 J: "1995. Java 1.0 ships with applets. For the first time, you could run real software in a browser. 3D, games, simulations."
-L: "1997. Sun sues Microsoft because Microsoft created their own modified JVM, added proprietary methods, and broke portability. Microsoft paid 20 million dollars."
-J: "2002. Sun sues again — antitrust this time. Microsoft ends up paying two billion dollars total in settlements."
 L: "2013 to 2017. Browsers phase out NPAPI. Chrome, Firefox, Safari — one by one they stopped. By 2017, applets couldn't run in any major browser."
 J: "2017. Java 9 officially deprecates the API. 2026 — Java 26 removes it. Chapter closed."
 L: "31 years from introduction to removal. And the most remarkable thing? Nobody noticed."
@@ -2147,8 +2138,7 @@ Your skills don't expire.
 
 <div class="text-xl mt-8">
 
-A developer who learned Java in 2005 writes modern Java today.<br/>
-Try saying that about your JavaScript framework.
+A developer who learned Java in 2005 writes modern Java today.
 
 </div>
 
@@ -2244,6 +2234,11 @@ add dog burning house meme
 
 ❌ **Simpler concurrency** — structured concurrency is still in preview (6th time!)
 
+
+❌ **Commas after last argument**
+
+❌ **No JSON built-in**
+
 </div>
 
 <v-click>
@@ -2297,7 +2292,7 @@ layout: statement
 layout: statement
 ---
 
-# <OrangeText>But has it been around longer than its competitors?</OrangeText><br/>
+# <OrangeText>Does it have a huge ecosystem?</OrangeText>
 # <RedText>Does it run almost everywhere? </RedText>Also yes.
 
 <!--
