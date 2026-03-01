@@ -390,6 +390,7 @@ The only new syntax:
 - `var`
 - `switch`/`instanceof`
 - `record`
+- text blocks
 
 </div>
 
