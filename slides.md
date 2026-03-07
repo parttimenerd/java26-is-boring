@@ -234,7 +234,7 @@ Blogger<br/>
 </div>
 
 <!--
-L: 
+L: ""
 J:
 -->
 
@@ -254,9 +254,7 @@ What Java version are you on?
 </div>
 
 <!--
-L: Quick show of hands. Who' on Java 28?
-L: Liars, it's not out there
-L: ...
+L: "Quick show of hands. Who' on Java 28? Liars, it's not out there Who's on 26, 25, 24, 17 11, 8, 5, below 5?"
 -->
 
 ---
@@ -280,13 +278,9 @@ Java took another path. Java optimizes for <OrangeText>trust</OrangeText>.
 </v-click>
 
 <!--
-All Lutske:
-L: "Most platforms compete on features. On new syntax. On what's shiny."
+L: "Most platforms chase shiny new syntax. Java optimizes for something rarer: trust."
 [click]
-J: "Java competes on something else entirely: trust."
-L: "Trust that your code will still compile. Trust that your upgrade won't become a migration project. Trust that the thing you built three years ago still works."
-J: "That's not a marketing pitch. That's 30 years of evidence."
-L: "So when people say Java is boring — they're accidentally paying it the highest compliment."
+"Trust that your code still compiles. Trust that an upgrade won't turn into a migration project. Trust that what you shipped three years ago still runs. That's thirty years of evidence, not marketing. So when someone calls Java boring, they're paying its biggest compliment."
 -->
 
 ---
@@ -363,13 +357,7 @@ That's it. Seriously.
 
 <!--
 Lutske:
-L: "And here's the thing — upgrading is embarrassingly simple."
-L: "One property in your pom."
-"That's it. Thanks to backward compatibility, most apps compile and run without changes."
-J: "No rewrite. No migration guide. Just bump the number.Boring and brilliant."
-
-
-J: most probably, but to talk to the OpenRewrite people :)
+L: "Upgrading is embarrassingly simple: one property in your pom or toolchain config. Backward compatibility means most apps compile and run without code changes. No rewrite, no migration guide — just bump the number. Boring and brilliant."
 -->
 
 ---
@@ -418,9 +406,12 @@ The ecosystem is the <OrangeText>real</OrangeText> innovator.
 </div>
 
 <!--
-Lutske
+Lutske:
+In the Java world, innovation rarely comes from the language alone. It comes from the ecosystem around it. Thousands of developers contribute through open source libraries, frameworks, and tools, constantly experimenting and building on top of the platform.
 
-Conferences, JUGs (like me own), good libraries
+But the ecosystem is more than just code. Java User Groups (JUGs), conferences, and community events play a huge role in spreading ideas. Developers share experiments, discuss new approaches, and learn from each other long before something becomes mainstream. Many ideas are tested in talks, meetups, and hallway conversations before they ever influence the platform itself.
+
+Because of this strong community, the Java ecosystem evolves continuously. The real innovation often happens in the community first, and only later finds its way into the language or the JDK.
 -->
 
 ---
@@ -467,12 +458,12 @@ Phones out. Highest score wins our eternal respect and a T-shirt.
 </div>
 
 <!--
-Lutske (Johannes had some free time ...)
+Lutske: Johannes had some free time 
 Johannes: switches the monitor
 
 
 L: "Alright, enough setup. Let's have some fun."
-J: "Time to find out how well you really know your Java history."
+"Time to find out how well you really know your Java history."
 
 L: "Alright, time for the fun part. Phones out!"
 J: "I built a quiz game for exactly this. You'll see a code snippet and you have to guess which Java version introduced it."
@@ -504,7 +495,7 @@ Let's play!
 [SWITCH TO BROWSER — run the quiz for approximately 10 minutes]
 
 J: runs the game, reads the code snippets aloud, gives hints
-L: provides color commentary and reacts to audience guesses
+L: "provides color commentary and reacts to audience guesses"
 
 After each question, add context:
 - Generics + wildcards: "2004! Java 5! That's 22 years ago and it still compiles perfectly on Java 26."
@@ -517,7 +508,7 @@ After each question, add context:
 - assert keyword: "Java 1.4. Nobody uses it in production."
 - Streams: "Java 8. Neil Madden rated them 1 out of 10 — calling them 'one of the largest blunders in modern Java.' Agree or disagree?"
 
-L: "Alright, let's see the final scores!"
+"Alright, let's see the final scores!"
 J: "Congratulations to our winner! You officially know your Java history."
 -->
 
@@ -558,9 +549,8 @@ layout: section
 </div>
 
 <!--
-L: "Let's talk about how Java ships."Because the release model is a big part of why boring works.
-L: "The release model is actually one of the most important things to understand about modern Java."
-L: "Because it explains why Java can innovate without breaking things."
+all Johannes:
+L: ""Let's talk about how Java ships."Because the release model is a big part of why boring works. The release model is actually one of the most important things to understand about modern Java. Because it explains why Java can innovate without breaking things."
 J: "Quick fun fact before we dive in: Java was originally designed for interactive television in 1991. It was too advanced for cable TV at the time."
 J: "It was called 'Oak' — named after a tree outside James Gosling's office. Then 'Green.' Then 'Java' — named after coffee from Indonesia."
 L: "Designed for TV, named after coffee, ended up running 95% of the Fortune 500. Let's look at the before and after."
@@ -666,8 +656,7 @@ layout: center
 <!--
 Johannes:
 
-L: "Neil Madden — a very opinionated blogger — rated every major Java feature over 26 years."
-L: "Modules got minus ten out of ten. And he questioned whether it has any benefit at all."
+L: "Neil Madden — a very opinionated blogger — rated every major Java feature over 26 years. Modules got minus ten out of ten. And he questioned whether it has any benefit at all."
 J: "Now, you can disagree with that rating. But the point is: modules delayed Java 9 by 18 months and broke a lot of build tooling. That's what happens when you try to ship something too big. And that experience led directly to the new model."
 -->
 
@@ -687,15 +676,9 @@ Features ship when they're ready — **the train doesn't wait**
 
 <!--
 Lutske:
-
-J: "In 2017, Oracle switched to a time-based cadence. A release every six months, like clockwork."
-L: "March and September. You can set your calendar."
-J: "Every 2 years, one of those becomes an LTS — Long-Term Support. Java 25 is the latest."
-L: "And the key insight: features ship when they're ready. If something isn't done, it waits for the next train. The release doesn't slip."
+L: "Oracle switched to a time-based cadence in 2017: a release every six months. March and September, like clockwork. Every two years one becomes an LTS — Java 25 is the latest. Features ship when ready; the train never slips for unfinished work."
 [click]
-J: "As Mark Reinhold put it: the goal is to keep Java competitive while maintaining compatibility and reliability."
-J: "And non-LTS releases like Java 26 matter too — they give you early access to final features and previews, so you don't have to wait years like the jump from Java 7 to 8."
-L: "No more 5-year gaps. No more 18-month delays. Just steady, boring, predictable progress."
+"Non-LTS releases like Java 26 still matter: early access to final and preview features without multi-year waits."
 -->
 
 ---
@@ -709,6 +692,7 @@ L: "No more 5-year gaps. No more 18-month delays. Just steady, boring, predictab
 
 <!--
 Lutske:
+L: "Mark Reinhold captured the goal: stay competitive while protecting compatibility and reliability. This mindset is why the release train works — progress without surprises."
 -->
 
 ---
@@ -742,7 +726,9 @@ th {
 </div>
 
 <!--
-Lutske: short overview, we'll explain it later
+Lutske: 
+
+short overview, we'll explain it later
 
 L: "Here's the full list. 10 JEPs."
 J: "Five final — these are done, production-ready, just upgrade and use them."
@@ -850,12 +836,7 @@ JEP 522: G1 GC: Improve Throughput
 
 <!--
 Lutske:
-
-L: "Let's start with my favourite kind of improvement."
-J: "The invisible one."
-L: "The one where I do literally nothing and my app gets faster."
-J: "The Garbage-First collector — G1 — has been the default garbage collector since Java 9 in 2017. Before that, it was the Parallel collector. Java also has ZGC since Java 11 and Shenandoah since Java 12 — but G1 is what most people use. So its performance is critical."
-L: "Ivan Walulya and Thomas Schatzl improved G1 by reducing synchronization between your app and the GC."
+L: "Invisible improvements are my favorite: do nothing and your app gets faster. G1 has been the default since Java 9; this JEP reduces synchronization between your app and the GC."
 -->
 
 ---
@@ -959,12 +940,9 @@ Lutske shouts in Boring
 Johannes: It's really it just works
 
 J: "AOT Object Caching is another invisible upgrade. Previously, this only worked with the default G1 collector. Now it works with any GC — ZGC, Shenandoah, Parallel, you name it."
-L: "So the app starts faster because Java remembers your app's startup work — and skips it next time."
-L: "The JVM caches frequently created objects from a training run. On subsequent starts, it loads pre-built objects instead of creating them from scratch."
+L: "So the app starts faster because Java remembers your app's startup work — and skips it next time. The JVM caches frequently created objects from a training run. On subsequent starts, it loads pre-built objects instead of creating them from scratch."
 J: "This is huge for microservices and containerized workloads where cold start time matters."
-L: "Faster cold starts, less memory churn at startup, and again — you don't change a single line of application code."
-L: "Just add a JVM flag."
-L: "Boring and brilliant, part two."
+L: "Faster cold starts, less memory churn at startup, and again — you don't change a single line of application code. Just add a JVM flag. Boring and brilliant, part two."
 -->
 
 ---
@@ -976,13 +954,8 @@ layout: section
 JEP 517: HTTP/3 for the HTTP Client API
 
 <!--
-Lutske: 
-
-L: "Next up: HTTP/3."
-J: "The latest version of the protocol that powers the web."
-L: "HTTP/3 is the successor to HTTP/2 and is built on QUIC — a modern transport protocol that runs over UDP with TLS 1.3 built in."
-J: "Faster connection setup. No head-of-line blocking. Better on unreliable networks."
-L: "But first — a quick analogy to make this concrete."
+Lutske:
+L: "Next up: HTTP/3 — the latest version of the web's protocol. It's built on QUIC over UDP with TLS 1.3 baked in. That means faster connection setup, no head-of-line blocking, and better behavior on unreliable networks."
 -->
 
 ---
@@ -1139,14 +1112,11 @@ layout: center
 
 <!--
 Lutske:
-
+L: "HTTP/1.1 was a single-lane road: one request, one response, wait."
 [click]
-L: "HTTP/1.1 is a single-lane road. One request, one response, wait, repeat."
+"HTTP/2 multiplexed like a multi-lane highway."
 [click]
-J: "HTTP/2 added multiplexing — multiple requests over one connection. A multi-lane highway."
-[click]
-L: "HTTP/3 threw out the road entirely. It's built on QUIC, which runs over UDP instead of TCP. Faster connection setup, no head-of-line blocking."
-J: "It literally flies."
+"HTTP/3 threw out the road entirely. Built on QUIC over UDP — faster setup, no head-of-line blocking. It basically flies."
 -->
 
 ---
@@ -1368,7 +1338,7 @@ The `java.applet` package and `JApplet` are now gone. 🪦
 <!--
 L: "For the younger people in the audience: this is what Java applets looked like."
 [show HTML]
-L: "You'd embed a Java class in an HTML tag. The browser would download and run it. Cross-platform, in 1995!"
+"You'd embed a Java class in an HTML tag. The browser would download and run it. Cross-platform, in 1995!"
 [click - show Java]
 J: "The Java code extended the Applet class. You had lifecycle methods — init, start, paint. The browser managed the whole thing."
 L: "People built chess engines, 3D protein viewers, Mandelbrot set visualizers. This was cutting edge."
@@ -1409,15 +1379,9 @@ This is the pattern. This is how <span class="text-emerald">boring</span> works.
 
 <!--
 Lutske:
-
-JOhannes: This is how boring works
-
-J: "The applet removal is a perfect case study of how Java handles breaking changes."
-J: "Signal early — the deprecation happened in Java 9, 2017. Remove slowly — nine years of warnings. Break nothing — by the time the API was removed, nobody was using it."
+L: "Applet removal shows the boring pattern: signal early, remove slowly, break nothing."
 [click]
-L: "This is the pattern. Signal, warn, remove. It's boring. And it's the reason you can trust Java upgrades."
-J: "Compare that to Python 2 to 3 — where the 'deprecation' broke the entire ecosystem for a decade."
-L: "Java does it differently. Java does it boringly."
+"This is the pattern: signal, warn, remove. Boring, and the reason you can trust upgrades. Compare that to the Python 2 to 3 leap that fractured the ecosystem for a decade."
 -->
 
 ---
@@ -1430,11 +1394,7 @@ The features that aren't ready yet — and that's okay
 
 <!--
 Lutske:
-
-J: "Now let's talk about preview and incubating features."
-L: "These require --enable-preview to use. They're not final yet."
-J: "And some of them have been 'not final' for a while."
-L: "A long while."
+L: "Preview and incubating features need --enable-preview. They're not final yet. Some have been in preview for a while — and that's okay. Stability beats rushing."
 -->
 
 ---
@@ -1481,12 +1441,7 @@ System.out.println(result);
 
 <!--
 Lutske:
-
-J: "Primitive patterns let you use pattern matching with int, long, double — the primitive types."
-L: "Before this, pattern matching only worked with reference types."
-J: "Now you can switch on an Object and match it against primitives directly. No more manual unboxing and casting."
-L: "Clean. Expressive."
-J: "Fourth preview, so it's getting close to final."
+L: "Primitive patterns bring pattern matching to int, long, double and friends. Previously it only worked with reference types; now you can match primitives directly without manual unboxing. It's the fourth preview, so it's getting close to final."
 -->
 
 ---
@@ -1571,14 +1526,9 @@ Less boilerplate. Fewer security mistakes. Standard API for TLS certs, SSH keys,
 
 <!--
 Lutske:
-
-J: "PEM Encodings — this one's easy to overlook but it closes a real gap."
-L: "PEM is the text format you see everywhere. TLS certificates, SSH keys, private keys."
-J: "Until now, Java had no standard way to read or write PEM. You'd manually parse Base64, add headers, handle encryption."
-L: "Dozens of lines of error-prone code."
+L: "PEM is the text format everywhere: TLS certs, SSH keys, PKCS#8. Java finally has a standard API to read and write PEM instead of hand-rolled Base64 parsing."
 [click]
-J: "Now it's two lines. Read the file. Decode it. Standard API."
-L: "Less boilerplate, fewer security mistakes. This is the kind of quality-of-life improvement that makes Java nicer to use."
+"Fewer lines, fewer security mistakes — a small but welcome quality-of-life fix."
 -->
 
 ---
@@ -1765,12 +1715,7 @@ try (var scope = StructuredTaskScope.open()) {
 
 <!--
 Lutske:
-
-J: "Structured concurrency groups concurrent tasks into a single unit. If one fails, the others get cancelled automatically."
-L: "Compare the old way on the left — manual executor, manual shutdown, manual error handling — with the structured version on the right."
-J: "Same result. But the new version can't leak threads, can't forget to handle errors, and it's a try-with-resources block so cleanup is automatic."
-L: "The syntax is still plain Java. Lambdas, try-with-resources, method calls. No new language concepts."
-J: "Just a better library."
+L: "Structured concurrency treats a group of tasks as one unit — if one fails, the rest are cancelled. On the left is the manual executor/shutdown/error handling; on the right the structured version handles cleanup automatically. Same syntax you know: lambdas, try-with-resources, method calls. Just a better library."
 -->
 
 ---
@@ -1884,8 +1829,8 @@ layout: center
 </div>
 
 <!--
-Lutske: first two 
-
+Lutske: You don't need these yet, they are preview for a reason
+[click]
 Johannes at the end: As a JDK developer especially the feedback is really important
 
 J: "Seriously — all of these require --enable-preview to use."
@@ -1937,22 +1882,7 @@ java --enable-preview MyApp
 </v-click>
 
 <!--
-Lutske:
-
-
-
-Johannes:
-Personal story:
-friend used string templates in production, then they were removed
-
-J: "Quick practical note: if you want to try any of these, here's how."
-[show javac/java]
-J: "Pass --enable-preview at compile and runtime."
-[click - show Maven]
-L: "In Maven, add it as a compiler argument."
-[click]
-J: "But remember: preview means preview. These APIs may change between releases. Don't ship them to production."
-L: "Use them in side projects, test suites, experiments. That's what they're for."
+L: "Preview features are for experimentation only. They can change or disappear. Use --enable-preview at compile and runtime, and add the flag to your build tool when you opt in. Share the cautionary tale: a friend shipped string templates early and had to rip them out when they changed."
 -->
 
 ---
@@ -2039,17 +1969,7 @@ L: "That's... actually brilliant."
  <div class="quote-attr">— Lutske and Johannes</div></div>
 
 <!--
-Lutske:
-
-L: "This is the key insight about Java's evolution."
-J: "The biggest changes — virtual threads, the foreign function API, the vector API — these are infrastructure. They're not for you. They're for the people who build the tools you rely on."
-L: "And that's perfectly fine. The best features are the ones you never have to learn."
-J: "You write the same code. Your libraries get better. That's boring working exactly as intended."
-
-J: "So when someone asks: why does Java keep adding features I'll never use?"
-L: "The answer is: you're not supposed to use them directly. You're supposed to benefit from them."
-J: "You focus on your actual application — not on following every language release like in Scala or Rust."
-L: "That's platform engineering. That's boring done right."
+L: "The big wins target library authors: virtual threads, FFI, vector API. When they get faster foundations, everyone's apps benefit — that's Java being proudly boring. The point isn't to use every new feature; it's to feel the improvements without changing your code."
 -->
 
 ---
@@ -2061,11 +1981,7 @@ layout: section
 Why boring is a competitive advantage
 
 <!--
-Lutske:
-L: "Let's zoom out. How does Java's approach compare to other platforms?"
-J: "Because 'boring' only means something in contrast to the alternative."
-L: "Now for some context. How does Java compare to the alternatives?"
-J: "Because 'boring' sounds like a criticism until you see what 'exciting' looks like."
+L: "Let's zoom out: how does Java's boring approach stack up against other platforms? Boring only matters relative to the alternatives."
 -->
 
 ---
@@ -2094,18 +2010,9 @@ Java's secret: change fast internally, break nothing externally.
 </v-click>
 
 <!--
-Lutske:
-
-J: "Rust ships every 6 weeks. That's fast, but each release is only supported for about 6 months."
-L: "Node has major releases every 6 months, but majors often bring breaking changes. Teams delay, and technical debt piles up."
-J: "Go has a fantastic compatibility promise — Go 1.0 code runs on Go 1.23. Very similar philosophy to Java."
-L: "And Scala — another JVM language — the Scala 2 to 3 migration broke libraries, split the ecosystem, and took years to resolve. Same VM, very different philosophy."
+L: "Rust ships every six weeks but each release is supported for only about six months. Node majors land every six months and often bring breaking changes. Go promises Go 1 compatibility — very similar philosophy to Java. Scala's 2-to-3 migration split the ecosystem for years; same VM, very different approach."
 [click]
-J: "Java's trick is: innovate fast internally — the JVM, the GC, the libraries — while breaking almost nothing externally."
-L: "You get the benefits of rapid development with the stability of a slow-moving language."
-
-
-also mention .net and python
+"Java's trick: innovate fast in the JVM, GC, and libraries while breaking almost nothing in user code. You get rapid evolution with the stability of a slow-moving language. .NET and Python sit somewhere in between."
 -->
 
 ---
@@ -2158,6 +2065,10 @@ L: "Try getting that level of vendor independence with any other platform."
   Oracle
 </ImageAttribution>
 
+<!--
+Johannes
+-->
+
 ---
 
 # Java by the numbers
@@ -2188,8 +2099,7 @@ L: "Try getting that level of vendor independence with any other platform."
 </div>
 
 <!--
-L: "Some numbers to put all of this in context."
-L: "95 percent of the Fortune 500 run Java. Over 35 billion JVMs running worldwide."
+L: "Some numbers to put all of this in context. 95 percent of the Fortune 500 run Java. Over 35 billion JVMs running worldwide."
 J: "Consistently in the top 3 of every programming language ranking, for thirty years. Not top 3 this year. Top 3 every year."
 L: "And 69 percent of Java developers are now on Java 17 or newer. The ecosystem IS moving."
 J: "These aren't hype numbers. These are enterprise reality."
@@ -2212,15 +2122,7 @@ A developer who learned Java in 2005 writes modern Java today.
 </div>
 
 <!--
-Lutske:
-
-L: "Here's what all these numbers really mean for you personally."
-J: "If you invested in Java ten years ago, that investment is still paying off. Your patterns still work. Your understanding of the JVM still applies. Your Spring experience is still relevant."
-L: "Markus Westergren — a 25-year Java developer — migrated the same codebase from Java 1.4 to 7 to 21 over nearly two decades. His skills didn't become obsolete. His code still compiles."
-J: "And your Java skills transfer beyond Java. Java influenced C#, Kotlin, Scala, Groovy — even JavaScript borrowed ideas."
-L: "Compare that to the JavaScript ecosystem where your framework might not exist next year. Or Python 2 to 3, where the migration broke the community for a decade."
-J: "In Java, your skills compound. They don't expire."
-L: "That's the real dividend of boring."
+L: "Here's what the numbers mean personally. If you invested in Java ten years ago, that investment still pays: your patterns, JVM knowledge, and Spring experience all transfer. Markus Westergren migrated the same codebase from Java 1.4 to 7 to 21 over two decades — skills compounding instead of expiring. Compare that to JavaScript framework churn or the Python 2 to 3 break. In Java, your skills compound. They don't expire."
 -->
 
 ---
@@ -2235,13 +2137,7 @@ Reliability compounds."
 </div>
 
 <!--
-Lutske:
-
-L: "I love this quote. Six words."
-J: "Says everything."
-L: "Every year there's a new hot framework, a new language, a new paradigm. And every year, Java is still there."
-J: "Running banks. Running airlines. Running 95 percent of the Fortune 500."
-L: "Because reliability compounds. Every year you don't have to rewrite something is a year you can spend building something new."
+L: "I love this quote: reliability compounds. Every year you don't rewrite is a year you spend building new value. That's why boring wins."
 -->
 
 ---
@@ -2338,14 +2234,9 @@ It's <span class="text-emerald">boring</span>.
 </v-click>
 
 <!--
-Lutske:
-
-L: "Okay. Honest moment. We've been praising Java for 40 minutes."
-J: "Let's talk about what's still missing."
-L: "String interpolation — Kotlin, Python, JavaScript all have it. Null safety — Kotlin solved this years ago. Concurrency is still hard."
+L: "Okay. Honest moment. We've been praising Java for 40 minutes. String interpolation, null-safety, easier concurrency — the gaps are real."
 [click]
-L: "Java is not perfect. We're not here to pretend it is."
-J: "But we are here to say: the process of improving Java is sound. These gaps will close. Just... boringly slowly."
+"Java isn't perfect, but the improvement process is sound. The gaps close slowly and predictably."
 -->
 
 ---
@@ -2355,7 +2246,7 @@ layout: statement
 # <OrangeText>Can Java be improved?</OrangeText> Yes.
 
 <!--
-Lutske:
+L: "Yes, Java can be improved. That's exactly why the steady release train exists."
 -->
 
 ---
@@ -2364,11 +2255,19 @@ layout: statement
 
 # <RedText>Are some existing features not the best?</RedText> Yes.
 
+<!--
+L:
+-->
+
 ---
 layout: statement
 ---
 
 # <BlueText>Does it miss features other languages have?</BlueText> Yes.
+
+<!--
+L:
+-->
 
 ---
 layout: statement
@@ -2432,10 +2331,7 @@ layout: section
 Boring and brilliant
 
 <!--
-Lutske:
-
-L: "Let's bring it home."
-J: "Three things to remember from today."
+L: "Let's bring it home. Three things to remember from today."
 -->
 
 ---
@@ -2477,14 +2373,12 @@ J: "Three things to remember from today."
 </div>
 
 <!--
-Lutske:
-
 [click]
-L: "First: upgrade. You get free performance. G1 GC, HTTP/3, AOT caching — just bump the version number."
+L: "First: upgrade. You get free performance — G1 GC, HTTP/3, AOT caching — just bump the version."
 [click]
-J: "Second: most new features are for library developers. You benefit when Netty, Spring, Lucene adopt them. You don't need to learn SIMD."
+"Second: most new features are for library developers; you benefit when frameworks adopt them."
 [click]
-L: "Third: the process itself is the product. Predictable releases. Safe previews. Backward compatibility."
+"Third: the process is the product — predictable releases, safe previews, backward compatibility."
 -->
 
 ---
@@ -2504,15 +2398,9 @@ For another 30 years of *boring* Java.
 </div>
 
 <!--
-Lutske:
+L: "Evolution over revolution kept Java alive for 30 years. Careful language design and runtime work should keep it relevant for much longer. No rewrites, no breaking changes — just steady, boring, predictable progress."
 
-J: "Evolution over revolution. That's what kept Java alive for 30 years.
-Careful language design and runtime development
-will hopefully keep it relevant for far longer.
-L: "This is really the thesis of everything we've said today."
-J: "No rewrites. No breaking changes. Just steady, boring, predictable progress."
-L: "The language evolves slowly. The runtime evolves quickly. And the libraries bridge the gap."
-J: "That's the formula. And it's worked for three decades."
+[explain the Italian flag reference]
 -->
 
 ---
