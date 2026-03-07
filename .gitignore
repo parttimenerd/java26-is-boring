@@ -13,3 +13,5 @@
 
 node_modules/
 .DS_Store
+game-secrets.env
+game-slide.secret.md

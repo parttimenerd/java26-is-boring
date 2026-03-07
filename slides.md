@@ -474,22 +474,8 @@ L: "Ready? Let's go!"
 -->
 
 ---
-layout: center
+src: ./game-slide.md
 ---
-
-<div class="text-6xl mb-8">🎮</div>
-
-<div class="big-statement">
-
-Let's play!
-
-</div>
-
-<div class="text-xl text-gray-400 mt-8">
-
-→ Switch to browser
-
-</div>
 
 <!--
 [SWITCH TO BROWSER — run the quiz for approximately 10 minutes]
@@ -2402,6 +2388,10 @@ L: "Evolution over revolution kept Java alive for 30 years. Careful language des
 
 [explain the Italian flag reference]
 -->
+
+---
+src: ./game-slide.md
+---
 
 ---
 layout: center

@@ -15,7 +15,7 @@ This talk offers strong learning value for a broad Java audience by clearly expl
 The session is accessible to mid-level and senior Java developers, particularly those responsible for maintaining and upgrading production systems. Its emphasis on incremental evolution and safe adoption makes it relevant to teams across different industries and project sizes.  
 From a program perspective, this talk provides a grounded, non-hype view of a new Java release, complementing deeper dives and more experimental sessions. It helps balance the schedule with a practical, production-focused Java talk that many attendees can directly relate to.
 
-45min talk for voxxed days Amsterdam
+60min talk for JavaZone
 
 ## 
 
