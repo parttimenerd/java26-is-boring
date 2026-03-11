@@ -422,13 +422,13 @@ layout: center
 
 <div class="text-left mt-12 ml-20 text-xl leading-relaxed">
 
-**Part 0 - 1: Introduction**
+**Introduction**
 
-**Part 2 - 7: Java 26 — What's Inside**
+**Java 26 — What's Inside**
 
-**Part 8: Who Is This Really For?**
+**Who Is This Really For?**
 
-**Part 9: Java's Stability**
+**Java's Stability**
 
 </div>
 
@@ -441,7 +441,7 @@ layout: image-left
 image: ./img/Duke_quizmaster.png
 ---
 
-# Part 1: How Old Is Your Code?
+# How Old Is Your Code?
 
 
 Guess the Java version!
@@ -526,7 +526,7 @@ layout: section
 <div class="absolute inset-0 flex flex-col items-center justify-between" style="background-image: url('./img/Duke_releasetrain.png'); background-size: cover; background-position: center;">
   <div class="flex-1"></div>
   <div class="text-center pb-12">
-    <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">Part 2: The Release Train</h1>
+    <h1 class="text-white drop-shadow-lg inline-block px-4 py-2 rounded" style="background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(8px);">The Release Train</h1>
   </div>
   <div class="absolute bottom-4 right-4 text-sm text-black">
     Based on <a href="https://www.youtube.com/watch?v=K40XrR67fas" class="text-black">https://www.youtube.com/watch?v=K40XrR67fas
@@ -816,7 +816,7 @@ J: "And existing libraries are already adapting. This is how Java evolves: signa
 layout: section
 ---
 
-# Part 3: The Invisible <br/> GC Upgrade
+# The Invisible <br/> GC Upgrade
 
 JEP 522: G1 GC: Improve Throughput
 
@@ -838,6 +838,12 @@ layout: center
 <div class="text-2xl text-gray-300 mt-6">
 
 more throughput. For free.
+
+<v-click>
+
+*According to the JEP 522.*
+
+</v-click>
 
 </div>
 
@@ -880,7 +886,7 @@ L: "That's boring working exactly as intended."
 layout: section
 ---
 
-# Part 4: Ahead of time
+# Ahead of time
 
 JEP 516: Ahead-of-Time Object Caching with Any GC
 
@@ -935,7 +941,7 @@ L: "Faster cold starts, less memory churn at startup, and again — you don't ch
 layout: section
 ---
 
-# Part 5: HTTP/3 in the Standard Library
+# HTTP/3 in the Standard Library
 
 JEP 517: HTTP/3 for the HTTP Client API
 
@@ -1374,7 +1380,7 @@ L: "Applet removal shows the boring pattern: signal early, remove slowly, break 
 layout: section
 ---
 
-# Part 7: Preview & Incubating Features
+# Preview & Incubating Features
 
 The features that aren't ready yet — and that's okay
 
@@ -1875,7 +1881,7 @@ L: "Preview features are for experimentation only. They can change or disappear.
 layout: section
 ---
 
-# Part 8: Who Is This Really For?
+# Who Is This Really For?
 
 Library developers — and why that matters to you
 
@@ -1952,7 +1958,7 @@ L: "That's... actually brilliant."
   <div class="quote-text">
     "Allowing library developers to write faster, better code means that anyone gets better foundations for their applications. So Java can be proud to be boring."
   </div>
- <div class="quote-attr">— Lutske and Johannes</div></div>
+</div>
 
 <!--
 L: "The big wins target library authors: virtual threads, FFI, vector API. When they get faster foundations, everyone's apps benefit — that's Java being proudly boring. The point isn't to use every new feature; it's to feel the improvements without changing your code."
@@ -1962,7 +1968,7 @@ L: "The big wins target library authors: virtual threads, FFI, vector API. When 
 layout: section
 ---
 
-# Part 9: Java's Stability
+# Java's Stability
 
 Why boring is a competitive advantage
 
@@ -2277,6 +2283,16 @@ J: "The honest answer isn't 'Java is the best.' It's 'Java is the most reliably 
 layout: center
 ---
 
+![](./img/java_wait.png)
+
+<ImageAttribution>https://www.chartoasis.com/downloading-and-installing-java-cop3/</ImageAttribution>
+
+<!-- do you remember the installer from around 2009? -->
+
+---
+layout: center
+---
+
 <div class="big-statement">
 
 Java 26 is <span class="text-emerald">boring</span> —<br/>except for the JVM.
@@ -2373,7 +2389,7 @@ layout: center
 
 <div class="big-statement">
 
-<span class="text-emerald">Evolution </span>over <RedText>revolution</RedText>
+<span class="text-emerald">Evolution </span>over <BlueText>revolution</BlueText>
 
 </div>
 
@@ -2386,7 +2402,6 @@ For another 30 years of *boring* Java.
 <!--
 L: "Evolution over revolution kept Java alive for 30 years. Careful language design and runtime work should keep it relevant for much longer. No rewrites, no breaking changes — just steady, boring, predictable progress."
 
-[explain the Italian flag reference]
 -->
 
 ---

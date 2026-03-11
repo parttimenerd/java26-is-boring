@@ -46,6 +46,11 @@ cleanup() {
     kill $TERMINAL_PID 2>/dev/null || true
     wait $TERMINAL_PID 2>/dev/null || true
   fi
+  # Restore public game slide if secret version was copied in
+  if [ "$GAME_SLIDE_SWAPPED" = true ]; then
+    echo "Restoring public game slide..."
+    git -C "$SCRIPT_DIR" checkout -- game-slide.md 2>/dev/null || true
+  fi
 }
 
 # Set up trap to cleanup on exit
@@ -77,6 +82,14 @@ if [ "$START_TERMINAL" = true ]; then
 else
   # Terminal server not started, mark as unavailable
   export VITE_TERMINAL_AVAILABLE="false"
+fi
+
+# Swap in secret game slide if available
+GAME_SLIDE_SWAPPED=false
+if [ -f "$SCRIPT_DIR/game-slide.secret.md" ]; then
+  echo "Swapping in secret game slide..."
+  cp "$SCRIPT_DIR/game-slide.secret.md" "$SCRIPT_DIR/game-slide.md"
+  GAME_SLIDE_SWAPPED=true
 fi
 
 # Launch Slidev

@@ -1,17 +1,8 @@
 ---
-layout: center
+layout: none
 ---
 
-<div class="text-6xl mb-8">🎮</div>
-
-<div class="big-statement">
-
-Let's play!
-
-</div>
-
-<div class="text-xl text-gray-400 mt-8">
-
-→ [mostlynerdless.de/java-game](https://mostlynerdless.de/java-game/)
-
-</div>
+<iframe
+  src="https://mostlynerdless.de/conference-game/presenter/view/1CX2LD?password=JavaIsAPanda&theme=dark"
+  style="width: 100%; height: 80vh; border: none; display: block; transform-origin: top left; margin-top: -0.2cm;"
+/>
