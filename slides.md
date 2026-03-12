@@ -127,11 +127,11 @@ const fallbackBoringSounds = [
   '/sounds/boring-2.wav',
   '/sounds/boring-3.wav'
 ]
-let cachedBoringSounds = null
-let loadBoringSoundsPromise = null
-let activeBoringAudio = null
-let boringPlaybackStarting = false
-let lastPlayedBoringSoundUrl = null
+const boringManifestRefreshMs = 15000
+let currentBoringSounds = [...fallbackBoringSounds]
+let manifestRefreshTimer = null
+let boringPlaybackQueue = []
+const activeBoringAudios = new Set()
 const boringLogPrefix = '[boring-sound]'
 
 function boringLog(level, message, details) {
@@ -142,19 +142,24 @@ function boringLog(level, message, details) {
   console[level](`${boringLogPrefix} ${message}`, details)
 }
 
-async function loadBoringSounds() {
-  if (cachedBoringSounds) {
-    boringLog('debug', 'Using cached boring sound list', { count: cachedBoringSounds.length })
-    return cachedBoringSounds
+function shuffleArray(items) {
+  const result = [...items]
+  for (let index = result.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1))
+    const currentValue = result[index]
+    result[index] = result[randomIndex]
+    result[randomIndex] = currentValue
   }
+  return result
+}
 
-  if (loadBoringSoundsPromise) {
-    boringLog('debug', 'Waiting for in-flight boring sound manifest load')
-    return loadBoringSoundsPromise
-  }
+async function refreshBoringSounds() {
+  boringLog('debug', 'Refreshing boring sound manifest', {
+    url: boringSoundManifestUrl,
+    intervalMs: boringManifestRefreshMs
+  })
 
-  boringLog('info', 'Loading boring sound manifest', { url: boringSoundManifestUrl })
-  loadBoringSoundsPromise = fetch(boringSoundManifestUrl, { cache: 'force-cache' })
+  return fetch(boringSoundManifestUrl, { cache: 'no-store' })
     .then((response) => {
       if (!response.ok) {
         throw new Error('Failed to load boring sound manifest')
@@ -167,28 +172,42 @@ async function loadBoringSounds() {
         .filter((file) => typeof file === 'string' && file.trim().length > 0)
         .map((file) => (file.startsWith('/') ? file : `/sounds/${file}`))
 
-      cachedBoringSounds = resolved.length > 0 ? [...new Set(resolved)] : [...fallbackBoringSounds]
+      currentBoringSounds = resolved.length > 0 ? [...new Set(resolved)] : [...fallbackBoringSounds]
+      boringPlaybackQueue = []
       boringLog('info', 'Resolved boring sound list', {
         fromManifest: resolved.length > 0,
-        count: cachedBoringSounds.length,
-        files: cachedBoringSounds
+        count: currentBoringSounds.length,
+        files: currentBoringSounds
       })
-      return cachedBoringSounds
+      return currentBoringSounds
     })
     .catch((error) => {
-      cachedBoringSounds = [...fallbackBoringSounds]
+      currentBoringSounds = currentBoringSounds.length > 0 ? currentBoringSounds : [...fallbackBoringSounds]
       boringLog('warn', 'Manifest load failed, using fallback boring sounds', {
         error: String(error),
-        count: cachedBoringSounds.length,
-        files: cachedBoringSounds
+        count: currentBoringSounds.length,
+        files: currentBoringSounds
       })
-      return cachedBoringSounds
+      return currentBoringSounds
     })
-    .finally(() => {
-      loadBoringSoundsPromise = null
-    })
+}
 
-  return loadBoringSoundsPromise
+function startBoringManifestRefresh() {
+  refreshBoringSounds()
+
+  if (manifestRefreshTimer) {
+    window.clearInterval(manifestRefreshTimer)
+  }
+
+  manifestRefreshTimer = window.setInterval(() => {
+    refreshBoringSounds()
+  }, boringManifestRefreshMs)
+}
+
+function stopBoringManifestRefresh() {
+  if (!manifestRefreshTimer) return
+  window.clearInterval(manifestRefreshTimer)
+  manifestRefreshTimer = null
 }
 
 function getCurrentSlideElement(event) {
@@ -247,46 +266,32 @@ function isIgnoredBoringContext(event) {
 }
 
 async function playRandomBoringSound() {
-  if (boringPlaybackStarting) {
-    boringLog('debug', 'Skipping play request: boring sound is still starting')
-    return
-  }
-  if (activeBoringAudio && !activeBoringAudio.paused && !activeBoringAudio.ended) {
-    boringLog('debug', 'Skipping play request: another boring sound is already playing')
-    return
-  }
-
-  boringPlaybackStarting = true
-
-  const boringSounds = await loadBoringSounds()
+  const boringSounds = currentBoringSounds
   if (boringSounds.length === 0) {
     boringLog('warn', 'No boring sounds available to play')
-    boringPlaybackStarting = false
     return
   }
 
-  const candidatePool =
-    boringSounds.length > 1 && lastPlayedBoringSoundUrl
-      ? boringSounds.filter((url) => url !== lastPlayedBoringSoundUrl)
-      : [...boringSounds]
+  if (boringPlaybackQueue.length === 0) {
+    boringPlaybackQueue = shuffleArray(boringSounds)
+    boringLog('debug', 'Started new randomized boring sound cycle', {
+      cycleLength: boringPlaybackQueue.length,
+      queue: boringPlaybackQueue
+    })
+  }
 
-  const randomStartIndex = Math.floor(Math.random() * candidatePool.length)
-  const shuffledSounds = [
-    ...candidatePool.slice(randomStartIndex),
-    ...candidatePool.slice(0, randomStartIndex)
-  ]
+  const selectedSound = boringPlaybackQueue.shift()
+  const shuffledSounds = [selectedSound, ...boringPlaybackQueue]
 
-  boringLog('debug', 'Random boring sound selected for this Enter', {
+  boringLog('debug', 'Selected next boring sound from randomized cycle', {
     selected: shuffledSounds[0],
-    lastPlayed: lastPlayedBoringSoundUrl,
-    randomStartIndex,
-    totalCandidates: shuffledSounds.length
+    remainingInCycle: boringPlaybackQueue.length,
+    totalCandidatesThisAttempt: shuffledSounds.length
   })
 
   const tryPlayAtIndex = (index) => {
     if (index >= shuffledSounds.length) {
       boringLog('warn', 'Exhausted boring sounds without successful playback')
-      boringPlaybackStarting = false
       return
     }
 
@@ -298,22 +303,19 @@ async function playRandomBoringSound() {
     audio
       .play()
       .then(() => {
-        activeBoringAudio = audio
-        lastPlayedBoringSoundUrl = url
-        boringPlaybackStarting = false
+        activeBoringAudios.add(audio)
+        if (index > 0) {
+          boringPlaybackQueue = boringPlaybackQueue.filter((queuedUrl) => queuedUrl !== url)
+        }
         boringLog('info', 'Playing boring sound', { url })
 
         audio.addEventListener('ended', () => {
-          if (activeBoringAudio === audio) {
-            activeBoringAudio = null
-          }
+          activeBoringAudios.delete(audio)
           boringLog('debug', 'Boring sound ended', { url })
         }, { once: true })
 
         audio.addEventListener('error', () => {
-          if (activeBoringAudio === audio) {
-            activeBoringAudio = null
-          }
+          activeBoringAudios.delete(audio)
           boringLog('warn', 'Boring sound emitted error while playing', { url })
         }, { once: true })
       })
@@ -322,11 +324,12 @@ async function playRandomBoringSound() {
           url,
           error: String(error)
         })
-        if (cachedBoringSounds) {
-          cachedBoringSounds = cachedBoringSounds.filter((cachedUrl) => cachedUrl !== url)
+        if (currentBoringSounds) {
+          currentBoringSounds = currentBoringSounds.filter((cachedUrl) => cachedUrl !== url)
+          boringPlaybackQueue = boringPlaybackQueue.filter((queuedUrl) => queuedUrl !== url)
           boringLog('debug', 'Removed failing boring sound from cache', {
             removed: url,
-            remaining: cachedBoringSounds.length
+            remaining: currentBoringSounds.length
           })
         }
         tryPlayAtIndex(index + 1)
@@ -379,13 +382,17 @@ onMounted(() => {
 
   boringLog('info', 'Boring sound feature initialized', {
     enabled: boringFeatureEnabled,
-    manifestUrl: boringSoundManifestUrl
+    manifestUrl: boringSoundManifestUrl,
+    manifestRefreshMs: boringManifestRefreshMs
   })
+
+  startBoringManifestRefresh()
 
   window.addEventListener('keydown', handleBoringEnter)
 })
 
 onUnmounted(() => {
+  stopBoringManifestRefresh()
   window.removeEventListener('keydown', handleBoringEnter)
 })
 </script>
