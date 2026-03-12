@@ -116,13 +116,277 @@ div.container {
 </style>
 
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
+
+const boringFeatureEnabled = import.meta.env.VITE_BORING_ENABLED === 'true'
+const boringSoundManifestUrl = '/sounds/manifest.json'
+const fallbackBoringSounds = [
+  '/sounds/quebec.opus',
+  '/sounds/quebec1.opus',
+  '/sounds/boring-1.wav',
+  '/sounds/boring-2.wav',
+  '/sounds/boring-3.wav'
+]
+let cachedBoringSounds = null
+let loadBoringSoundsPromise = null
+let activeBoringAudio = null
+let boringPlaybackStarting = false
+let lastPlayedBoringSoundUrl = null
+const boringLogPrefix = '[boring-sound]'
+
+function boringLog(level, message, details) {
+  if (details === undefined) {
+    console[level](`${boringLogPrefix} ${message}`)
+    return
+  }
+  console[level](`${boringLogPrefix} ${message}`, details)
+}
+
+async function loadBoringSounds() {
+  if (cachedBoringSounds) {
+    boringLog('debug', 'Using cached boring sound list', { count: cachedBoringSounds.length })
+    return cachedBoringSounds
+  }
+
+  if (loadBoringSoundsPromise) {
+    boringLog('debug', 'Waiting for in-flight boring sound manifest load')
+    return loadBoringSoundsPromise
+  }
+
+  boringLog('info', 'Loading boring sound manifest', { url: boringSoundManifestUrl })
+  loadBoringSoundsPromise = fetch(boringSoundManifestUrl, { cache: 'force-cache' })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Failed to load boring sound manifest')
+      }
+      return response.json()
+    })
+    .then((manifest) => {
+      const files = Array.isArray(manifest?.files) ? manifest.files : []
+      const resolved = files
+        .filter((file) => typeof file === 'string' && file.trim().length > 0)
+        .map((file) => (file.startsWith('/') ? file : `/sounds/${file}`))
+
+      cachedBoringSounds = resolved.length > 0 ? [...new Set(resolved)] : [...fallbackBoringSounds]
+      boringLog('info', 'Resolved boring sound list', {
+        fromManifest: resolved.length > 0,
+        count: cachedBoringSounds.length,
+        files: cachedBoringSounds
+      })
+      return cachedBoringSounds
+    })
+    .catch((error) => {
+      cachedBoringSounds = [...fallbackBoringSounds]
+      boringLog('warn', 'Manifest load failed, using fallback boring sounds', {
+        error: String(error),
+        count: cachedBoringSounds.length,
+        files: cachedBoringSounds
+      })
+      return cachedBoringSounds
+    })
+    .finally(() => {
+      loadBoringSoundsPromise = null
+    })
+
+  return loadBoringSoundsPromise
+}
+
+function getCurrentSlideElement(event) {
+  const target = event?.target
+
+  if (target instanceof HTMLElement) {
+    const closestSlide = target.closest('.slidev-page, .slidev-layout')
+    if (closestSlide) {
+      return closestSlide
+    }
+  }
+
+  return document.querySelector('.slidev-page.slidev-page-current, .slidev-page, .slidev-layout')
+}
+
+function isNonBoringSlide(event) {
+  const slideElement = getCurrentSlideElement(event)
+  if (!slideElement) return false
+
+  return (
+    slideElement.classList.contains('non-boring') ||
+    slideElement.classList.contains('no-boring') ||
+    slideElement.dataset.nonBoring === 'true' ||
+    slideElement.getAttribute('data-boring') === 'false'
+  )
+}
+
+function isIgnoredBoringContext(event) {
+  if (window.__terminalIsOpen === true) {
+    return true
+  }
+
+  const activeElement = document.activeElement
+  const target = event?.target
+
+  if (activeElement?.tagName === 'IFRAME') {
+    return true
+  }
+
+  const ignoreSelector = '.modal-overlay, .modal-container, .code-runner, .cm-editor, .terminal-container, [role="dialog"]'
+  const inputSelector = 'input, textarea, select, [contenteditable="true"]'
+
+  if (target instanceof HTMLElement) {
+    if (target.closest(ignoreSelector) || target.closest(inputSelector)) {
+      return true
+    }
+  }
+
+  if (activeElement instanceof HTMLElement) {
+    if (activeElement.closest(ignoreSelector) || activeElement.closest(inputSelector)) {
+      return true
+    }
+  }
+
+  return false
+}
+
+async function playRandomBoringSound() {
+  if (boringPlaybackStarting) {
+    boringLog('debug', 'Skipping play request: boring sound is still starting')
+    return
+  }
+  if (activeBoringAudio && !activeBoringAudio.paused && !activeBoringAudio.ended) {
+    boringLog('debug', 'Skipping play request: another boring sound is already playing')
+    return
+  }
+
+  boringPlaybackStarting = true
+
+  const boringSounds = await loadBoringSounds()
+  if (boringSounds.length === 0) {
+    boringLog('warn', 'No boring sounds available to play')
+    boringPlaybackStarting = false
+    return
+  }
+
+  const candidatePool =
+    boringSounds.length > 1 && lastPlayedBoringSoundUrl
+      ? boringSounds.filter((url) => url !== lastPlayedBoringSoundUrl)
+      : [...boringSounds]
+
+  const randomStartIndex = Math.floor(Math.random() * candidatePool.length)
+  const shuffledSounds = [
+    ...candidatePool.slice(randomStartIndex),
+    ...candidatePool.slice(0, randomStartIndex)
+  ]
+
+  boringLog('debug', 'Random boring sound selected for this Enter', {
+    selected: shuffledSounds[0],
+    lastPlayed: lastPlayedBoringSoundUrl,
+    randomStartIndex,
+    totalCandidates: shuffledSounds.length
+  })
+
+  const tryPlayAtIndex = (index) => {
+    if (index >= shuffledSounds.length) {
+      boringLog('warn', 'Exhausted boring sounds without successful playback')
+      boringPlaybackStarting = false
+      return
+    }
+
+    const url = shuffledSounds[index]
+    boringLog('debug', 'Attempting to play boring sound', { index, url })
+
+    const audio = new Audio(url)
+    audio.volume = 0.55
+    audio
+      .play()
+      .then(() => {
+        activeBoringAudio = audio
+        lastPlayedBoringSoundUrl = url
+        boringPlaybackStarting = false
+        boringLog('info', 'Playing boring sound', { url })
+
+        audio.addEventListener('ended', () => {
+          if (activeBoringAudio === audio) {
+            activeBoringAudio = null
+          }
+          boringLog('debug', 'Boring sound ended', { url })
+        }, { once: true })
+
+        audio.addEventListener('error', () => {
+          if (activeBoringAudio === audio) {
+            activeBoringAudio = null
+          }
+          boringLog('warn', 'Boring sound emitted error while playing', { url })
+        }, { once: true })
+      })
+      .catch((error) => {
+        boringLog('warn', 'Failed to play boring sound candidate', {
+          url,
+          error: String(error)
+        })
+        if (cachedBoringSounds) {
+          cachedBoringSounds = cachedBoringSounds.filter((cachedUrl) => cachedUrl !== url)
+          boringLog('debug', 'Removed failing boring sound from cache', {
+            removed: url,
+            remaining: cachedBoringSounds.length
+          })
+        }
+        tryPlayAtIndex(index + 1)
+      })
+  }
+
+  tryPlayAtIndex(0)
+}
+
+function handleBoringEnter(event) {
+  if (!boringFeatureEnabled) return
+
+  if (event.key !== 'Enter') return
+
+  if (event.defaultPrevented) {
+    boringLog('debug', 'Ignoring Enter: default already prevented')
+    return
+  }
+  if (event.repeat) {
+    boringLog('debug', 'Ignoring Enter: key repeat')
+    return
+  }
+  if (event.ctrlKey || event.metaKey || event.altKey) {
+    boringLog('debug', 'Ignoring Enter: modifier key pressed', {
+      ctrl: event.ctrlKey,
+      meta: event.metaKey,
+      alt: event.altKey
+    })
+    return
+  }
+  if (isIgnoredBoringContext(event)) {
+    boringLog('debug', 'Ignoring Enter: ignored focus context')
+    return
+  }
+  if (isNonBoringSlide(event)) {
+    boringLog('debug', 'Ignoring Enter: slide marked non-boring')
+    return
+  }
+
+  boringLog('debug', 'Enter accepted: triggering boring sound playback')
+
+  playRandomBoringSound()
+}
 
 onMounted(() => {
   // Set code editor font sizes globally
   // Change these values to customize code display across all slides
   const rootElement = document.documentElement
   rootElement.style.setProperty('--code-font-size-px', '14px')
+
+  boringLog('info', 'Boring sound feature initialized', {
+    enabled: boringFeatureEnabled,
+    manifestUrl: boringSoundManifestUrl
+  })
+
+  window.addEventListener('keydown', handleBoringEnter)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleBoringEnter)
 })
 </script>
 

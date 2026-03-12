@@ -6,6 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TERMINAL_PORT=3031
 SLIDEV_PORT=3032
 START_TERMINAL=false
+ENABLE_BORING=false
 TERMINAL_PID=""
 
 # Parse arguments first to determine if terminal is needed
@@ -13,6 +14,10 @@ while [[ $# -gt 0 ]]; do
   case $1 in
     --terminal)
       START_TERMINAL=true
+      shift
+      ;;
+    --boring)
+      ENABLE_BORING=true
       shift
       ;;
     --port)
@@ -84,6 +89,13 @@ else
   export VITE_TERMINAL_AVAILABLE="false"
 fi
 
+# Enable optional boring mode in Slidev runtime
+if [ "$ENABLE_BORING" = true ]; then
+  export VITE_BORING_ENABLED="true"
+else
+  export VITE_BORING_ENABLED="false"
+fi
+
 # Swap in secret game slide if available
 GAME_SLIDE_SWAPPED=false
 if [ -f "$SCRIPT_DIR/game-slide.secret.md" ]; then
@@ -94,5 +106,10 @@ fi
 
 # Launch Slidev
 cd "$SCRIPT_DIR"
+
+# Always regenerate sound manifest before starting Slidev
+echo "Generating sound manifest..."
+npm run generate:sound-manifest
+
 echo "Starting Slidev on port $SLIDEV_PORT..."
 npx slidev slides.md --port $SLIDEV_PORT

@@ -4,10 +4,11 @@
   "description": "Java 26 is boring - Slidev Presentation",
   "type": "module",
   "scripts": {
-    "dev": "slidev slides.md --open --port 3032",
-    "build": "slidev build slides.md",
-    "build:gh-pages": "slidev build slides.md --base /java26-is-boring/",
-    "export": "slidev export slides.md"
+    "generate:sound-manifest": "node scripts/generate-sound-manifest.mjs",
+    "dev": "npm run generate:sound-manifest && slidev slides.md --open --port 3032",
+    "build": "npm run generate:sound-manifest && slidev build slides.md",
+    "build:gh-pages": "npm run generate:sound-manifest && slidev build slides.md --base /java26-is-boring/",
+    "export": "npm run generate:sound-manifest && slidev export slides.md"
   },
   "dependencies": {
     "@codemirror/lang-java": "^6.0.1",
