@@ -132,6 +132,9 @@ let currentBoringSounds = [...fallbackBoringSounds]
 let manifestRefreshTimer = null
 let boringPlaybackQueue = []
 const activeBoringAudios = new Set()
+let boringAudioContext = null
+let boringCompressorNode = null
+let boringOutputGainNode = null
 const boringLogPrefix = '[boring-sound]'
 
 function boringLog(level, message, details) {
@@ -151,6 +154,51 @@ function shuffleArray(items) {
     result[randomIndex] = currentValue
   }
   return result
+}
+
+async function ensureBoringAudioChain() {
+  if (!window.AudioContext && !window.webkitAudioContext) {
+    return null
+  }
+
+  if (!boringAudioContext) {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext
+    boringAudioContext = new AudioContextClass()
+
+    boringCompressorNode = boringAudioContext.createDynamicsCompressor()
+    boringCompressorNode.threshold.value = -24
+    boringCompressorNode.knee.value = 20
+    boringCompressorNode.ratio.value = 8
+    boringCompressorNode.attack.value = 0.01
+    boringCompressorNode.release.value = 0.25
+
+    boringOutputGainNode = boringAudioContext.createGain()
+    boringOutputGainNode.gain.value = 0.95
+
+    boringCompressorNode.connect(boringOutputGainNode)
+    boringOutputGainNode.connect(boringAudioContext.destination)
+
+    boringLog('info', 'Initialized boring audio normalization chain')
+  }
+
+  if (boringAudioContext.state === 'suspended') {
+    await boringAudioContext.resume()
+    boringLog('debug', 'Resumed boring audio context')
+  }
+
+  return boringAudioContext
+}
+
+async function connectAudioToNormalizationChain(audio, url) {
+  const context = await ensureBoringAudioChain()
+  if (!context || !boringCompressorNode) {
+    boringLog('debug', 'Web Audio normalization unavailable, using element volume only', { url })
+    return null
+  }
+
+  const sourceNode = context.createMediaElementSource(audio)
+  sourceNode.connect(boringCompressorNode)
+  return sourceNode
 }
 
 async function refreshBoringSounds() {
@@ -299,9 +347,14 @@ async function playRandomBoringSound() {
     boringLog('debug', 'Attempting to play boring sound', { index, url })
 
     const audio = new Audio(url)
-    audio.volume = 0.55
-    audio
-      .play()
+    audio.volume = 1
+    let mediaSourceNode = null
+
+    connectAudioToNormalizationChain(audio, url)
+      .then((sourceNode) => {
+        mediaSourceNode = sourceNode
+        return audio.play()
+      })
       .then(() => {
         activeBoringAudios.add(audio)
         if (index > 0) {
@@ -311,11 +364,27 @@ async function playRandomBoringSound() {
 
         audio.addEventListener('ended', () => {
           activeBoringAudios.delete(audio)
+          if (mediaSourceNode) {
+            try {
+              mediaSourceNode.disconnect()
+            } catch {}
+            mediaSourceNode = null
+          }
+          try {
+            audio.pause()
+            audio.src = ''
+          } catch {}
           boringLog('debug', 'Boring sound ended', { url })
         }, { once: true })
 
         audio.addEventListener('error', () => {
           activeBoringAudios.delete(audio)
+          if (mediaSourceNode) {
+            try {
+              mediaSourceNode.disconnect()
+            } catch {}
+            mediaSourceNode = null
+          }
           boringLog('warn', 'Boring sound emitted error while playing', { url })
         }, { once: true })
       })
@@ -428,9 +497,7 @@ J: "Let's have some fun."
 
 <!--
 J: quote
-L: "We're going to spend the next 45 minutes arguing that boring is a compliment."
-
-J: "Boring like the thing you build your career on."
+L: "We're going to spend the next 45 minutes arguing that boring is a compliment. Boring like the thing you build your career on."
 -->
 
 ---
@@ -582,14 +649,15 @@ Boring by design, since 1995
 
 <!--
 all Johannes:
-J: "Boring wasn't an accident. These are the five original design goals from 1995."
-L: "Simple, object-oriented, and familiar. Not 'revolutionary.' Not 'paradigm-shifting.' Familiar."
-J: "Robust and secure. Not 'fast to prototype.' Robust."
-L: "Architecture-neutral and portable. Write once, run anywhere — that was the promise from day one."
-J: "High performance — though early Java was actually quite slow. JIT compilation in 1997 changed everything."
-L: "Interpreted, threaded, and dynamic."
-J: "Notice what's NOT on the list? 'Exciting.' 'Trendy.' 'Disruptive.'"
-L: "Java was designed to be boring. And the trust we just talked about? It was baked in from day one."
+
+If you didn't know it, Java had five original design goals, set out in 1995:
+
+...
+
+"Boring wasn't an accident.
+"Simple, object-oriented, and familiar. Not 'revolutionary.' Not 'paradigm-shifting.' Familiar."
+"High performance — though early Java was actually quite slow. JIT compilation in 1997 changed everything."
+"Java was designed to be boring. And the trust we just talked about? It was baked in from day one."
 -->
 
 ---
@@ -637,7 +705,7 @@ layout: center
 
 <div class="big-statement">
 
-You can write Java 8 code<br/>and nobody will notice.
+You can write Java 8 code<br/>and <RedText>nobody</RedText> will notice.
 
 </div>
 
@@ -658,12 +726,13 @@ The only new syntax:
 <!--
 all Johannes:
 
-J: "Here's something people don't realize: the Java language itself hasn't changed that dramatically since Java 8."
+"Here's something people don't realize: the Java language itself hasn't changed that dramatically since Java 8."
 [click]
-L: "Var is syntax sugar. Records are syntax sugar. Even switch expressions and pattern matching are just evolutions of existing syntax. And hey, we did some research: most of your code doesn't use these new features anyway."
-[click]
-J: "The real improvements come from libraries, the JVM, and the ecosystem. You can write perfectly valid Java 8 style code and nobody on your team would notice."
-L: "And it would probably run on Java 26 just fine. That's backward compatibility in action."
+Syntax sugar
+
+"Var is syntax sugar. Records are syntax sugar. Even switch expressions and pattern matching are just evolutions of existing syntax. And hey, we did some research: most of your code doesn't use these new features anyway."
+
+One could argue most Java releases after Java 8 are boring
 -->
 
 ---
@@ -725,7 +794,7 @@ mostlynerdless.de/java-game/
 
 <div class="text-lg text-gray-400 mt-6">
 
-Phones out. Highest score wins our eternal respect and a T-shirt.
+Phones out. Highest score wins our eternal respect and a t-shirt.
 </div>
 
 <!--
@@ -735,13 +804,6 @@ Johannes: switches the monitor
 
 L: "Alright, enough setup. Let's have some fun."
 "Time to find out how well you really know your Java history."
-
-L: "Alright, time for the fun part. Phones out!"
-J: "I built a quiz game for exactly this. You'll see a code snippet and you have to guess which Java version introduced it."
-L: "It's competitive. Highest score wins bragging rights."
-J: "Go to the URL on screen. We'll give you a moment to load it up."
-[wait for audience]
-L: "Ready? Let's go!"
 -->
 
 ---
@@ -807,10 +869,12 @@ layout: section
 
 <!--
 all Johannes:
-L: ""Let's talk about how Java ships."Because the release model is a big part of why boring works. The release model is actually one of the most important things to understand about modern Java. Because it explains why Java can innovate without breaking things."
-J: "Quick fun fact before we dive in: Java was originally designed for interactive television in 1991. It was too advanced for cable TV at the time."
-J: "It was called 'Oak' — named after a tree outside James Gosling's office. Then 'Green.' Then 'Java' — named after coffee from Indonesia."
-L: "Designed for TV, named after coffee, ended up running 95% of the Fortune 500. Let's look at the before and after."
+
+"In the early 1990s, Java was initially developed by James Gosling and his team at Sun Microsystems for a project called “Green Project.” The goal was to create a platform-independent language for consumer electronic devices like interactive TVs, VCRs, and set-top boxes.
+
+However, they realized that the television market wasn’t quite ready for such advanced software. The team then shifted their focus to the burgeoning internet era, where Java found its true calling as a language for web applications. Its “write once, run anywhere” capability became one of its defining features, revolutionizing web development.
+
+"Designed for TV, named after coffee, ended up running 95% of the Fortune 500. Let's look at the before and after."
 -->
 
 ---
@@ -2609,6 +2673,17 @@ L: "Let's bring it home. Three things to remember from today."
 
 ---
 
+Like the awesome voice talent:
+
+- Mikael Francoeur
+- Kirk Pepperdine
+- Pasha Finkelshteyn
+- Sandra Parsick
+- Ivar Grimstad
+- François Martin
+
+---
+
 # Key takeaways
 
 <div class="flex flex-col justify-center h-full gap-7 px-8">
@@ -2674,10 +2749,6 @@ For another 30 years of *boring* Java.
 L: "Evolution over revolution kept Java alive for 30 years. Careful language design and runtime work should keep it relevant for much longer. No rewrites, no breaking changes — just steady, boring, predictable progress."
 
 -->
-
----
-src: ./game-slide.md
----
 
 ---
 layout: center

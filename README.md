@@ -9,15 +9,6 @@ Build the slides:
 slides/launch.sh
 ```
 
-Optional flags:
-
-```bash
-./launch.sh --boring            # Play random boring sounds on Enter
-./launch.sh --terminal --boring # Terminal demos + boring mode
-```
-
-To skip boring sounds on a slide, mark it with `class: non-boring` in slide frontmatter.
-
 Or view them online: https://parttimenerd.github.io/java26-is-boring
 
 Speakers

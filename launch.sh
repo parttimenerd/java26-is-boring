@@ -109,7 +109,7 @@ cd "$SCRIPT_DIR"
 
 # Always regenerate sound manifest before starting Slidev
 echo "Generating sound manifest..."
-npm run generate:sound-manifest
+node "$SCRIPT_DIR/scripts/generate-sound-manifest.mjs"
 
 echo "Starting Slidev on port $SLIDEV_PORT..."
 npx slidev slides.md --port $SLIDEV_PORT
