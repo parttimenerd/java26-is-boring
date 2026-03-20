@@ -487,20 +487,6 @@ J: "Let's have some fun."
 -->
 
 ---
-
-<div class="quote-slide">
-  <div class="quote-text">
-    "You can call Java old. You can call it boring. But while others are chasing hype, reinventing their tech stack every six months, or praying ChatGPT won’t take their job — Java developers are out here building systems that actually run the world. "
-  </div>
-  <div class="quote-attr">— Andrii Piatakha</div>
-</div>
-
-<!--
-J: quote
-L: "We're going to spend the next 45 minutes arguing that boring is a compliment. Boring like the thing you build your career on."
--->
-
----
 layout: center
 ---
 
@@ -513,10 +499,6 @@ layout: center
 Predictable. No surprises. Works at 3 AM.
 
 </div>
-
-</v-click>
-
-<v-click>
 
 <div class="text-xl text-gray-400 mt-4">
 
@@ -752,28 +734,11 @@ In the Java world, innovation rarely comes from the language alone. It comes fro
 But the ecosystem is more than just code. Java User Groups (JUGs), conferences, and community events play a huge role in spreading ideas. Developers share experiments, discuss new approaches, and learn from each other long before something becomes mainstream. Many ideas are tested in talks, meetups, and hallway conversations before they ever influence the platform itself.
 
 Because of this strong community, the Java ecosystem evolves continuously. The real innovation often happens in the community first, and only later finds its way into the language or the JDK.
--->
 
----
-layout: center
----
 
-# Today's talk
+libraries are important!!!
 
-<div class="text-left mt-12 ml-20 text-xl leading-relaxed">
-
-**Introduction**
-
-**Java 26 — What's Inside**
-
-**Who Is This Really For?**
-
-**Java's Stability**
-
-</div>
-
-<!--
-Johannes:
+praise VoxxedDay Amsterdam
 -->
 
 ---
@@ -805,10 +770,6 @@ Johannes: switches the monitor
 L: "Alright, enough setup. Let's have some fun."
 "Time to find out how well you really know your Java history."
 -->
-
----
-src: ./game-slide.md
----
 
 <!--
 [SWITCH TO BROWSER — run the quiz for approximately 10 minutes]
@@ -1006,7 +967,7 @@ L: "Oracle switched to a time-based cadence in 2017: a release every six months.
 
 <div class="quote-slide">
   <div class="quote-text">
-    Help Java remain competitive… while maintaining its core values of compatibility and reliability.
+    This helps Java remain competitive […] while maintaining its core values of compatibility and reliability.
   </div>
   <div class="quote-attr">— Mark Reinhold</div>
 </div>
@@ -1174,11 +1135,9 @@ layout: center
 
 more throughput. For free.
 
-<v-click>
 
 *According to the JEP 522.*
 
-</v-click>
 
 </div>
 
@@ -1198,7 +1157,7 @@ layout: center
 
 <div class="big-statement">
 
-Zero lines of code changed. Just upgrade your JDK.
+Zero lines of code changed. <br/>Just upgrade your JDK.
 
 </div>
 
@@ -1253,7 +1212,7 @@ java -XX:AOTCache=app.aot -jar myapp.jar
 
 <div class="text-2xl mt-5">Without any changes to your application.</div>
 
-<div class="text-5xl mt-5">
+<div class="text-5xl mt-5 text-emerald">
 Boring.
 </div>
 
@@ -1614,8 +1573,6 @@ J: "1995. Java 1.0 ships with applets. For the first time, you could run real so
 L: "2013 to 2017. Browsers phase out NPAPI. Chrome, Firefox, Safari — one by one they stopped. By 2017, applets couldn't run in any major browser."
 J: "2017. Java 9 officially deprecates the API. 2026 — Java 26 removes it. Chapter closed."
 L: "31 years from introduction to removal. And the most remarkable thing? Nobody noticed."
-
-TODO: time line
 -->
 
 ---
@@ -1800,12 +1757,9 @@ void main() {
 <div class="text-base mt-6 flex gap-6 justify-center flex-wrap font-medium">
 
 <div>A) <code>null</code> </div>
-<div>B) <code>0</code></div>
-<div>C) <code>-1</code></div>
-<div>D) <code>-2</code></div>
-<div>E) NullPointerException</div>
-<div>F) MatchException</div>
-<div>G) Doesn't compile</div>
+<div>B) <code>-1</code></div>
+<div>C) <code>-2</code></div>
+<div>D) Exception</div>
 
 </div>
 
@@ -2159,12 +2113,6 @@ layout: center
 Lutske: You don't need these yet, they are preview for a reason
 [click]
 Johannes at the end: As a JDK developer especially the feedback is really important
-
-J: "Seriously — all of these require --enable-preview to use."
-L: "They're opt-in. They won't break your production code."
-J: "But if you have a side project or a test suite — try them out. File feedback. That's how the process works."
-L: "Java's evolution is a conversation between the platform team and the community."
-J: "And right now, the platform team is listening."
 -->
 
 ---
@@ -2182,21 +2130,6 @@ java --enable-preview MyApp
 ```
 
 </div>
-
-<v-click>
-
-<div class="mt-6">
-
-```xml
-<!-- Maven -->
-<compilerArgs>
-  <arg> --enable-preview</arg>
-</compilerArgs>
-```
-
-</div>
-
-</v-click>
 
 <v-click>
 
@@ -2234,61 +2167,6 @@ J: "Because the real audience for these features is library developers."
 
 ---
 
-# What library devs get vs. what you get
-
-<div class="grid grid-cols-2 gap-12 mt-10">
-
-<div>
-
-### 🔧 Library authors use
-
-<div class="mt-4 text-xl leading-loose">
-
-Vector API (SIMD)
-
-StructuredTaskScope
-
-MemorySegment (Panama)
-
-Virtual Threads (Loom)
-
-</div>
-
-</div>
-
-<div>
-
-### ☕ You notice
-
-<div class="mt-4 text-xl leading-loose">
-
-Lucene search gets faster
-
-Netty handles more connections
-
-Spring processes more requests
-
-Hibernate uses less memory
-
-</div>
-
-</div>
-
-</div>
-
-<!--
-Johannes
-
-J: "The JDK team builds these low-level features for library authors. Netty, Lucene, Spring, Hibernate — they adopt them under the hood."
-L: "And when they do?"
-J: "Your app gets faster. Your framework handles more load. Your ORM uses less memory. Without you changing a line."
-L: "So the JDK builds the plumbing. Library authors install the pipes. I just turn on the tap."
-J: "You don't need to understand SIMD. You don't need to know what a MemorySegment is. You just need to update your dependencies."
-L: "That's... actually brilliant."
--->
-
----
-
 <div class="quote-slide">
   <div class="quote-text">
     "Allowing library developers to write faster, better code means that anyone gets better foundations for their applications. So Java can be proud to be boring."
@@ -2312,37 +2190,6 @@ L: "Let's zoom out: how does Java's boring approach stack up against other platf
 -->
 
 ---
-
-# Release cadence comparison
-
-<div class="mt-8">
-
-| | Cadence | Breaking changes? | LTS support |
-|---|---------|-------------------|-------------|
-| **Java** | 6 months | Almost never | 3+ years per LTS |
-| **Node.js** | ~6 months major | Often | ~30 months |
-| **Rust** | 6 weeks | Via "Editions" | ~6 months only |
-| **Go** | 6 months | Never (Go 1.x promise) | Previous release only |
-
-</div>
-
-<v-click>
-
-<div class="text-gray-400 mt-6 text-lg">
-
-Java's secret: change fast internally, break nothing externally.
-
-</div>
-
-</v-click>
-
-<!--
-L: "Rust ships every six weeks but each release is supported for only about six months. Node majors land every six months and often bring breaking changes. Go promises Go 1 compatibility — very similar philosophy to Java. Scala's 2-to-3 migration split the ecosystem for years; same VM, very different approach."
-[click]
-"Java's trick: innovate fast in the JVM, GC, and libraries while breaking almost nothing in user code. You get rapid evolution with the stability of a slow-moving language. .NET and Python sit somewhere in between."
--->
-
----
 layout: center
 ---
 
@@ -2356,11 +2203,7 @@ OpenJDK: Not one company
 
 <v-click>
 
-The reference implementation is built by **Oracle, Red Hat, IBM, Microsoft,<br/>Amazon, Apple, SAP, Azul, BellSoft, JetBrains, Tencent** — and more.
-
-</v-click>
-
-<v-click>
+Many distributions.
 
 All free. All TCK-tested. All interchangeable.
 
@@ -2426,10 +2269,7 @@ Johannes
 </div>
 
 <!--
-L: "Some numbers to put all of this in context. 95 percent of the Fortune 500 run Java. Over 35 billion JVMs running worldwide."
-J: "Consistently in the top 3 of every programming language ranking, for thirty years. Not top 3 this year. Top 3 every year."
-L: "And 69 percent of Java developers are now on Java 17 or newer. The ecosystem IS moving."
-J: "These aren't hype numbers. These are enterprise reality."
+Keep it short
 -->
 
 ---
@@ -2450,21 +2290,6 @@ A developer who learned Java in 2005 writes modern Java today.
 
 <!--
 L: "Here's what the numbers mean personally. If you invested in Java ten years ago, that investment still pays: your patterns, JVM knowledge, and Spring experience all transfer. Markus Westergren migrated the same codebase from Java 1.4 to 7 to 21 over two decades — skills compounding instead of expiring. Compare that to JavaScript framework churn or the Python 2 to 3 break. In Java, your skills compound. They don't expire."
--->
-
----
-
-<div class="quote-slide">
-  <div class="quote-text" style="font-size: 3em">
-    "Trendiness fades.
-
-Reliability compounds."
-  </div>
-  <div class="quote-attr">— Andrii Piatakha</div>
-</div>
-
-<!--
-L: "I love this quote: reliability compounds. Every year you don't rewrite is a year you spend building new value. That's why boring wins."
 -->
 
 ---
@@ -2673,7 +2498,7 @@ L: "Let's bring it home. Three things to remember from today."
 
 ---
 
-Like the awesome voice talent:
+# Like the awesome voice talent:
 
 - Mikael Francoeur
 - Kirk Pepperdine
@@ -2681,6 +2506,10 @@ Like the awesome voice talent:
 - Sandra Parsick
 - Ivar Grimstad
 - François Martin
+
+<!--
+These people contributed their boringness
+-->
 
 ---
 
