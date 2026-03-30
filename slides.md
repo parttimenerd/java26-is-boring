@@ -2861,14 +2861,16 @@ mostlynerdless.de
 
 </div>
 
+<div class="grid grid-cols-1">
+
 <div class="text-gray-400 ml-50 mt-12 text-lg" style="text-align: center">
 
 ![[https://github.com/parttimenerd/java26-is-boring](https://github.com/parttimenerd/java26-is-boring)](./img/repo_qr.png)
 
 </div>
-
-<div class="text-gray-400 text-lg"  style="text-align: center"> 
+<div class="text-center">
 Don't forget to rate our talk in the app!
+</div>
 </div>
 
 <!--
