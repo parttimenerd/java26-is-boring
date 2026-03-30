@@ -1077,8 +1077,6 @@ L: Oracle switched to a time-based cadence in 2017: a release every 6months. Mar
 -->
 
 ---
-layout: center
----
 
 # After 2022: The Train Keeps Moving
 
@@ -1498,7 +1496,6 @@ layout: section
 JEP 517: HTTP/3 for the HTTP Client API
 
 <!--
-Lutske:
 L: "Next up: HTTP/3 — the latest version of the web's protocol. It's built on QUIC over UDP with TLS 1.3 baked in. That means faster connection setup, no head-of-line blocking, and better behavior on unreliable networks."
 -->
 
@@ -1655,7 +1652,6 @@ layout: center
 </style>
 
 <!--
-Lutske:
 L: "HTTP/1.1 was a single-lane road: one request, one response, wait."
 [click]
 "HTTP/2 multiplexed like a multi-lane highway."
@@ -1740,9 +1736,13 @@ J: "Because it's the new HTTP standard and Java keeps pace."
 layout: center
 ---
 
+# A moment of silence please
+<v-click>
+
 <div class="max-w-md mx-auto">
   <CroppedImage src="./img/java-applet.png"/>
 </div>
+</v-click>
 
 <!--
 Lutske: We have some sad news for you
@@ -1920,7 +1920,6 @@ This is the pattern. This is how <span class="text-emerald">boring</span> works.
 </v-click>
 
 <!--
-Lutske:
 L: "Applet removal shows the boring pattern: signal early, remove slowly, break nothing."
 [click]
 "This is the pattern: signal, warn, remove. Boring, and the reason you can trust upgrades. Compare that to the Python 2 to 3 leap that fractured the ecosystem for a decade."
@@ -1935,7 +1934,6 @@ layout: section
 The features that aren't ready yet — and that's okay
 
 <!--
-Lutske:
 L: "Preview and incubating features need --enable-preview. They're not final yet. Some have been in preview for a while — and that's okay. Stability beats rushing."
 -->
 
@@ -1982,7 +1980,6 @@ System.out.println(result);
 </CodeRunner>
 
 <!--
-Lutske:
 L: "Primitive patterns bring pattern matching to int, long, double and friends. Previously it only worked with reference types; now you can match primitives directly without manual unboxing. It's the fourth preview, so it's getting close to final."
 -->
 
@@ -2064,7 +2061,6 @@ Less boilerplate. Fewer security mistakes. Standard API for TLS certs, SSH keys,
 </v-click>
 
 <!--
-Lutske:
 L: "PEM is the text format everywhere: TLS certs, SSH keys, PKCS#8. Java finally has a standard API to read and write PEM instead of hand-rolled Base64 parsing."
 [click]
 "Fewer lines, fewer security mistakes — a small but welcome quality-of-life fix."
@@ -2253,7 +2249,6 @@ try (var scope = StructuredTaskScope.open()) {
 </div>
 
 <!--
-Lutske:
 L: "Structured concurrency treats a group of tasks as one unit — if one fails, the rest are cancelled. On the left is the manual executor/shutdown/error handling; on the right the structured version handles cleanup automatically. Same syntax you know: lambdas, try-with-resources, method calls. Just a better library."
 -->
 
@@ -2368,7 +2363,7 @@ layout: center
 </div>
 
 <!--
-Lutske: You don't need these yet, they are preview for a reason
+L: You don't need these yet, they are preview for a reason
 [click]
 Johannes at the end: As a JDK developer especially the feedback is really important
 -->
@@ -2751,7 +2746,7 @@ layout: section
 Boring and brilliant
 
 <!--
-L: "Let's bring it home. Three things to remember from today."
+L: "Let's wrap it up"
 -->
 
 ---
@@ -2870,6 +2865,10 @@ mostlynerdless.de
 
 ![[https://github.com/parttimenerd/java26-is-boring](https://github.com/parttimenerd/java26-is-boring)](./img/repo_qr.png)
 
+</div>
+
+<div class="text-gray-400 text-lg"  style="text-align: center"> 
+Don't forget to rate our talk in the app!
 </div>
 
 <!--
