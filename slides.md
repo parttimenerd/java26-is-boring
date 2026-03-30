@@ -1073,16 +1073,14 @@ J: "Now, you can disagree with that rating. But the point is: modules delayed Ja
 </svg>
 
 <!--
-Lutske:
-Oracle switched to a time-based cadence in 2017: a release every six months. March and September, like clockwork. Every two years one becomes an LTS — Java 25 is the latest. Features ship when ready; the train never slips for unfinished work.
-
-Non-LTS releases like Java 26 still matter: early access to final and preview features without multi-year waits.
+L: Oracle switched to a time-based cadence in 2017: a release every 6months. March and September, like clockwork. Every 2 years one becomes an LTS — Java 25 is the latest. Features ship when ready; the train never slips for unfinished work.
 -->
+
 ---
 layout: center
 ---
 
-# After 2017: The Train Keeps Moving
+# After 2022: The Train Keeps Moving
 
 <svg viewBox="-30 0 1060 420" class="w-full" style="font-size: 1px;">
   <!-- Timeline: Java 18 (2022) → Java 26 (2026) -->
@@ -1210,147 +1208,8 @@ layout: center
 </svg>
 
 <!--
-Johannes:
-
-J: "And the pattern just keeps going."
-J: "Java 21. Java 25. Those are the LTS stops."
-J: "Everything else ships in between, every six months, like clockwork."
-J: "If a feature is ready, it gets on the train."
-J: "If it's not ready, it waits for the next one. The train doesn't wait."
-J: "And that's how you get to Java 26: not as a giant drama release, but as the next predictable stop."
--->
-
----
-layout: center
----rizontal timeline line -->
-  <line x1="30" y1="210" x2="970" y2="210" stroke="#555" stroke-width="2" />
-
-  <!-- === Java 18 (2022) — TOP === -->
-  <g>
-    <circle cx="60" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="60" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="60" cy="210" r="4" fill="#00bcd4" />
-    <line x1="60" y1="196" x2="60" y2="130" stroke="#00bcd4" stroke-width="1.2" />
-    <circle cx="60" cy="130" r="2.5" fill="#00bcd4" />
-    <text x="60" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#00bcd4">Java 18</text>
-    <text x="60" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">2022</text>
-    <line x1="-10" y1="96" x2="130" y2="96" stroke="#00bcd4" stroke-width="2" />
-  </g>
-
-  <!-- === Java 19 (2022) — TOP === -->
-  <g v-click>
-    <line x1="74" y1="210" x2="156" y2="210" stroke="#009688" stroke-width="5" opacity="0.5" />
-    <circle cx="170" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="170" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="170" cy="210" r="4" fill="#009688" />
-    <line x1="170" y1="196" x2="170" y2="130" stroke="#009688" stroke-width="1.2" />
-    <circle cx="170" cy="130" r="2.5" fill="#009688" />
-    <text x="170" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#009688">Java 19</text>
-    <text x="170" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="100" y1="96" x2="240" y2="96" stroke="#009688" stroke-width="2" />
-  </g>
-
-  <!-- === Java 20 (2023) — TOP === -->
-  <g v-click>
-    <line x1="184" y1="210" x2="266" y2="210" stroke="#ffc107" stroke-width="5" opacity="0.5" />
-    <circle cx="280" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="280" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="280" cy="210" r="4" fill="#ffc107" />
-    <line x1="280" y1="196" x2="280" y2="130" stroke="#ffc107" stroke-width="1.2" />
-    <circle cx="280" cy="130" r="2.5" fill="#ffc107" />
-    <text x="280" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ffc107">Java 20</text>
-    <text x="280" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="210" y1="96" x2="350" y2="96" stroke="#ffc107" stroke-width="2" />
-  </g>
-
-  <!-- === Java 21 (2023) — BOTTOM — LTS === -->
-  <g v-click>
-    <line x1="294" y1="210" x2="376" y2="210" stroke="#ff9800" stroke-width="5" opacity="0.5" />
-    <circle cx="390" cy="210" r="18" fill="none" stroke="#ff9800" stroke-width="2" />
-    <circle cx="390" cy="210" r="11" fill="none" stroke="#ff9800" stroke-width="1.1" />
-    <circle cx="390" cy="210" r="5" fill="#ff9800" />
-    <line x1="390" y1="228" x2="390" y2="294" stroke="#ff9800" stroke-width="1.2" />
-    <circle cx="390" cy="294" r="2.5" fill="#ff9800" />
-    <text x="390" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#ff9800">Java 21</text>
-    <text x="390" y="319" text-anchor="middle" style="font-size: 18px;" fill="white">LTS ⭐</text>
-    <line x1="310" y1="339" x2="470" y2="339" stroke="#ff9800" stroke-width="2" />
-  </g>
-
-  <!-- === Java 22 (2024) — TOP === -->
-  <g v-click>
-    <line x1="404" y1="210" x2="486" y2="210" stroke="#e91e63" stroke-width="5" opacity="0.5" />
-    <circle cx="500" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="500" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="500" cy="210" r="4" fill="#e91e63" />
-    <line x1="500" y1="196" x2="500" y2="130" stroke="#e91e63" stroke-width="1.2" />
-    <circle cx="500" cy="130" r="2.5" fill="#e91e63" />
-    <text x="500" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#e91e63">Java 22</text>
-    <text x="500" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="430" y1="96" x2="570" y2="96" stroke="#e91e63" stroke-width="2" />
-  </g>
-
-  <!-- === Java 23 (2024) — TOP === -->
-  <g v-click>
-    <line x1="514" y1="210" x2="596" y2="210" stroke="#673ab7" stroke-width="5" opacity="0.5" />
-    <circle cx="610" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="610" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="610" cy="210" r="4" fill="#673ab7" />
-    <line x1="610" y1="196" x2="610" y2="130" stroke="#673ab7" stroke-width="1.2" />
-    <circle cx="610" cy="130" r="2.5" fill="#673ab7" />
-    <text x="610" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#673ab7">Java 23</text>
-    <text x="610" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="540" y1="96" x2="680" y2="96" stroke="#673ab7" stroke-width="2" />
-  </g>
-
-  <!-- === Java 24 (2025) — TOP === -->
-  <g v-click>
-    <line x1="624" y1="210" x2="706" y2="210" stroke="#4caf50" stroke-width="5" opacity="0.5" />
-    <circle cx="720" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="720" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="720" cy="210" r="4" fill="#4caf50" />
-    <line x1="720" y1="196" x2="720" y2="130" stroke="#4caf50" stroke-width="1.2" />
-    <circle cx="720" cy="130" r="2.5" fill="#4caf50" />
-    <text x="720" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#4caf50">Java 24</text>
-    <text x="720" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="650" y1="96" x2="790" y2="96" stroke="#4caf50" stroke-width="2" />
-  </g>
-
-  <!-- === Java 25 (2025) — BOTTOM — LTS === -->
-  <g v-click>
-    <line x1="734" y1="210" x2="816" y2="210" stroke="#f44336" stroke-width="5" opacity="0.5" />
-    <circle cx="830" cy="210" r="18" fill="none" stroke="#f44336" stroke-width="2" />
-    <circle cx="830" cy="210" r="11" fill="none" stroke="#f44336" stroke-width="1.1" />
-    <circle cx="830" cy="210" r="5" fill="#f44336" />
-    <line x1="830" y1="228" x2="830" y2="294" stroke="#f44336" stroke-width="1.2" />
-    <circle cx="830" cy="294" r="2.5" fill="#f44336" />
-    <text x="830" y="185" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#f44336">Java 25</text>
-    <text x="830" y="319" text-anchor="middle" style="font-size: 18px;" fill="white">LTS ⭐</text>
-    <line x1="750" y1="339" x2="910" y2="339" stroke="#f44336" stroke-width="2" />
-  </g>
-
-  <!-- === Java 26 (2026) — TOP === -->
-  <g v-click>
-    <line x1="844" y1="210" x2="926" y2="210" stroke="#3f51b5" stroke-width="5" opacity="0.5" />
-    <circle cx="940" cy="210" r="14" fill="none" stroke="#666" stroke-width="1.2" />
-    <circle cx="940" cy="210" r="9" fill="none" stroke="#666" stroke-width="0.8" />
-    <circle cx="940" cy="210" r="4" fill="#3f51b5" />
-    <line x1="940" y1="196" x2="940" y2="130" stroke="#3f51b5" stroke-width="1.2" />
-    <circle cx="940" cy="130" r="2.5" fill="#3f51b5" />
-    <text x="940" y="243" text-anchor="middle" style="font-size: 26px; font-weight: bold;" fill="#3f51b5">Java 26</text>
-    <text x="940" y="120" text-anchor="middle" style="font-size: 18px;" fill="white">6 months ⏱️</text>
-    <line x1="870" y1="96" x2="1010" y2="96" stroke="#3f51b5" stroke-width="2" />
-  </g>
-</svg>
-
-<!--
-Johannes:
-
-J: "And the pattern just keeps going."
-J: "Java 21. Java 25. Those are the LTS stops."
-J: "Everything else ships in between, every six months, like clockwork."
-J: "If a feature is ready, it gets on the train."
-J: "If it's not ready, it waits for the next one. The train doesn't wait."
-J: "And that's how you get to Java 26: not as a giant drama release, but as the next predictable stop."
+L:
+Non-LTS releases like Java 26 still matter: early access to final and preview features without multi-year waits.
 -->
 
 ---
