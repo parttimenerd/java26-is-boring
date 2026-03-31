@@ -2767,6 +2767,56 @@ These people contributed their boringness
 
 ---
 
+# Like the awesome voice talent
+
+<div class="grid grid-cols-4 gap-6 mt-8 text-center">
+
+<div>
+  <img src="https://confoo.ca/images/speakers/2026/mikael-francoeur_l.jpg"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Mikaël Francoeur</div>
+</div>
+
+<div>
+  <img src="https://www.kodewerk.com/about/head_shot.png"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Kirk Pepperdine</div>
+</div>
+
+<div>
+  <img src="https://avatars.githubusercontent.com/u/1297282?v=4"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Pasha Finkelshteyn</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/1817-400o400o2-25-a949-43ac-971f-cec885fa060b.c84e95d2-1366-4eda-b6f0-0482e38b3cf1.jpg"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Sandra Parsick</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/93e3-400o400o2-8a-56cf-40ec-bc39-ca5d9fb59b27.74a2c239-83f3-4fd7-a70b-3b18c40df894.png"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Ivar Grimstad</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/f0ab-400o400o2-9gcFoW7JGxVoMKM2pyAMb5.jpg"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">François Martin</div>
+</div>
+
+<div>
+  <img src="https://2020.hroug.hr/var/ezdemo_site/storage/images/hroug-2020/predavaci/jasminfluri/468288-2-eng-EU/Fluri-Jasmin_lecturerportrait.jpg"
+       class="w-28 h-28 rounded-full mx-auto object-cover" />
+  <div class="mt-2 font-medium">Jasmin Fluri</div>
+</div>
+
+</div>
+
+---
+
 # Key takeaways
 
 <div class="flex flex-col justify-center h-full gap-7 px-8">

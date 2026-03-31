@@ -6,3 +6,4 @@ Sources:
 - sandra*.ogg: Sandra Parsick
 - ivar*.ogg: Ivar Grimstad
 - francois*.ogg: François Martin
+- jasmin_fluri.ogg: Jasmin Fluri
