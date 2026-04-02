@@ -125,7 +125,7 @@ function startServer() {
 
 function setupWebSocket(server) {
   // WebSocket server for terminal connections
-  const wss = new WebSocketServer({ server });
+  const wss = new WebSocketServer({ server, clientTracking: true });
 
   // Allowed script directories (whitelist)
   const ALLOWED_DIRS = [
@@ -137,9 +137,34 @@ function setupWebSocket(server) {
     return ALLOWED_DIRS.some(dir => resolved.startsWith(dir));
   }
 
+  // Heartbeat interval to keep connections alive (30 seconds)
+  const HEARTBEAT_INTERVAL_MS = 30 * 1000;
+  const heartbeatInterval = setInterval(() => {
+    wss.clients.forEach((ws) => {
+      if (ws.isAlive === false) {
+        log('warn', 'Terminating dead connection due to heartbeat failure');
+        return ws.terminate();
+      }
+
+      ws.isAlive = false;
+      ws.ping();
+      log('debug', 'Sent heartbeat ping to client');
+    });
+  }, HEARTBEAT_INTERVAL_MS);
+
+  server.on('close', () => {
+    clearInterval(heartbeatInterval);
+  });
+
   wss.on('connection', (ws, req) => {
     const clientIp = extractClientIp(req);
     const connectionId = ++connectionCounter;
+
+    ws.isAlive = true;
+    ws.on('pong', () => {
+      ws.isAlive = true;
+      log('debug', 'Received pong from client', { connectionId });
+    });
 
     log('info', 'WebSocket connected', { clientIp, connectionId });
 
@@ -149,19 +174,21 @@ function setupWebSocket(server) {
   let cleanupDone = false;
   let activeScript = null;
 
+    // Generate session-specific temp directory
+    const sessionTmpDir = `/tmp/slides-${connectionId}`;
+    
     function cleanupPty(reason) {
       if (cleanupDone) return;
       cleanupDone = true;
 
-      log('info', 'Cleaning up session', { connectionId, reason });
+      log('info', 'Cleaning up session', { connectionId, reason, sessionTmpDir });
 
       if (sessionTimeout) {
         clearTimeout(sessionTimeout);
         sessionTimeout = null;
       }
 
-      // Note: Main.java is never deleted, only overwritten on next run
-
+      // Kill PTY process
       if (session) {
         try {
           session.kill();
@@ -187,6 +214,19 @@ function setupWebSocket(server) {
           }
         }
       }
+      
+      // Cleanup session-specific temp directory
+      fs.rm(sessionTmpDir, { recursive: true, force: true }, (rmErr) => {
+        if (rmErr) {
+          log('warn', 'Failed to cleanup session temp directory', {
+            connectionId,
+            sessionTmpDir,
+            message: rmErr.message
+          });
+        } else {
+          log('debug', 'Cleaned up session temp directory', { connectionId, sessionTmpDir });
+        }
+      });
     }
 
     ws.on('message', (data) => {
@@ -390,11 +430,10 @@ function setupWebSocket(server) {
             return;
           }
 
-          // Generate slide-specific temp directory in /tmp/slides
-          const slidesTmpDir = '/tmp/slides';
-          const tempFile = path.join(slidesTmpDir, 'Main.java');
+          // Use session-specific temp directory for Java execution
+          const tempFile = path.join(sessionTmpDir, 'Main.java');
 
-          log('info', 'Preparing Java execution in /tmp/slides', {
+          log('info', 'Preparing Java execution in session temp dir', {
             connectionId,
             tempFile,
             slideId,
@@ -402,16 +441,16 @@ function setupWebSocket(server) {
             additionalFiles: Object.keys(additionalFiles)
           });
 
-          // Ensure /tmp/slides directory exists
-          fs.mkdir(slidesTmpDir, { recursive: true }, (mkdirErr) => {
+          // Ensure session temp directory exists
+          fs.mkdir(sessionTmpDir, { recursive: true }, (mkdirErr) => {
             if (mkdirErr) {
-              log('error', 'Failed to create /tmp/slides directory', {
+              log('error', 'Failed to create session temp directory', {
                 connectionId,
                 message: mkdirErr.message
               });
               ws.send(JSON.stringify({
                 type: 'error',
-                message: `Failed to create /tmp/slides directory: ${mkdirErr.message}`
+                message: `Failed to create session temp directory: ${mkdirErr.message}`
               }));
               return;
             }
@@ -431,10 +470,10 @@ function setupWebSocket(server) {
                 return;
               }
 
-              // Write additional files to /tmp/slides
+              // Write additional files to session temp directory
               const additionalFilePaths = Object.entries(additionalFiles).map(([name, content]) => {
                 return new Promise((resolve) => {
-                  const filePath = path.join(slidesTmpDir, name);
+                  const filePath = path.join(sessionTmpDir, name);
                   fs.writeFile(filePath, content, (err) => {
                     if (err) {
                       log('warn', 'Failed to write additional file', {
@@ -452,7 +491,7 @@ function setupWebSocket(server) {
 
               Promise.all(additionalFilePaths).then(() => {
                 if (session) {
-                  // Execute java file from /tmp/slides working directory
+                  // Execute java file from session temp directory
                   let javaCmd = `java`;
                   if (enablePreview) {
                     javaCmd += ' --enable-preview';
@@ -473,15 +512,15 @@ function setupWebSocket(server) {
 
                   // Use subshell to cd without showing the cd command
                   // stty -echo suppresses the command line echo, stty echo re-enables it
-                  const command = `cd "${slidesTmpDir}"\n${javaCmd}\n`;
-                  log('info', 'Executing Java file in session from /tmp/slides', {
+                  const command = `cd "${sessionTmpDir}"\n${javaCmd}\n`;
+                  log('info', 'Executing Java file in session from temp dir', {
                     connectionId,
                     enablePreview,
                     slideId,
                     command: command.trim()
                   });
 
-                  activeScript = { scriptPath: tempFile, startedAt: Date.now(), tempDir: slidesTmpDir };
+                  activeScript = { scriptPath: tempFile, startedAt: Date.now(), tempDir: sessionTmpDir };
                   session.write(command);
 
                   // Main.java will be cleaned up when terminal closes (see cleanupPty function)
@@ -505,32 +544,30 @@ function setupWebSocket(server) {
             return;
           }
 
-          // If there are additional files, write them to /tmp/slides
+          // If there are additional files, write them to session temp directory
           if (Object.keys(additionalFiles).length > 0) {
-            const slidesTmpDir = '/tmp/slides';
-
-            log('info', 'Creating /tmp/slides for direct execution', {
+            log('info', 'Creating session temp dir for direct execution', {
               connectionId,
               additionalFiles: Object.keys(additionalFiles)
             });
 
-            fs.mkdir(slidesTmpDir, { recursive: true }, (mkdirErr) => {
+            fs.mkdir(sessionTmpDir, { recursive: true }, (mkdirErr) => {
               if (mkdirErr) {
-                log('error', 'Failed to create /tmp/slides directory', {
+                log('error', 'Failed to create session temp directory', {
                   connectionId,
                   message: mkdirErr.message
                 });
                 ws.send(JSON.stringify({
                   type: 'error',
-                  message: `Failed to create /tmp/slides directory: ${mkdirErr.message}`
+                  message: `Failed to create session temp directory: ${mkdirErr.message}`
                 }));
                 return;
               }
 
-              // Write additional files to /tmp/slides
+              // Write additional files to session temp directory
               const filePromises = Object.entries(additionalFiles).map(([name, content]) => {
                 return new Promise((resolve) => {
-                  const filePath = path.join(slidesTmpDir, name);
+                  const filePath = path.join(sessionTmpDir, name);
                   fs.writeFile(filePath, content, (err) => {
                     if (err) {
                       log('warn', 'Failed to write additional file', {
@@ -548,13 +585,13 @@ function setupWebSocket(server) {
 
               Promise.all(filePromises).then(() => {
                 if (session) {
-                  const fullCommand = `(stty -echo; cd "${slidesTmpDir}" && ${command}; stty echo)\n`;
-                  log('info', 'Executing direct shell command in /tmp/slides', {
+                  const fullCommand = `(stty -echo; cd "${sessionTmpDir}" && ${command}; stty echo)\n`;
+                  log('info', 'Executing direct shell command in session temp dir', {
                     connectionId,
                     language,
                     slideId
                   });
-                  activeScript = { scriptPath: slidesTmpDir, startedAt: Date.now(), tempDir: slidesTmpDir };
+                  activeScript = { scriptPath: sessionTmpDir, startedAt: Date.now(), tempDir: sessionTmpDir };
                   session.write(fullCommand);
 
                   // Additional files will be cleaned up when terminal closes (see cleanupPty function)

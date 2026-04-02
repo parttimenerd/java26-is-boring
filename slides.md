@@ -920,6 +920,15 @@ Johannes:
 
 
 J: "The old release model was a mess."
+
+Java 5 came in in 2024 with generics, annotations, enums and more
+
+Java 6 mostly performance updates
+
+Java 7 with nio, string in switches
+
+Java 8 lambdas and streams
+
 J: "Java 5 to 6: two years. Reasonable. 6 to 7: five years. Five! That's an eternity in tech."
 J: "7 to 8: three years. The lambdas release. And 8 to 9: three and a half years. Java 9 was 18 months late because they tried to finish Project Jigsaw — the module system."
 L: "And modules were... controversial."
@@ -939,8 +948,7 @@ layout: center
 <!--
 Johannes:
 
-L: "Neil Madden — a very opinionated blogger — rated every major Java feature over 26 years. Modules got minus ten out of ten. And he questioned whether it has any benefit at all."
-J: "Now, you can disagree with that rating. But the point is: modules delayed Java 9 by 18 months and broke a lot of build tooling. That's what happens when you try to ship something too big. And that experience led directly to the new model."
+delayed Java 9 by 18 months and broke a lot of build tooling. That's what happens when you try to ship something too big. And that experience led directly to the new model."
 -->
 
 ---
@@ -1991,7 +1999,7 @@ L: "Primitive patterns bring pattern matching to int, long, double and friends. 
 
 <CodeRunner enable-preview>
 
-```java
+```java {5|6|7||all}
 record Amount(Number n) {}
 
 Integer value(Amount p) {
@@ -2027,43 +2035,6 @@ L: "Primitive int pattern? Doesn't match null — primitives can't be null."
 J: "But the second case, Amount(Number _), does match! null is a valid value for the reference type Number."
 L: "So it returns -1. The underscore means we're not binding the value, just checking the type."
 J: "Pattern matching with null reference types can be tricky. Always test your assumptions."
--->
-
----
-
-# PEM Encodings <Badge variant="blue">2nd Preview</Badge>
-
-<div class="mt-6 text-xl leading-relaxed">
-
-Finally: A standard way to read and write PEM certificates in Java.
-
-</div>
-
-<div class="mt-6">
-
-```java
-// Before: dozens of lines of Base64 + header parsing + provider setup
-// After:
-var pemContent = Files.readString(Path.of("server.pem"));
-var cert = PEMDecoder.of().decode(pemContent);
-```
-
-</div>
-
-<v-click>
-
-<div class="text-lg mt-6">
-
-Less boilerplate. Fewer security mistakes. Standard API for TLS certs, SSH keys, PKCS#8.
-
-</div>
-
-</v-click>
-
-<!--
-L: "PEM is the text format everywhere: TLS certs, SSH keys, PKCS#8. Java finally has a standard API to read and write PEM instead of hand-rolled Base64 parsing."
-[click]
-"Fewer lines, fewer security mistakes — a small but welcome quality-of-life fix."
 -->
 
 ---
@@ -2314,50 +2285,10 @@ J: "Exactly. Lucene, AI libraries, anything that crunches numbers. Not your aver
 layout: center
 ---
 
-<div class="text-4xl text-orange-400">
-
-Vector API: 11th incubator.
-
-Structured Concurrency: 6th preview.
-
-</div>
-
-<div class="text-xl text-gray-400 mt-8">
-
-Is this "maturing carefully" or just… stuck?
-
-</div>
-
-<v-click>
-<div class="text-3xl mt-6">
-Or just <span class="text-emerald">boring</span>?
-</div>
-</v-click>
-
-<!--
-Johannes:
- So the pension age is getting up, who knows
-
-L: "Okay, let's address the elephant in the room."
-J: "Vector API — eleventh incubator."
-L: "Eleventh?!"
-J: "And structured concurrency: sixth preview."
-L: "At some point you have to ask — is this still 'maturing carefully' or is it just stuck?"
-J: "Fair question. Honest answer: some of these are blocked on other JVM work. Vector API needs Project Valhalla for value types. Structured concurrency depends on Loom stabilization."
-L: "So they're not stuck — they're waiting for foundations?"
-J: "Right. The preview system works, but it does test your patience."
-L: "Still — I'd rather have a feature that's been reviewed six times than one that shipped broken once."
-J: "That's the most boring-is-brilliant thing you've said all day."
--->
-
----
-layout: center
----
-
 <div class="big-statement">
 
-  You don't need these yet.<br/>
-<span class="text-2xl">They're preview for a reason.</span> <br/>
+  You <RedText>don't</RedText> need these yet.<br/>
+<span class="text-2xl">They're <BlueText>preview</BlueText> for a reason.</span> <br/>
   <span class="text-3xl">But please try them and give feedback. <br/>That's how they graduate.</span>
 
 </div>
@@ -2383,17 +2314,6 @@ java --enable-preview MyApp
 ```
 
 </div>
-
-<v-click>
-
-<div class="text-xl mt-6">
-
-⚠️ Don't use preview features in production. They may change or disappear.
-
-</div>
-
-</v-click>
-
 <!--
 L: "Preview features are for experimentation only. They can change or disappear. Use --enable-preview at compile and runtime, and add the flag to your build tool when you opt in. Share the cautionary tale: a friend shipped string templates early and had to rip them out when they changed."
 -->
@@ -2416,30 +2336,6 @@ L: "Vector API. Structured concurrency. The foreign function interface. Panama. 
 J: "These are not features most of you will use directly."
 L: "So why should we care?"
 J: "Because the real audience for these features is library developers."
--->
-
----
-
-<div class="quote-slide">
-  <div class="quote-text">
-    "Allowing library developers to write faster, better code means that anyone gets better foundations for their applications. So Java can be proud to be boring."
-  </div>
-</div>
-
-<!--
-L: "The big wins target library authors: virtual threads, FFI, vector API. When they get faster foundations, everyone's apps benefit — that's Java being proudly boring. The point isn't to use every new feature; it's to feel the improvements without changing your code."
--->
-
----
-layout: section
----
-
-# Java's Stability
-
-Why boring is a competitive advantage
-
-<!--
-L: "Let's zoom out: how does Java's boring approach stack up against other platforms? Boring only matters relative to the alternatives."
 -->
 
 ---
@@ -2490,39 +2386,6 @@ L: "Try getting that level of vendor independence with any other platform."
 
 <!--
 Johannes
--->
-
----
-
-# Java by the numbers
-
-<div class="grid grid-cols-2 gap-8 mt-10">
-
-<div class="text-center">
-  <div class="text-5xl font-bold text-emerald-400">95%</div>
-  <div class="text-lg text-gray-300 mt-2">of Fortune 500 run Java</div>
-</div>
-
-<div class="text-center">
-  <div class="text-5xl font-bold text-emerald-400">35B+</div>
-  <div class="text-lg text-gray-300 mt-2">JVMs running globally</div>
-</div>
-
-<div class="text-center">
-  <div class="text-5xl font-bold text-emerald-400">30 yr</div>
-  <div class="text-lg text-gray-300 mt-2">Top 3 in every ranking</div>
-</div>
-
-<div class="text-center">
-  <div class="text-5xl font-bold text-emerald-400">69%</div>
-  <div class="text-lg text-gray-300 mt-2">on Java 17+ </div>
-</div>
-
-<ImageAttribution>New Relic 2025</ImageAttribution>
-</div>
-
-<!--
-Keep it short
 -->
 
 ---
@@ -2751,69 +2614,149 @@ L: "Let's wrap it up"
 
 ---
 
-# Like the awesome voice talent:
-
-- Mikael Francoeur
-- Kirk Pepperdine
-- Pasha Finkelshteyn
-- Sandra Parsick
-- Ivar Grimstad
-- François Martin
-- Jasmin Fluri
-
-<!--
-These people contributed their boringness
--->
-
----
-
 # Like the awesome voice talent
 
-<div class="grid grid-cols-4 gap-6 mt-8 text-center">
+<div class="grid grid-cols-8 gap-2 mt-4 text-center text-xs">
 
+<!-- Original speakers with photos -->
 <div>
   <img src="https://confoo.ca/images/speakers/2026/mikael-francoeur_l.jpg"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Mikaël Francoeur</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Mikaël Francoeur</div>
 </div>
 
 <div>
   <img src="https://www.kodewerk.com/about/head_shot.png"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Kirk Pepperdine</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Kirk Pepperdine</div>
 </div>
 
 <div>
   <img src="https://avatars.githubusercontent.com/u/1297282?v=4"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Pasha Finkelshteyn</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Pasha Finkelshteyn</div>
 </div>
 
 <div>
   <img src="https://sessionize.com/image/1817-400o400o2-25-a949-43ac-971f-cec885fa060b.c84e95d2-1366-4eda-b6f0-0482e38b3cf1.jpg"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Sandra Parsick</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Sandra Parsick</div>
 </div>
 
 <div>
   <img src="https://sessionize.com/image/93e3-400o400o2-8a-56cf-40ec-bc39-ca5d9fb59b27.74a2c239-83f3-4fd7-a70b-3b18c40df894.png"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Ivar Grimstad</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Ivar Grimstad</div>
 </div>
 
 <div>
   <img src="https://sessionize.com/image/f0ab-400o400o2-9gcFoW7JGxVoMKM2pyAMb5.jpg"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">François Martin</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">François Martin</div>
 </div>
 
 <div>
   <img src="https://2020.hroug.hr/var/ezdemo_site/storage/images/hroug-2020/predavaci/jasminfluri/468288-2-eng-EU/Fluri-Jasmin_lecturerportrait.jpg"
-       class="w-28 h-28 rounded-full mx-auto object-cover" />
-  <div class="mt-2 font-medium">Jasmin Fluri</div>
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Jasmin Fluri</div>
+</div>
+
+<!-- New contributors with photos -->
+<div>
+  <img src="https://sessionize.com/image/c17c-400o400o2-RzyLob7uSE6Nmun9e4Vnxn.png"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Anders Norås</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/7a22-400o400o2-EX3sJi17SvAbLkE1qQkHNz.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Daniel Raniz Raneland</div>
+</div>
+
+<div>
+  <img src="https://s3.eu-west-1.amazonaws.com/redsys-prod/authors/6faf182b89427e7064e5b4b9/images/avatarSquareSmall_xxx_1765876608463luciacondemoreno28129.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Lucía Conde-Moreno</div>
+</div>
+
+<div>
+  <img src="https://files.gotocon.com/uploads/portraits/570/square_medium/paulien_van%20alst_1548154731.jpeg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Pauline Van Alst</div>
+</div>
+
+<div>
+  <img src="https://www.baeldung.com/wp-content/uploads/2024/08/Ronald-Dehuysser.png"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Ronald Dehuysser</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/9d71-400o400o2-BtS74DLX6NUMv3g9z9LXEs.png"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Adele Carpenter</div>
+</div>
+
+<div>
+  <img src="https://media.licdn.com/dms/image/v2/D4D03AQGmKvJc2L0Jww/profile-displayphoto-scale_200_200/B4DZgOKHACHwAo-/0/1752584188746?e=2147483647&v=beta&t=EQjDOywGjSwd1C7JkbNRygG8CgzCdYWul0iSZg99uHU"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Dimitris Doutsiopoulos</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/f0ab-400o400o2-9gcFoW7JGxVoMKM2pyAMb5.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">François Martin</div>
+</div>
+
+<div>
+  <img src="https://devoxxian-image-thumbnails.s3-eu-west-1.amazonaws.com/profile-c4c10d21-e508-4d32-839a-5a92128ce54c.png"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Johan Hutting</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/a1a5-400o400o2-5d453734-1a61-4d8d-b234-55fdf95d1202.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Josh Long</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/0df4-400o400o2-EupDehSbyCtxrWHgadQRhp.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Ko Turk</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/f289-400o400o2-RrURZVaRSiydVXHyA4yjBv.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Patrick Baumgartner</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/51b7-400o400o2-BfjoyFEbryFsEXTK36uSu4.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Stephan Janssen</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/bf90-400o400o2-GtCdR9gUG6mnWf76NhGJi8.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Susanne Pieterse</div>
+</div>
+
+<div>
+  <img src="https://sessionize.com/image/8b71-400o400o2-8e0e2031-a42f-42ac-a720-e348d3be9d09.jpg"
+       class="w-20 h-20 rounded-full mx-auto object-cover" />
+  <div class="mt-0.5 font-medium text-xs">Victor Rentea</div>
 </div>
 
 </div>
+
+<!--
+These people contributed their boringness
+-->
 
 ---
 

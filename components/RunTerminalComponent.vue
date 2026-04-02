@@ -22,11 +22,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, computed } from 'vue'
+import { ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'
 import { Terminal } from '@xterm/xterm'
 import { FitAddon } from '@xterm/addon-fit'
 import { WebLinksAddon } from '@xterm/addon-web-links'
 import { SearchAddon } from '@xterm/addon-search'
+import { useNav } from '@slidev/client'
 import '@xterm/xterm/css/xterm.css'
 
 const emit = defineEmits(['close'])
@@ -43,6 +44,9 @@ const isConnected = ref(false)
 const terminalRef = ref(null)
 const overlayStyle = ref({})
 const currentSlideId = ref('default')
+
+// Track current slide number from Slidev
+const { currentSlideNo } = useNav()
 
 // Get current WebSocket URL
 const currentWsUrl = computed(() => {
@@ -289,12 +293,12 @@ function updateOverlayBounds() {
 
 function connectWebSocket() {
   const wsUrl = currentWsUrl.value
-  console.log('[terminal] connecting to:', wsUrl)
+  console.log('[terminal] connecting to:', wsUrl, { slideId: currentSlideId.value })
   
   const newWs = new WebSocket(wsUrl)
 
   newWs.onopen = () => {
-    console.log('[terminal] WebSocket connected to', wsUrl)
+    console.log('[terminal] WebSocket connected to', wsUrl, { slideId: currentSlideId.value })
     ws = newWs
     isConnected.value = true
 
@@ -327,13 +331,17 @@ function connectWebSocket() {
 
   newWs.onerror = (error) => {
     console.error('[terminal] WebSocket error:', error)
-    terminal.write('\r\n\x1b[31mConnection error\x1b[0m\r\n')
+    if (isOpen.value) {
+      terminal.write('\r\n\x1b[31mConnection error\x1b[0m\r\n')
+    }
   }
 
   newWs.onclose = () => {
-    console.log('[terminal] WebSocket closed')
-    isConnected.value = false
-    terminal.write('\r\n\x1b[33mDisconnected from server\x1b[0m\r\n')
+    console.log('[terminal] WebSocket closed for slide', currentSlideId.value)
+    if (isOpen.value && ws === newWs) {
+      isConnected.value = false
+      terminal.write('\r\n\x1b[33mDisconnected from server\x1b[0m\r\n')
+    }
   }
 
   // Forward terminal input to server
@@ -345,6 +353,27 @@ function connectWebSocket() {
       }))
     }
   })
+}
+
+function cleanupSession() {
+  console.info('[terminal] cleaning up session for slide', currentSlideId.value)
+  
+  // Send stop message to server to cleanup resources
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    try {
+      ws.send(JSON.stringify({ type: 'stop' }))
+    } catch (err) {
+      console.warn('[terminal] failed to send stop message', err)
+    }
+  }
+  
+  // Close WebSocket connection
+  if (ws) {
+    ws.close()
+    ws = null
+  }
+  
+  isConnected.value = false
 }
 
 function open(slideId = 'default') {
@@ -384,6 +413,10 @@ function closeInternal() {
   if (typeof window !== 'undefined') {
     window.__terminalIsOpen = false
   }
+  
+  // Cleanup session resources before closing
+  cleanupSession()
+  
   emit('close')
 }
 
@@ -496,6 +529,18 @@ onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   window.addEventListener('terminal:code-run', handleCodeRunEvent)
   window.addEventListener('terminal:close-all', handleCloseAll)
+  
+  // Watch for slide changes to cleanup terminal context
+  watch(currentSlideNo, (newSlideNo, oldSlideNo) => {
+    console.info('[terminal] slide changed', { from: oldSlideNo, to: newSlideNo })
+    
+    // Only cleanup if terminal is open and slide actually changed
+    if (isOpen.value && oldSlideNo !== undefined && newSlideNo !== oldSlideNo) {
+      console.info('[terminal] closing session due to slide change')
+      // Close the terminal which will trigger cleanup
+      closeInternal()
+    }
+  })
 })
 
 onUnmounted(() => {

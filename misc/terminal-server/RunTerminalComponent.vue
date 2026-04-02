@@ -83,6 +83,10 @@ const MIN_FONT_SIZE = 10
 const MAX_FONT_SIZE = 40
 const FONT_SIZE_STORAGE_KEY = 'slidev-terminal-font-size'
 const SELECTED_HOST_STORAGE_KEY = 'slidev-terminal-selected-host'
+let connectionRetryMap = new Map() // Track retry attempts per host
+const MAX_RETRIES = 5
+const INITIAL_RETRY_DELAY_MS = 1000
+const CONNECTION_TIMEOUT_MS = 5000 // Connection timeout
 
 function onHostChange() {
   // Save selection
@@ -344,14 +348,31 @@ function updateOverlayBounds() {
 function connectWebSocket() {
   const wsUrl = currentWsUrl.value
   const host = selectedHost.value
-  console.log('[terminal] connecting to:', wsUrl, { host })
+  
+  // Initialize retry counter
+  if (!connectionRetryMap.has(host)) {
+    connectionRetryMap.set(host, 0)
+  }
+  
+  const retryCount = connectionRetryMap.get(host)
+  console.log('[terminal] connecting to:', wsUrl, { host, retryCount })
   
   const newWs = new WebSocket(wsUrl)
+  
+  // Connection timeout
+  const connectionTimeoutHandle = setTimeout(() => {
+    if (newWs.readyState === WebSocket.CONNECTING) {
+      console.warn('[terminal] Connection timeout, terminating stalled connection', { host, retryCount })
+      newWs.close()
+    }
+  }, CONNECTION_TIMEOUT_MS)
 
   newWs.onopen = () => {
-    console.log('[terminal] WebSocket connected to', wsUrl)
+    clearTimeout(connectionTimeoutHandle)
+    console.log('[terminal] WebSocket connected to', wsUrl, { host })
     ws = newWs
     wsConnections.set(host, newWs)
+    connectionRetryMap.set(host, 0) // Reset retry counter on success
     isConnected.value = true
 
     // Start terminal session
@@ -386,7 +407,8 @@ function connectWebSocket() {
   }
 
   newWs.onerror = (error) => {
-    console.error('WebSocket error:', error)
+    clearTimeout(connectionTimeoutHandle)
+    console.error('WebSocket error:', error, { host, retryCount })
     // Only show error if this is the active connection
     if (newWs === ws) {
       terminal.write('\r\n\x1b[31mConnection error\x1b[0m\r\n')
@@ -394,13 +416,32 @@ function connectWebSocket() {
   }
 
   newWs.onclose = () => {
-    console.log('WebSocket closed for', host)
+    clearTimeout(connectionTimeoutHandle)
+    console.log('WebSocket closed for', host, { retryCount })
     wsConnections.delete(host)
     
     // Only update UI if this was the active connection
     if (newWs === ws) {
       isConnected.value = false
       terminal.write('\r\n\x1b[33mDisconnected from server\x1b[0m\r\n')
+      
+      // Retry with exponential backoff
+      if (retryCount < MAX_RETRIES) {
+        const nextRetryCount = retryCount + 1
+        connectionRetryMap.set(host, nextRetryCount)
+        const delayMs = INITIAL_RETRY_DELAY_MS * Math.pow(2, retryCount)
+        console.log('[terminal] Scheduling reconnect', { host, nextRetryCount, delayMs })
+        terminal.write(`\r\n\x1b[33m[Reconnecting in ${Math.round(delayMs/1000)}s...]\x1b[0m\r\n`)
+        
+        setTimeout(() => {
+          if (isOpen.value && newWs === ws) { // Only retry if terminal still open and this is still active
+            connectWebSocket()
+          }
+        }, delayMs)
+      } else {
+        console.error('[terminal] Max retries reached, giving up', { host, maxRetries: MAX_RETRIES })
+        terminal.write(`\r\n\x1b[31m[Failed to connect after ${MAX_RETRIES} retries]\x1b[0m\r\n`)
+      }
     }
   }
 
